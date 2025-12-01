@@ -57,13 +57,31 @@ app.use("/api/auth", authRoutes);
 app.use("/api/forgot", forgotRoutes);
 app.use("/api/notifications", pushRoutes); // Web Push route
 
+// ... (previous code)
+
 // ✅ ADDED GOOGLE LOGIN ROUTE
 app.use("/api/auth/google", googleRoutes);
+
+// ======== SERVE STATIC ASSETS (PRODUCTION) =========
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve static files from the React frontend app
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+// Handle React routing, return all requests to React app
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
+});
 
 // ======== DATABASE CONNECT =========
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB Connected"))
+  // ... (rest of the file)
   .catch((err) => console.error("❌ MongoDB Connection Error:", err));
 
 // ======== SOCKET.IO SETUP =========

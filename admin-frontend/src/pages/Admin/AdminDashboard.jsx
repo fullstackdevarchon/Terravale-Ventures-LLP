@@ -103,7 +103,7 @@ const AdminDashboard = () => {
       icon: FaUserFriends,
       link: "/admin-dashboard/users",
       description: "All active users (excluding admins)",
-      color: "text-blue-500",
+      color: "text-blue-900",
     },
     {
       title: "Products",
@@ -111,7 +111,7 @@ const AdminDashboard = () => {
       icon: FaBoxes,
       link: "/admin-dashboard/products",
       description: "Total products listed",
-      color: "text-yellow-500",
+      color: "text-yellow-900",
     },
     {
       title: "Pending Seller Requests",
@@ -119,7 +119,7 @@ const AdminDashboard = () => {
       icon: FaUserCog,
       link: "/admin-dashboard/seller-requests",
       description: "Sellers awaiting approval",
-      color: "text-red-500",
+      color: "text-red-900",
     },
     {
       title: "Revenue",
@@ -127,7 +127,7 @@ const AdminDashboard = () => {
       icon: FaChartBar,
       link: "/admin-dashboard/analytics",
       description: "Total revenue",
-      color: "text-green-500",
+      color: "text-green-900",
     },
     {
       title: "Inventory",
@@ -135,7 +135,7 @@ const AdminDashboard = () => {
       icon: FaWarehouse,
       link: "/admin-dashboard/inventory",
       description: "Available stock only (quantity > 0)",
-      color: "text-purple-500",
+      color: "text-purple-900",
     },
     {
       title: "Delivered Orders",
@@ -143,7 +143,7 @@ const AdminDashboard = () => {
       icon: FaShoppingCart,
       link: "/admin-dashboard/orders",
       description: "Delivered orders count",
-      color: "text-orange-500",
+      color: "text-orange-900",
     },
     {
       title: "Active Buyers",
@@ -151,7 +151,7 @@ const AdminDashboard = () => {
       icon: FaUsers,
       link: "/admin-dashboard/users/buyers",
       description: "Total registered buyers",
-      color: "text-cyan-500",
+      color: "text-cyan-900",
     },
     {
       title: "Active Sellers",
@@ -159,7 +159,7 @@ const AdminDashboard = () => {
       icon: FaUserTag,
       link: "/admin-dashboard/users/sellers",
       description: "Total registered sellers",
-      color: "text-indigo-500",
+      color: "text-indigo-900",
     },
   ];
 

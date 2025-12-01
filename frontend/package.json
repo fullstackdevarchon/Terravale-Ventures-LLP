@@ -6,10 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "start": "serve -s build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "serve": "^14.2.1",
     "@heroicons/react": "^2.2.0",
     "@react-oauth/google": "^0.12.2",
     "@reduxjs/toolkit": "^2.8.2",

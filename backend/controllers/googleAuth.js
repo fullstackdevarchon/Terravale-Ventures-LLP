@@ -2,6 +2,7 @@
 
 import { OAuth2Client } from "google-auth-library";
 import User from "../models/User.js";
+import Labour from "../models/Labour.js";
 import jwt from "jsonwebtoken";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -10,6 +11,7 @@ export const googleLogin = async (req, res) => {
   try {
     // Frontend must send Google ID Token (JWT)
     const idToken = req.body.token || req.body.credential; // Accept 'credential' for new flow
+    const role = req.body.role || "buyer"; // Default to buyer if not specified
 
     if (!idToken) {
       return res.status(400).json({ message: "Google token required" });
@@ -30,16 +32,34 @@ export const googleLogin = async (req, res) => {
       return res.status(400).json({ message: "Google email not found" });
     }
 
+    let user;
+    let Model;
+
+    // Select Model based on role
+    if (role === "labour") {
+      Model = Labour;
+    } else {
+      Model = User;
+    }
+
     // Find or create user
-    let user = await User.findOne({ email });
+    user = await Model.findOne({ email });
 
     if (!user) {
-      user = await User.create({
+      const userData = {
         fullName: name,
         email,
-        pass: "google_default_password", // ONLY because your model requires pass
-        role: "buyer",
-      });
+        role: role,
+      };
+
+      // Handle password field difference
+      if (role === "labour") {
+        userData.password = "google_default_password"; // Labour model uses 'password'
+      } else {
+        userData.pass = "google_default_password"; // User model uses 'pass'
+      }
+
+      user = await Model.create(userData);
     }
 
     // Generate JWT

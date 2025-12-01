@@ -284,7 +284,7 @@ const SellerRequests = () => {
                       <div className="grid grid-cols-2 gap-4 mb-4">
                         <div className="flex flex-row gap-1">
                           <span className="text-xm text-black font-bold flex items-center gap-1">
-                            <FaUser className="text-blue-500" /> Seller :
+                            <FaUser className="text-blue-900" /> Seller :
                           </span>
                           <span className="text-xm font-bold text-black">
                             {req.seller?.fullName || "N/A"}
@@ -292,7 +292,7 @@ const SellerRequests = () => {
                         </div>
                         <div className="flex flex-row gap-1">
                           <span className="text-xm text-black font-bold flex items-center gap-1">
-                            <FaTag className="text-green-500" /> Price :
+                            <FaTag className="text-green-900" />  Price :
                           </span>
                           <span className="text-xm font-bold text-[#0000e6]">
                             ₹{req.price}
@@ -300,7 +300,7 @@ const SellerRequests = () => {
                         </div>
                         <div className="flex flex-row gap-1">
                           <span className="text-xm text-black font-bold flex items-center gap-1">
-                            <FaWeightHanging className="text-orange-500" /> Weight :
+                            <FaWeightHanging className="text-orange-900" /> Weight :
                           </span>
                           <span className="text-xm font-bold text-black">
                             {req.weight}
@@ -308,7 +308,7 @@ const SellerRequests = () => {
                         </div>
                         <div className="flex flex-row gap-1">
                           <span className="text-xm text-black font-bold flex items-center gap-1">
-                            <FaBox className="text-purple-500" /> Quantity :
+                            <FaBox className="text-purple-900" /> Quantity :
                           </span>
                           <span className="text-xm font-bold text-black">
                             {req.quantity}
