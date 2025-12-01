@@ -1,6 +1,6 @@
 // src/pages/Seller/MyProducts.jsx
 import React, { useState, useEffect } from "react";
-import { FaTrash, FaEdit, FaTimes, FaRupeeSign, FaBalanceScale, FaBoxOpen, FaChartLine, FaAlignLeft } from "react-icons/fa";
+import { FaTrash, FaEdit, FaTimes, FaRupeeSign, FaBalanceScale, FaBoxOpen, FaChartLine, FaAlignLeft, FaExclamationTriangle } from "react-icons/fa";
 import axios from "axios";
 import toast from "react-hot-toast";
 import PageContainer from "../../components/PageContainer";
@@ -11,6 +11,7 @@ const MyProducts = () => {
   const [loading, setLoading] = useState(true);
   const [editingProduct, setEditingProduct] = useState(null);
   const [newStock, setNewStock] = useState("");
+  const [deleteModal, setDeleteModal] = useState({ isOpen: false, productId: null });
 
   // Fetch seller products
   const fetchProducts = async () => {
@@ -23,7 +24,7 @@ const MyProducts = () => {
       );
 
       if (data.success) {
-        setProducts(data.products);
+        setProducts(data.products.filter((p) => p.status !== "rejected"));
       } else {
         toast.error("Failed to load products");
       }
@@ -40,14 +41,22 @@ const MyProducts = () => {
   }, []);
 
   // Delete product
-  const handleDelete = async (id) => {
+  // Open delete confirmation modal
+  const handleDelete = (id) => {
+    setDeleteModal({ isOpen: true, productId: id });
+  };
+
+  // Confirm Delete product
+  const confirmDelete = async () => {
+    if (!deleteModal.productId) return;
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5000/api/v1/products/${id}`, {
+      await axios.delete(`http://localhost:5000/api/v1/products/${deleteModal.productId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setProducts(products.filter((p) => p._id !== id));
+      setProducts(products.filter((p) => p._id !== deleteModal.productId));
       toast.success("Product deleted successfully");
+      setDeleteModal({ isOpen: false, productId: null });
     } catch (error) {
       console.error("❌ Product delete error:", error);
       toast.error("Failed to delete product");
@@ -222,6 +231,35 @@ const MyProducts = () => {
                   className="px-4 py-2 rounded-lg bg-[#0000e6] hover:bg-[#0000cc] text-white transition"
                 >
                   Save
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Delete Confirmation Modal */}
+        {deleteModal.isOpen && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-50 animate-fadeIn">
+            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all scale-100 p-6 text-center">
+              <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+                <FaExclamationTriangle className="h-6 w-6 text-red-600" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Delete Product?</h3>
+              <p className="text-sm text-gray-500 mb-6">
+                Are you sure you want to delete this product? This action cannot be undone.
+              </p>
+              <div className="flex justify-center gap-3">
+                <button
+                  onClick={() => setDeleteModal({ isOpen: false, productId: null })}
+                  className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmDelete}
+                  className="px-4 py-2 rounded-lg bg-red-600 text-white font-bold hover:bg-red-700 shadow-md transition"
+                >
+                  Yes, Delete
                 </button>
               </div>
             </div>

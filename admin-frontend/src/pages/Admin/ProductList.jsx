@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { FaTrash, FaChevronDown } from "react-icons/fa";
+import { FaTrash, FaChevronDown, FaPepperHot, FaAppleAlt, FaLeaf, FaBox } from "react-icons/fa";
 import axios from "axios";
 import toast from "react-hot-toast";
 import PageContainer from "../../components/PageContainer";
@@ -107,6 +107,20 @@ const ProductListAdmin = () => {
     }
   };
 
+  // ✅ Category icons
+  const getCategoryIcon = (cat) => {
+    switch (cat?.toLowerCase()) {
+      case "spices":
+        return <FaPepperHot className="text-red-500 transition-transform duration-300 group-hover:rotate-12" />;
+      case "fruits":
+        return <FaAppleAlt className="text-green-500 transition-transform duration-300 group-hover:rotate-12" />;
+      case "vegetables":
+        return <FaLeaf className="text-emerald-600 transition-transform duration-300 group-hover:rotate-12" />;
+      default:
+        return <FaBox className="text-gray-500 transition-transform duration-300 group-hover:rotate-12" />;
+    }
+  };
+
   // ✅ Skeleton Loader
   const Loading = () => (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 animate-pulse">
@@ -130,18 +144,18 @@ const ProductListAdmin = () => {
         <div className="relative w-64">
           <button
             onClick={() => setDropdownOpen((prev) => !prev)}
-            className="w-full bg-white border border-gray-300 rounded-lg shadow-sm pl-4 pr-10 py-3 text-lg text-gray-700 font-semibold hover:border-gray-800 flex justify-between items-center"
+            className="w-full bg-white/40 backdrop-blur-md border border-white/30 rounded-lg shadow-lg pl-4 pr-10 py-3 text-lg text-black font-bold hover:bg-white/50 flex justify-between items-center transition"
           >
             {category === "All"
               ? "All Categories"
               : category.charAt(0).toUpperCase() + category.slice(1)}
-            <FaChevronDown className="ml-2 text-gray-500" />
+            <FaChevronDown className="ml-2 text-black" />
           </button>
           {dropdownOpen && (
-            <div className="absolute mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-10 max-h-60 overflow-auto">
+            <div className="absolute mt-1 w-full bg-white/90 backdrop-blur-xl border border-white/20 rounded-lg shadow-2xl z-10 max-h-60 overflow-auto">
               <div
                 onClick={() => filterProduct(null, "All")}
-                className="cursor-pointer px-4 py-3 hover:bg-gray-100 text-lg transition"
+                className="cursor-pointer px-4 py-3 hover:bg-green-100 text-lg transition text-black font-medium"
               >
                 All Categories
               </div>
@@ -149,7 +163,7 @@ const ProductListAdmin = () => {
                 <div
                   key={catOption._id}
                   onClick={() => filterProduct(catOption._id, catOption.name)}
-                  className="cursor-pointer px-4 py-3 hover:bg-gray-100 text-lg transition"
+                  className="cursor-pointer px-4 py-3 hover:bg-green-100 text-lg transition text-black font-medium"
                 >
                   {catOption.name.charAt(0).toUpperCase() + catOption.name.slice(1)}
                 </div>
@@ -164,10 +178,10 @@ const ProductListAdmin = () => {
         {filter.map((product) => (
           <div
             key={product._id}
-            className="bg-white rounded-2xl shadow-md hover:shadow-2xl transition overflow-hidden relative flex flex-col h-full group border border-gray-200"
+            className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-xl hover:scale-[1.02] transition duration-300 overflow-hidden relative flex flex-col h-full group"
           >
             {/* Delete Button */}
-            <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
               <button
                 onClick={() => deleteProduct(product._id)}
                 className="p-2 bg-red-600 text-white rounded-full hover:bg-red-700 shadow-lg flex items-center justify-center"
@@ -177,43 +191,53 @@ const ProductListAdmin = () => {
             </div>
 
             {/* Product Image */}
-            <div className="flex justify-center items-center bg-gray-50 h-64 p-4">
-              <div className="w-48 h-48 flex items-center justify-center overflow-hidden rounded-lg">
-                <img
-                  src={product.image?.url || "/placeholder.png"}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
-              </div>
+            <div className="w-full h-48 overflow-hidden bg-white/20">
+              <img
+                src={product.image?.url || "/placeholder.png"}
+                alt={product.name}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                loading="lazy"
+              />
             </div>
 
             {/* Product Info */}
             <div className="p-5 flex-1 flex flex-col justify-between">
               <div>
-                <h2 className="text-xl font-bold mb-2 text-gray-800 line-clamp-2">
+                <h2 className="text-xl font-bold mb-2 text-black line-clamp-2">
                   {product.name}
                 </h2>
-                <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                <p className="text-black text-sm mb-4 line-clamp-2 font-medium">
                   {product.description || "No description available"}
                 </p>
               </div>
+
+              <div className="mb-3 flex justify-between items-center">
+                <p className="text-sm text-black font-medium flex items-center gap-2">
+                  <FaBox className="text-[#0000e6]" />
+                  Stock: <span className="font-bold text-[#0000e6]">{product.quantity || 0}</span>
+                </p>
+                <div className="flex items-center gap-2">
+                  <div className="text-lg bg-white/30 p-1.5 rounded-full border border-white/20">
+                    {getCategoryIcon(product.category?.name)}
+                  </div>
+                  <p className="text-xs text-black/60 font-semibold">
+                    <span className="font-bold text-black">
+                      {product.category?.name || "N/A"}
+                    </span>
+                  </p>
+                </div>
+              </div>
+
               <div className="mt-auto flex justify-between items-center">
-                <p className="text-2xl font-extrabold text-green-700">
+                <p className="text-2xl font-extrabold text-[#0000e6]">
                   ₹ {product.price}
                 </p>
                 {product.weight && (
-                  <span className="text-sm text-gray-500">
+                  <span className="text-sm text-black font-bold bg-white/30 px-2 py-1 rounded border border-white/20">
                     {product.weight}
                   </span>
                 )}
               </div>
-              <p className="mt-2 text-xs text-gray-500">
-                Category:{" "}
-                <span className="font-semibold">
-                  {product.category?.name || "N/A"}
-                </span>
-              </p>
             </div>
           </div>
         ))}
@@ -221,7 +245,7 @@ const ProductListAdmin = () => {
 
       {/* Empty State */}
       {filter.length === 0 && (
-        <p className="text-center text-gray-500 mt-6 text-lg">
+        <p className="text-center text-black/70 mt-6 text-lg font-medium bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20">
           No approved products found.
         </p>
       )}
@@ -236,8 +260,8 @@ const ProductListAdmin = () => {
   return (
     <PageContainer>
       <section>
-        <h2 className="text-5xl font-extrabold text-center mb-12 text-gray-100">
-          ✅ Approved Product List
+        <h2 className="text-5xl font-extrabold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl">
+          Approved Product List
         </h2>
         {loading ? <Loading /> : <ShowProducts />}
       </section>

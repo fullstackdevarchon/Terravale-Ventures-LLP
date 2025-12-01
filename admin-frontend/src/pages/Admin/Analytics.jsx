@@ -16,7 +16,7 @@ import { FaChartPie, FaBoxOpen } from "react-icons/fa";
 import PageContainer from "../../components/PageContainer";
 import Preloader from "../../components/Preloader";
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A020F0"];
+const COLORS = ["#c7d22aff", "#0af0c6ff", "#eda60cff", "#FF8042", "#9410e6ff"];
 
 const Analytics = () => {
   const [categoryData, setCategoryData] = useState([]);
@@ -95,17 +95,17 @@ const Analytics = () => {
     <PageContainer>
       <div className="max-w-7xl w-full mx-auto">
         {/* Header */}
-        <h2 className="text-4xl font-extrabold mb-10 text-center text-indigo-100 tracking-wide drop-shadow-sm">
-          📊 Analytics Dashboard
+        <h2 className="text-5xl font-extrabold mb-10 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl">
+          Analytics Dashboard
         </h2>
 
         {/* Charts Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {/* Pie Chart: Sales by Category */}
-          <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl shadow-lg border border-gray-200">
-            <div className="flex items-center gap-3 mb-4">
-              <FaChartPie className="text-blue-600 text-2xl" />
-              <h3 className="text-xl font-semibold text-gray-800">
+          <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-2xl p-6">
+            <div className="flex items-center gap-3 mb-4 group">
+              <FaChartPie className="text-purple-500 text-2xl transition-transform duration-300 group-hover:rotate-12" />
+              <h3 className="text-xl font-bold text-black">
                 Sales by Category
               </h3>
             </div>
@@ -131,21 +131,21 @@ const Analytics = () => {
                     ))}
                   </Pie>
                   <Tooltip />
-                  <Legend />
+                  <Legend wrapperStyle={{ color: "black" }} />
                 </PieChart>
               </ResponsiveContainer>
             ) : (
-              <p className="text-center text-gray-500 mt-10">
+              <p className="text-center text-black/70 mt-10 font-medium">
                 No delivered order data found.
               </p>
             )}
           </div>
 
           {/* Bar Chart: Top Selling Products */}
-          <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-2xl shadow-lg border border-gray-200">
-            <div className="flex items-center gap-3 mb-4">
-              <FaBoxOpen className="text-green-600 text-2xl" />
-              <h3 className="text-xl font-semibold text-gray-800">
+          <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-2xl p-6">
+            <div className="flex items-center gap-3 mb-4 group">
+              <FaBoxOpen className="text-yellow-500 text-2xl transition-transform duration-300 group-hover:rotate-12" />
+              <h3 className="text-xl font-bold text-black">
                 Top Selling Products
               </h3>
             </div>
@@ -155,8 +155,8 @@ const Analytics = () => {
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={topProducts}>
                     <XAxis dataKey="title" hide />
-                    <YAxis />
-                    <Tooltip />
+                    <YAxis tick={{ fill: 'black' }} />
+                    <Tooltip contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', color: 'black', borderRadius: '8px' }} />
                     <Bar
                       dataKey="sold"
                       fill="#00C49F"
@@ -170,10 +170,10 @@ const Analytics = () => {
                   {topProducts.map((p) => (
                     <li
                       key={p.id}
-                      className="flex justify-between items-center bg-white shadow rounded-lg px-4 py-2 text-sm font-medium hover:bg-gray-50 transition"
+                      className="flex justify-between items-center bg-white/40 backdrop-blur-md rounded-lg px-4 py-2 text-sm font-medium hover:bg-white/60 transition border border-white/20"
                     >
-                      <span className="truncate w-2/3">{p.title}</span>
-                      <span className="text-green-700 font-bold">
+                      <span className="truncate w-2/3 text-black">{p.title}</span>
+                      <span className="text-[#0000e6] font-bold">
                         {p.sold} sold
                       </span>
                     </li>
@@ -181,7 +181,7 @@ const Analytics = () => {
                 </ul>
               </>
             ) : (
-              <p className="text-center text-gray-500 mt-10">
+              <p className="text-center text-black/70 mt-10 font-medium">
                 No sales data available.
               </p>
             )}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import PageContainer from "../../components/PageContainer";
+
 import OrderList from "./OrderList";
 import Preloader from "../../components/Preloader";
 
@@ -22,13 +22,11 @@ const MyOrders = () => {
 
   // Main content after preloader disappears
   return (
-    <PageContainer>
-      <OrderList
-        mode="mine"
-        hideDeliveredDefault={true}
-        showFinishedSummary={true}
-      />
-    </PageContainer>
+    <OrderList
+      mode="mine"
+      hideDeliveredDefault={true}
+      showFinishedSummary={true}
+    />
   );
 };
 

@@ -133,74 +133,69 @@ const Login = () => {
       </div>
 
       {/* Login Card */}
-      <div className="relative z-10 w-full max-w-md backdrop-blur-lg bg-white/10 rounded-2xl shadow-2xl border border-white/20 p-8 sm:p-10">
+      <div className="relative z-10 w-full max-w-md backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-2xl p-8 sm:p-10">
         <div className="text-center mb-8">
-          <FaUserShield className="text-white text-4xl mx-auto drop-shadow-lg" />
-          <h2 className="text-3xl font-bold text-white drop-shadow-md">
+          <FaUserShield className="text-black text-5xl mx-auto drop-shadow-lg mb-4" />
+          <h2 className="text-3xl font-bold text-black drop-shadow-md">
             Admin Login
           </h2>
-          <p className="text-sm text-gray-200 mt-2">
+          <p className="text-sm text-black/80 mt-2">
             Sign in to access your admin dashboard
           </p>
         </div>
 
         {/* Login Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="relative">
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              className="peer w-full px-4 pt-5 pb-2 text-sm text-white placeholder-transparent bg-white/10 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent"
-              placeholder="Email address"
-              value={formData.email}
-              onChange={handleChange}
-            />
-            <label
-              htmlFor="email"
-              className="absolute left-4 top-2.5 text-gray-300 text-xs transition-all duration-200 peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-sm peer-focus:top-2.5 peer-focus:text-xs"
-            >
-              Email Address
-            </label>
-          </div>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-black mb-1">Email Address</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                className="w-full px-4 py-3 text-black placeholder-black/50 bg-white/40 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent transition"
+                placeholder="Enter your email"
+                value={formData.email}
+                onChange={handleChange}
+              />
+            </div>
 
-          <div className="relative">
-            <input
-              id="password"
-              name="password"
-              type="password"
-              required
-              className="peer w-full px-4 pt-5 pb-2 text-sm text-white placeholder-transparent bg-white/10 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-            />
-            <label
-              htmlFor="password"
-              className="absolute left-4 top-2.5 text-gray-300 text-xs transition-all duration-200 peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-sm peer-focus:top-2.5 peer-focus:text-xs"
-            >
-              Password
-            </label>
-            <FaLock className="absolute right-3 top-3.5 text-gray-400 text-sm" />
+            <div>
+              <label className="block text-sm font-medium text-black mb-1">Password</label>
+              <div className="relative">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  required
+                  className="w-full px-4 py-3 text-black placeholder-black/50 bg-white/40 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent transition"
+                  placeholder="Enter your password"
+                  value={formData.password}
+                  onChange={handleChange}
+                />
+                <FaLock className="absolute right-3 top-3.5 text-black/50" />
+              </div>
+            </div>
           </div>
 
           {/* Forgot Password Link */}
-          <p
-            className="text-right text-sm text-indigo-200 hover:text-white cursor-pointer"
-            onClick={() => setShowForgot(true)}
-          >
-            Forgot Password?
-          </p>
+          <div className="flex justify-end">
+            <p
+              className="text-sm text-black hover:underline cursor-pointer font-medium"
+              onClick={() => setShowForgot(true)}
+            >
+              Forgot Password?
+            </p>
+          </div>
 
           <button
             type="submit"
             disabled={loading}
-            className={`w-full flex justify-center items-center gap-2 py-2.5 px-4 text-sm font-semibold text-white rounded-lg shadow-md transition-all duration-300 ${
-              loading
-                ? "bg-indigo-400 cursor-not-allowed"
-                : "bg-indigo-600 hover:bg-indigo-700 active:scale-95"
-            }`}
+            className={`w-full flex justify-center items-center gap-2 py-3 px-4 text-sm font-bold text-white rounded-lg shadow-lg transition-all duration-300 ${loading
+              ? "bg-indigo-400 cursor-not-allowed"
+              : "bg-[#0000e6] hover:bg-[#0000cc] active:scale-95"
+              }`}
           >
             {loading ? (
               <>
@@ -213,8 +208,8 @@ const Login = () => {
           </button>
         </form>
 
-        <p className="text-xs text-center text-gray-200 mt-6">
-          © {new Date().getFullYear()} Terravale Ventures LLP  | All rights reserved
+        <p className="text-xs text-center text-black/70 mt-6">
+          © {new Date().getFullYear()} Terravale Ventures LLP | All rights reserved
         </p>
       </div>
 
@@ -238,11 +233,10 @@ const Login = () => {
                 <button
                   onClick={handleSendOtp}
                   disabled={forgotLoading}
-                  className={`w-full py-2 rounded-lg text-white font-semibold ${
-                    forgotLoading
-                      ? "bg-indigo-400 cursor-not-allowed"
-                      : "bg-indigo-600 hover:bg-indigo-700"
-                  }`}
+                  className={`w-full py-2 rounded-lg text-white font-semibold ${forgotLoading
+                    ? "bg-indigo-400 cursor-not-allowed"
+                    : "bg-indigo-600 hover:bg-indigo-700"
+                    }`}
                 >
                   {forgotLoading ? "Sending OTP..." : "Send OTP"}
                 </button>
@@ -266,11 +260,10 @@ const Login = () => {
                 <button
                   onClick={handleResetPassword}
                   disabled={forgotLoading}
-                  className={`w-full py-2 rounded-lg text-white font-semibold ${
-                    forgotLoading
-                      ? "bg-green-400 cursor-not-allowed"
-                      : "bg-green-600 hover:bg-green-700"
-                  }`}
+                  className={`w-full py-2 rounded-lg text-white font-semibold ${forgotLoading
+                    ? "bg-green-400 cursor-not-allowed"
+                    : "bg-green-600 hover:bg-green-700"
+                    }`}
                 >
                   {forgotLoading ? "Resetting..." : "Reset Password"}
                 </button>

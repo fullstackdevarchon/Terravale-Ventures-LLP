@@ -29,25 +29,32 @@ const AssignTask = () => {
 
   return (
     <PageContainer>
-      <div className="p-6">
-        <h1 className="text-2xl font-bold mb-4">Assign Task</h1>
-        <button
-          onClick={handleAssign}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
+      <div className="p-6 max-w-4xl mx-auto">
+        <h1 className="text-5xl font-extrabold mb-10 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl">
           Assign Task
-        </button>
+        </h1>
+
+        <div className="flex justify-center mb-8">
+          <button
+            onClick={handleAssign}
+            className="px-8 py-3 bg-[#0000e6] text-white rounded-xl font-bold hover:bg-[#0000cc] shadow-lg transition transform hover:scale-105"
+          >
+            Assign Task
+          </button>
+        </div>
 
         {/* Notification dropdown */}
         {notifications.length > 0 && (
-          <div className="mt-4 max-w-sm bg-white shadow-md rounded p-2 border">
-            <h2 className="font-semibold mb-2">Notifications</h2>
-            {notifications.map((n, i) => (
-              <div key={i} className="border-b py-1">
-                <b>{n.title}</b>
-                <p>{n.message}</p>
-              </div>
-            ))}
+          <div className="mt-8 max-w-lg mx-auto backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl rounded-2xl p-6">
+            <h2 className="font-bold text-xl mb-4 text-black border-b border-black/10 pb-2">Notifications</h2>
+            <div className="space-y-3">
+              {notifications.map((n, i) => (
+                <div key={i} className="bg-white/40 backdrop-blur-md p-4 rounded-xl border border-white/20 shadow-sm">
+                  <b className="text-[#0000e6] block mb-1">{n.title}</b>
+                  <p className="text-black font-medium">{n.message}</p>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>

@@ -46,6 +46,7 @@ const userSchema = new mongoose.Schema(
     secondaryAddress: { type: addressSchema, default: () => ({}) },
     phone: { type: String, default: "" },
     alternatePhone: { type: String, default: "" },
+    profilePicture: { type: String, default: "" },
 
     resetPasswordToken: { type: String, select: false },
     resetPasswordExpire: { type: Date, select: false },

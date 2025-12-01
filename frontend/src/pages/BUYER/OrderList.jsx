@@ -102,8 +102,8 @@ const Stepper = ({ currentStep, cancelled }) => (
 
 const formatAddress = (address) => {
   if (!address || typeof address !== "object") return "Default address";
-  const { fullName, phone, street, city, state, country, zip } = address;
-  return [fullName, phone, street, city, state, zip, country]
+  const { fullName, phone, street, street2, city, district, state, country, zip } = address;
+  return [fullName, phone, street, street2, city, district, state, zip, country]
     .filter(Boolean)
     .join(", ");
 };

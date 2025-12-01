@@ -103,6 +103,7 @@ const AdminDashboard = () => {
       icon: FaUserFriends,
       link: "/admin-dashboard/users",
       description: "All active users (excluding admins)",
+      color: "text-blue-500",
     },
     {
       title: "Products",
@@ -110,6 +111,7 @@ const AdminDashboard = () => {
       icon: FaBoxes,
       link: "/admin-dashboard/products",
       description: "Total products listed",
+      color: "text-yellow-500",
     },
     {
       title: "Pending Seller Requests",
@@ -117,6 +119,7 @@ const AdminDashboard = () => {
       icon: FaUserCog,
       link: "/admin-dashboard/seller-requests",
       description: "Sellers awaiting approval",
+      color: "text-red-500",
     },
     {
       title: "Revenue",
@@ -124,6 +127,7 @@ const AdminDashboard = () => {
       icon: FaChartBar,
       link: "/admin-dashboard/analytics",
       description: "Total revenue",
+      color: "text-green-500",
     },
     {
       title: "Inventory",
@@ -131,6 +135,7 @@ const AdminDashboard = () => {
       icon: FaWarehouse,
       link: "/admin-dashboard/inventory",
       description: "Available stock only (quantity > 0)",
+      color: "text-purple-500",
     },
     {
       title: "Delivered Orders",
@@ -138,6 +143,7 @@ const AdminDashboard = () => {
       icon: FaShoppingCart,
       link: "/admin-dashboard/orders",
       description: "Delivered orders count",
+      color: "text-orange-500",
     },
     {
       title: "Active Buyers",
@@ -145,6 +151,7 @@ const AdminDashboard = () => {
       icon: FaUsers,
       link: "/admin-dashboard/users/buyers",
       description: "Total registered buyers",
+      color: "text-cyan-500",
     },
     {
       title: "Active Sellers",
@@ -152,6 +159,7 @@ const AdminDashboard = () => {
       icon: FaUserTag,
       link: "/admin-dashboard/users/sellers",
       description: "Total registered sellers",
+      color: "text-indigo-500",
     },
   ];
 
@@ -172,17 +180,17 @@ const AdminDashboard = () => {
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
             <div>
-              <h1 className="text-4xl font-bold text-white tracking-tight drop-shadow-lg">
+              <h1 className="text-5xl font-extrabold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl">
                 Admin Dashboard
               </h1>
-              <p className="text-gray-100 mt-2">
+              <p className="text-black mt-2 font-medium">
                 Welcome back,{" "}
-                <span className="font-medium text-yellow-200">Admin</span> 👋
+                <span className="font-bold text-black">Admin</span> 👋
               </p>
             </div>
-            <div className="mt-4 md:mt-0 text-sm text-gray-200">
+            <div className="mt-4 md:mt-0 text-sm text-black font-medium">
               Last updated:{" "}
-              <span className="font-medium text-white">
+              <span className="font-bold text-black">
                 {new Date().toLocaleString()}
               </span>
             </div>
@@ -194,20 +202,19 @@ const AdminDashboard = () => {
               <Link
                 key={index}
                 to={card.link}
-                className={`group relative p-6 rounded-2xl shadow-md border border-gray-200 backdrop-blur-sm 
-                bg-gradient-to-r from-indigo-500 to-blue-600 text-white 
+                className={`group relative p-6 rounded-2xl shadow-md backdrop-blur-xl bg-white/10 border border-white/20 text-black 
                 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,255,255,0.6)] hover:scale-[1.03]`}
               >
                 <div className="relative flex items-start justify-between z-10">
                   <div>
-                    <h2 className="text-lg font-semibold">{card.title}</h2>
-                    <p className="mt-2 text-3xl font-bold">{card.count}</p>
-                    <p className="mt-2 text-sm text-white/90">
+                    <h2 className="text-lg font-bold text-black">{card.title}</h2>
+                    <p className="mt-2 text-3xl font-extrabold text-[#0000e6]">{card.count}</p>
+                    <p className="mt-2 text-sm text-black/80 font-medium">
                       {card.description}
                     </p>
                   </div>
                   <div className="p-3 rounded-xl bg-white/20">
-                    <card.icon className="text-3xl text-white" />
+                    <card.icon className={`text-3xl ${card.color} transition-transform duration-300 group-hover:rotate-12`} />
                   </div>
                 </div>
               </Link>

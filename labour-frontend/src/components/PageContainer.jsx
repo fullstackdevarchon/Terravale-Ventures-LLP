@@ -1,8 +1,8 @@
 import React from 'react';
 
-const PageContainer = ({ children }) => {
+const PageContainer = ({ children, noContainer = false }) => {
   return (
-    <div 
+    <div
       className="min-h-screen w-full bg-cover bg-center bg-no-repeat bg-fixed"
       style={{
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url('/assets/bgc.jpg')`,
@@ -17,9 +17,13 @@ const PageContainer = ({ children }) => {
       }}
     >
       <div className="min-h-screen">
-        <div className="container mx-auto px-4 py-8">
-          {children}
-        </div>
+        {noContainer ? (
+          children
+        ) : (
+          <div className="container mx-auto px-4 py-8">
+            {children}
+          </div>
+        )}
       </div>
     </div>
   );

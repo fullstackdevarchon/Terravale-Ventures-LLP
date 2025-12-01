@@ -15,13 +15,10 @@ export const addLabour = async (req, res) => {
         .json({ success: false, message: "Email already exists" });
     }
 
-    // 🔒 Hash password before saving
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     const newLabour = new Labour({
       fullName,
       email,
-      password: hashedPassword,
+      password, // 🔒 Model handles hashing
       role: role || "labour",
     });
     await newLabour.save();
@@ -124,5 +121,70 @@ export const loginLabour = async (req, res) => {
     return res
       .status(500)
       .json({ success: false, message: "Server error", error: error.message });
+  }
+};
+// ✅ Get Labour Profile
+export const getProfile = async (req, res) => {
+  try {
+    const labour = await Labour.findById(req.user.id).select("-password");
+    if (!labour) {
+      return res.status(404).json({ success: false, message: "Labour not found" });
+    }
+    res.json({ success: true, user: labour });
+  } catch (error) {
+    console.error("Get Profile Error:", error);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
+// ✅ Update Labour Profile
+export const updateProfile = async (req, res) => {
+  try {
+    const { fullName, phone, alternatePhone, address, secondaryAddress, profilePicture } = req.body;
+    const labour = await Labour.findById(req.user.id);
+
+    if (!labour) {
+      return res.status(404).json({ success: false, message: "Labour not found" });
+    }
+
+    if (fullName) labour.fullName = fullName.toUpperCase();
+    if (phone) labour.phone = phone;
+    if (alternatePhone) labour.alternatePhone = alternatePhone;
+    if (profilePicture) labour.profilePicture = profilePicture;
+
+    if (address) {
+      labour.address = {
+        street: (address.street || labour.address?.street || "").toUpperCase(),
+        street2: (address.street2 || labour.address?.street2 || "").toUpperCase(),
+        city: (address.city || labour.address?.city || "").toUpperCase(),
+        district: (address.district || labour.address?.district || "").toUpperCase(),
+        state: (address.state || labour.address?.state || "").toUpperCase(),
+        country: (address.country || labour.address?.country || "").toUpperCase(),
+        pincode: address.pincode || labour.address?.pincode || "",
+      };
+    }
+
+    if (secondaryAddress) {
+      labour.secondaryAddress = {
+        street: (secondaryAddress.street || labour.secondaryAddress?.street || "").toUpperCase(),
+        street2: (secondaryAddress.street2 || labour.secondaryAddress?.street2 || "").toUpperCase(),
+        city: (secondaryAddress.city || labour.secondaryAddress?.city || "").toUpperCase(),
+        district: (secondaryAddress.district || labour.secondaryAddress?.district || "").toUpperCase(),
+        state: (secondaryAddress.state || labour.secondaryAddress?.state || "").toUpperCase(),
+        country: (secondaryAddress.country || labour.secondaryAddress?.country || "").toUpperCase(),
+        pincode: secondaryAddress.pincode || labour.secondaryAddress?.pincode || "",
+      };
+    }
+
+    await labour.save();
+
+    res.json({
+      success: true,
+      message: "Profile updated successfully",
+      user: labour,
+    });
+  } catch (error) {
+    console.error("Update Profile Error:", error);
+    res.status(500).json({ success: false, message: "Server Error" });
   }
 };

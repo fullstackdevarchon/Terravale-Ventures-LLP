@@ -4,8 +4,9 @@ import { AuthContext } from "../../App";
 import toast from "react-hot-toast";
 
 import { FiMenu, FiX } from "react-icons/fi";
-import { FaClipboardList, FaCheckCircle, FaSignOutAlt } from "react-icons/fa";
+import { FaClipboardList, FaCheckCircle, FaSignOutAlt, FaUser } from "react-icons/fa";
 import PageContainer from "../../components/PageContainer";
+import Footer from "./Footer";
 
 const LabourNavbar = () => {
   const { logout } = useContext(AuthContext);
@@ -34,11 +35,12 @@ const LabourNavbar = () => {
   const navItems = [
     { name: "Order List", to: "/labour-dashboard/order-list", icon: <FaClipboardList className="text-orange-400" /> },
     { name: "My Orders", to: "/labour-dashboard/my-orders", icon: <FaCheckCircle className="text-green-400" /> },
+    { name: "Profile", to: "/labour-dashboard/profile", icon: <FaUser className="text-blue-400" /> },
   ];
 
   return (
-    <PageContainer>
-      <>
+    <PageContainer noContainer={true}>
+      <div className="flex flex-col min-h-screen">
         {/* NAVBAR */}
         <nav
           className="fixed top-0 left-0 w-full z-50 shadow-lg border-b border-white/20 bg-cover bg-center bg-no-repeat"
@@ -137,10 +139,11 @@ const LabourNavbar = () => {
         </nav>
 
         {/* Page Content */}
-        <main className="pt-24 px-4 md:px-6">
+        <main className="flex-grow pt-24 px-4 md:px-6 container mx-auto">
           <Outlet />
         </main>
-      </>
+        <Footer />
+      </div>
     </PageContainer>
   );
 };

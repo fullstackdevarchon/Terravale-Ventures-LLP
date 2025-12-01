@@ -4,6 +4,8 @@ import {
   getLabours,
   deleteLabour,
   loginLabour,
+  getProfile,
+  updateProfile,
 } from "../controllers/labourController.js";
 import { isAuthenticated, authorizeRoles } from "../middleware/auth.js";
 import {
@@ -23,6 +25,12 @@ const router = express.Router();
 
 // Login (labour)
 router.post("/login", loginLabour); // POST /api/labours/login
+
+// Get Profile
+router.get("/profile", isAuthenticated, authorizeRoles(["labour"]), getProfile);
+
+// Update Profile
+router.put("/profile/update", isAuthenticated, authorizeRoles(["labour"]), updateProfile);
 
 /**
  * ========================

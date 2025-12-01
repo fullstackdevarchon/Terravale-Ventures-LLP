@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 import {
@@ -14,8 +15,8 @@ import {
   FaRupeeSign,
   FaShippingFast,
   FaClock,
+  FaEnvelope,
 } from "react-icons/fa";
-import PageContainer from "../../components/PageContainer";
 import Preloader from "../../components/Preloader"; // Assuming Preloader is available and correct
 
 const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSummary = false }) => {
@@ -27,6 +28,14 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
   const [expanded, setExpanded] = useState(null); // row details
   const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
   const myUserId = typeof window !== 'undefined' ? localStorage.getItem("userId") : null;
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state && location.state.filter) {
+      setFilter(location.state.filter);
+    }
+  }, [location.state]);
 
   useEffect(() => {
     fetchOrders();
@@ -93,7 +102,9 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
           : o
       )));
       setHasActiveAssigned(true);
-      fetchOrders(); // refresh list
+      setHasActiveAssigned(true);
+      // fetchOrders(); // refresh list - navigating away so no need to fetch here
+      navigate("/labour-dashboard/my-orders", { state: { filter: "confirmed" } });
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to assign order");
       console.error(" assign:error orderId=", orderId, error.response?.data || error.message);
@@ -134,6 +145,10 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
         toast.success(`Order status updated to ${newStatus}`);
         // Refresh list to recompute hasActiveAssigned and include any newly visible items
         fetchOrders();
+
+        if (newStatus === "Shipped") {
+          navigate("/labour-dashboard/my-orders", { state: { filter: "shipped" } });
+        }
         // Clear active flags
         setHasActiveAssigned(false);
         // console.debug("✅ status:success orderId=", orderId, "newStatus=", newStatus);
@@ -227,8 +242,8 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
             onClick={() => updateOrderStatus(order._id, "Shipped")}
             disabled={isUpdating || !canShip}
             className={`px-3 py-1 text-sm font-medium rounded-md text-white inline-flex items-center gap-2 transition ${isUpdating || !canShip
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-[#0000e6] hover:bg-[#0000cc]"
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-[#0000e6] hover:bg-[#0000cc]"
               }`}
           >
             <FaShippingFast /> {isUpdating && canShip ? "Updating..." : "Mark Shipped"}
@@ -237,8 +252,8 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
             onClick={() => updateOrderStatus(order._id, "Delivered")}
             disabled={isUpdating || !canDeliver}
             className={`px-3 py-1 text-sm font-medium rounded-md text-white inline-flex items-center gap-2 transition ${isUpdating || !canDeliver
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-[#0000e6] hover:bg-[#0000cc]"
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-[#0000e6] hover:bg-[#0000cc]"
               }`}
           >
             <FaCheckCircle /> {isUpdating && canDeliver ? "Updating..." : "Mark Delivered"}
@@ -267,8 +282,8 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
           onClick={() => handleAssignOrder(order._id)}
           disabled={updating[order._id]?.action === "assign"}
           className={`px-3 py-1 text-sm font-medium rounded-md text-white inline-flex items-center gap-2 transition ${updating[order._id]?.action === "assign"
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-[#0000e6] hover:bg-[#0000cc]"
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-[#0000e6] hover:bg-[#0000cc]"
             }`}
         >
           <FaBoxOpen /> {updating[order._id]?.action === "assign" ? "Assigning..." : "Take Order"}
@@ -382,190 +397,204 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
   }
 
   return (
-    <PageContainer>
-      <div className="p-6 max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-black flex items-center gap-2">
-            {mode === 'take' ? (
-              <>
-                <FaBoxOpen className="text-green-600" /> Take Orders
-              </>
-            ) : (
-              <>
-                <FaClipboardList className="text-gray-100" /> Order Management
-              </>
-            )}
-          </h1>
-          <p className="text-black/70 mt-2">
-            {mode === 'take' ? 'Browse available orders and take one to work on' : 'Manage and track your assigned orders'}
-          </p>
-          {showFinishedSummary && mode === "mine" && (
-            <div className="mt-3">
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                <FaCheckCircle className="mr-1" /> Finished: {finishedCount}
-              </span>
-            </div>
-          )}
-        </div>
-
-        {/* Filter Tabs */}
-        <div className="mb-6">
-          <div className="border-b border-gray-100">
-            <nav className="-mb-px flex flex-wrap gap-4">
-              {(mode === 'take'
-                ? [
-                  { key: "all", label: "All", icon: <FaBoxOpen /> },
-                  { key: "confirmed", label: "Confirmed", icon: <FaClipboardList /> },
-                  { key: "shipped", label: "Shipped", icon: <FaTruck /> },
-                ] // hide Delivered in take mode
-                : [
-                  { key: "all", label: "All", icon: <FaBoxOpen /> },
-                  { key: "confirmed", label: "Confirmed", icon: <FaClipboardList /> },
-                  { key: "shipped", label: "Shipped", icon: <FaTruck /> },
-                  { key: "delivered", label: "Delivered", icon: <FaCheckCircle /> },
-                ]
-              ).map((tab) => (
-                <button
-                  key={tab.key}
-                  onClick={() => setFilter(tab.key)}
-                  className={`py-2 px-2 border-b-2 font-medium text-sm flex items-center gap-2 transition ${filter === tab.key
-                      ? "border-[#0000e6] text-[#0000e6]"
-                      : "border-transparent text-black/70 hover:text-black hover:border-black/30"
-                    }`}
-                  title={`Show ${tab.label} orders`}
-                >
-                  <span className="text-base">{tab.icon}</span>
-                  <span className="capitalize">{tab.label}</span>
-                  <span className="text-xs text-black/60">
-                    (
-                    {
-                      tab.key === "all"
-                        ? modeFiltered.filter((o) =>
-                          !(mode === "mine" && hideDeliveredDefault && (o.status || "").toLowerCase() === "delivered")
-                        ).length
-                        : modeFiltered.filter((o) => (o.status || "").toLowerCase() === tab.key).length
-                    }
-                    )
-                  </span>
-                </button>
-              ))}
-            </nav>
-          </div>
-        </div>
-
-        {/* Orders List */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredOrders.length > 0 ? (
-            filteredOrders.map((order) => (
-              <div key={order._id} className="bg-white/40 backdrop-blur-xl border border-white/40 shadow-xl rounded-2xl p-6 text-black transition hover:shadow-2xl hover:-translate-y-1">
-
-                {/* Header: ID & Date */}
-                <div className="flex justify-between items-start mb-4 border-b border-black/10 pb-3">
-                  <div>
-                    <div className="text-lg font-bold text-black">
-                      #{order._id?.slice(-6)}
-                    </div>
-                    <div className="text-sm text-black/60">
-                      {new Date(order.createdAt).toLocaleDateString()}
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(order.status)}`}>
-                      <span className="inline-flex items-center gap-1">{statusIcon(order.status)} {order.status}</span>
-                    </span>
-                  </div>
-                </div>
-
-                {/* Customer Info */}
-                <div className="mb-4 space-y-2">
-                  <div className="flex items-center gap-2 text-sm">
-                    <FaUser className="text-blue-600" />
-                    <span className="font-semibold">{order.buyer?.fullName || "N/A"}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-black/70">
-                    <FaPhone className="text-green-600" />
-                    <span>{order.buyer?.phone || "N/A"}</span>
-                  </div>
-                </div>
-
-                {/* Address */}
-                <div className="mb-4 p-3 bg-white/30 rounded-lg border border-white/40">
-                  <div className="flex items-start gap-2 text-sm text-black/80">
-                    <FaMapMarkerAlt className="text-red-600 mt-1 flex-shrink-0" />
-                    <div>
-                      <p className="font-medium">{order.address?.street || ""}</p>
-                      <p>{order.address?.city}{order.address?.city ? ", " : ""}{order.address?.state}</p>
-                      <p>{order.address?.zip}</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Amount & Items */}
-                <div className="flex justify-between items-center mb-6 text-sm font-medium">
-                  <div className="flex items-center gap-1 text-black">
-                    <FaBoxOpen className="text-orange-600" /> {order.products?.length || 0} Items
-                  </div>
-                  <div className="flex items-center gap-1 text-xl font-bold text-[#0000e6]">
-                    <FaRupeeSign className="text-yellow-600" /> {order.total}
-                  </div>
-                </div>
-
-                {/* Actions */}
-                <div className="flex flex-col gap-3">
-                  {getActionButton(order)}
-
-                  <button
-                    onClick={() => toggleExpand(order._id)}
-                    className="w-full py-2 text-sm font-medium text-black/70 hover:text-black bg-black/5 hover:bg-black/10 rounded-lg transition flex items-center justify-center gap-2"
-                  >
-                    <FaInfoCircle className="text-purple-600" /> {expanded === order._id ? 'Hide Details' : 'View Details'}
-                  </button>
-                </div>
-
-                {/* Expanded Details */}
-                {expanded === order._id && (
-                  <div className="mt-4 pt-4 border-t border-black/10 animate-fadeIn">
-                    <h4 className="text-sm font-bold text-black mb-2">Products</h4>
-                    <ul className="space-y-2 mb-4">
-                      {(order.products || []).map((p, idx) => (
-                        <li key={idx} className="text-sm text-black/80 flex justify-between bg-white/40 p-2 rounded">
-                          <span>{p.product?.name || p.name || 'Item'}</span>
-                          <span className="font-semibold">x {p.quantity || p.qty || p.count || 1}</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <h4 className="text-sm font-bold text-black mb-2">Status History</h4>
-                    <ol className="border-l-2 border-black/20 pl-4 space-y-3">
-                      {(order.statusHistory || []).map((h, i) => (
-                        <li key={i} className="text-xs text-black/70">
-                          <div className="font-semibold text-black">{h.status}</div>
-                          <div>{formatDateTime(h.updatedAt || h.changedAt)}</div>
-                        </li>
-                      ))}
-                    </ol>
-                  </div>
-                )}
-
-              </div>
-            ))
+    <div className="p-8 max-w-7xl mx-auto backdrop-blur-xl bg-white/10 border border-white/20 text-white rounded-3xl shadow-2xl my-8">
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-5xl font-extrabold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl flex justify-center items-center gap-3">
+          {mode === 'take' ? (
+            <>
+              <FaBoxOpen className="text-green-400" /> Take Orders
+            </>
           ) : (
-            <div className="col-span-full text-center py-12 bg-white/40 backdrop-blur-xl rounded-2xl border border-white/40">
-              <FaClipboardList className="mx-auto h-12 w-12 text-black/30" />
-              <h3 className="mt-2 text-lg font-medium text-black">
-                No orders found
-              </h3>
-              <p className="mt-1 text-black/60">
-                {filter === "all"
-                  ? (mode === 'mine' ? "You have no orders yet." : "No orders available.")
-                  : `No ${filter} orders found.`}
-              </p>
-            </div>
+            <>
+              <FaClipboardList className="text-green-300" /> Order Management
+            </>
           )}
+        </h1>
+        <p className="text-gray-300 mt-2 text-center">
+          {mode === 'take' ? 'Browse available orders and take one to work on' : 'Manage and track your assigned orders'}
+        </p>
+        {showFinishedSummary && mode === "mine" && (
+          <div className="mt-3">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+              <FaCheckCircle className="mr-1" /> Finished: {finishedCount}
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* Filter Tabs */}
+      <div className="mb-6">
+        <div className="border-b border-gray-100">
+          <nav className="-mb-px flex flex-wrap gap-4">
+            {(mode === 'take'
+              ? [
+                { key: "all", label: "All", icon: <FaBoxOpen /> },
+                { key: "confirmed", label: "Confirmed", icon: <FaClipboardList /> },
+                { key: "shipped", label: "Shipped", icon: <FaTruck /> },
+              ] // hide Delivered in take mode
+              : [
+                { key: "all", label: "All", icon: <FaBoxOpen /> },
+                { key: "confirmed", label: "Confirmed", icon: <FaClipboardList /> },
+                { key: "shipped", label: "Shipped", icon: <FaTruck /> },
+                { key: "delivered", label: "Delivered", icon: <FaCheckCircle /> },
+              ]
+            ).map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setFilter(tab.key)}
+                className={`py-2 px-2 border-b-2 font-medium text-sm flex items-center gap-2 transition ${filter === tab.key
+                  ? "border-green-400 text-green-400"
+                  : "border-transparent text-gray-300 hover:text-white hover:border-white/30"
+                  }`}
+                title={`Show ${tab.label} orders`}
+              >
+                <span className="text-base">{tab.icon}</span>
+                <span className="capitalize">{tab.label}</span>
+                <span className="text-xs text-gray-400">
+                  (
+                  {
+                    tab.key === "all"
+                      ? modeFiltered.filter((o) =>
+                        !(mode === "mine" && hideDeliveredDefault && (o.status || "").toLowerCase() === "delivered")
+                      ).length
+                      : modeFiltered.filter((o) => (o.status || "").toLowerCase() === tab.key).length
+                  }
+                  )
+                </span>
+              </button>
+            ))}
+          </nav>
         </div>
       </div>
-    </PageContainer>
+
+      {/* Orders List */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredOrders.length > 0 ? (
+          filteredOrders.map((order) => (
+            <div key={order._id} className="bg-white/40 backdrop-blur-xl border border-white/40 shadow-xl rounded-2xl p-6 text-black transition hover:shadow-2xl hover:-translate-y-1">
+
+              {/* Header: ID & Date */}
+              <div className="flex justify-between items-start mb-4 border-b border-black/10 pb-3">
+                <div>
+                  <div className="text-lg font-bold text-black">
+                    #{order._id?.slice(-6)}
+                  </div>
+                  <div className="text-sm text-black/60">
+                    {new Date(order.createdAt).toLocaleDateString()}
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(order.status)}`}>
+                    <span className="inline-flex items-center gap-1">{statusIcon(order.status)} {order.status}</span>
+                  </span>
+                </div>
+              </div>
+
+              {/* Customer Info */}
+              <div className="mb-4 space-y-2">
+                <div className="flex items-center gap-2 text-sm">
+                  <FaUser className="text-blue-600" />
+                  <span className="font-semibold">{order.buyer?.fullName || "N/A"}</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-black/70">
+                  <FaEnvelope className="text-gray-600" />
+                  <span>{order.buyer?.email || "N/A"}</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-black/70">
+                  <FaPhone className="text-green-600" />
+                  <span>{order.buyer?.phone || "N/A"}</span>
+                </div>
+                {order.buyer?.alternatePhone && (
+                  <div className="flex items-center gap-2 text-sm text-black/70">
+                    <FaPhone className="text-green-600" />
+                    <span>Alt: {order.buyer?.alternatePhone}</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Address */}
+              <div className="mb-4 p-3 bg-white/30 rounded-lg border border-white/40">
+                <div className="flex items-start gap-2 text-sm text-black/80">
+                  <FaMapMarkerAlt className="text-red-600 mt-1 flex-shrink-0" />
+                  <div>
+                    <p className="font-medium">{order.address?.street || ""}</p>
+                    {order.address?.street2 && <p className="font-medium">{order.address?.street2}</p>}
+                    <p>
+                      {order.address?.city}{order.address?.city ? ", " : ""}
+                      {order.address?.district}{order.address?.district ? ", " : ""}
+                      {order.address?.state}{order.address?.state ? ", " : ""}
+                      {order.address?.country || "India"}
+                    </p>
+                    <p>{order.address?.zip || order.address?.pincode}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Amount & Items */}
+              <div className="flex justify-between items-center mb-6 text-sm font-medium">
+                <div className="flex items-center gap-1 text-black">
+                  <FaBoxOpen className="text-orange-600" /> {order.products?.length || 0} Items
+                </div>
+                <div className="flex items-center gap-1 text-xl font-bold text-[#0000e6]">
+                  <FaRupeeSign className="text-yellow-600" /> {order.total}
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex flex-col gap-3">
+                {getActionButton(order)}
+
+                <button
+                  onClick={() => toggleExpand(order._id)}
+                  className="w-full py-2 text-sm font-medium text-black/70 hover:text-black bg-black/5 hover:bg-black/10 rounded-lg transition flex items-center justify-center gap-2"
+                >
+                  <FaInfoCircle className="text-purple-600" /> {expanded === order._id ? 'Hide Details' : 'View Details'}
+                </button>
+              </div>
+
+              {/* Expanded Details */}
+              {expanded === order._id && (
+                <div className="mt-4 pt-4 border-t border-black/10 animate-fadeIn">
+                  <h4 className="text-sm font-bold text-black mb-2">Products</h4>
+                  <ul className="space-y-2 mb-4">
+                    {(order.products || []).map((p, idx) => (
+                      <li key={idx} className="text-sm text-black/80 flex justify-between bg-white/40 p-2 rounded">
+                        <span>{p.product?.name || p.name || 'Item'}</span>
+                        <span className="font-semibold">x {p.quantity || p.qty || p.count || 1}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <h4 className="text-sm font-bold text-black mb-2">Status History</h4>
+                  <ol className="border-l-2 border-black/20 pl-4 space-y-3">
+                    {(order.statusHistory || []).map((h, i) => (
+                      <li key={i} className="text-xs text-black/70">
+                        <div className="font-semibold text-black">{h.status}</div>
+                        <div>{formatDateTime(h.updatedAt || h.changedAt)}</div>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+
+            </div>
+          ))
+        ) : (
+          <div className="col-span-full text-center py-12 bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20">
+            <FaClipboardList className="mx-auto h-12 w-12 text-gray-400" />
+            <h3 className="mt-2 text-lg font-medium text-white">
+              No orders found
+            </h3>
+            <p className="mt-1 text-gray-300">
+              {filter === "all"
+                ? (mode === 'mine' ? "You have no orders yet." : "No orders available.")
+                : `No ${filter} orders found.`}
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 

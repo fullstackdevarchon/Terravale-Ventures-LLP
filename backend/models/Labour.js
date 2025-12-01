@@ -7,6 +7,27 @@ const labourSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     password: { type: String, required: true },
     role: { type: String, enum: ["labour", "admin"], default: "labour" },
+    phone: { type: String, default: "" },
+    alternatePhone: { type: String, default: "" },
+    profilePicture: { type: String, default: "" },
+    address: {
+      street: { type: String, default: "" },
+      street2: { type: String, default: "" },
+      city: { type: String, default: "" },
+      district: { type: String, default: "" },
+      state: { type: String, default: "" },
+      country: { type: String, default: "" },
+      pincode: { type: String, default: "" },
+    },
+    secondaryAddress: {
+      street: { type: String, default: "" },
+      street2: { type: String, default: "" },
+      city: { type: String, default: "" },
+      district: { type: String, default: "" },
+      state: { type: String, default: "" },
+      country: { type: String, default: "" },
+      pincode: { type: String, default: "" },
+    },
   },
   { timestamps: true }
 );

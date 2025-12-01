@@ -23,6 +23,7 @@ const Checkout = () => {
     street: "",
     street2: "",
     city: "",
+    district: "",
     state: "",
     country: "India",
     zip: "",
@@ -64,20 +65,22 @@ const Checkout = () => {
 
         setSavedAddresses({
           home: {
-            street: homeAddr.street || "",
-            street2: homeAddr.street2 || "",
-            city: homeAddr.city || "",
-            state: homeAddr.state || "",
-            country: homeAddr.country || "India",
+            street: (homeAddr.street || "").toUpperCase(),
+            street2: (homeAddr.street2 || "").toUpperCase(),
+            city: (homeAddr.city || "").toUpperCase(),
+            district: (homeAddr.district || "").toUpperCase(),
+            state: (homeAddr.state || "").toUpperCase(),
+            country: (homeAddr.country || "India").toUpperCase(),
             zip: homeAddr.pincode || "",
             type: "HOME"
           },
           secondary: {
-            street: secAddr.street || "",
-            street2: secAddr.street2 || "",
-            city: secAddr.city || "",
-            state: secAddr.state || "",
-            country: secAddr.country || "India",
+            street: (secAddr.street || "").toUpperCase(),
+            street2: (secAddr.street2 || "").toUpperCase(),
+            city: (secAddr.city || "").toUpperCase(),
+            district: (secAddr.district || "").toUpperCase(),
+            state: (secAddr.state || "").toUpperCase(),
+            country: (secAddr.country || "India").toUpperCase(),
             zip: secAddr.pincode || "",
             type: secAddr.type || "OFFICE"
           },
@@ -96,11 +99,12 @@ const Checkout = () => {
           email: user.email || "",
           phone: user.phone || "",
           alternatePhone: user.alternatePhone || "",
-          street: homeAddr.street || "",
-          street2: homeAddr.street2 || "",
-          city: homeAddr.city || "",
-          state: homeAddr.state || "",
-          country: homeAddr.country || "India",
+          street: (homeAddr.street || "").toUpperCase(),
+          street2: (homeAddr.street2 || "").toUpperCase(),
+          city: (homeAddr.city || "").toUpperCase(),
+          district: (homeAddr.district || "").toUpperCase(),
+          state: (homeAddr.state || "").toUpperCase(),
+          country: (homeAddr.country || "India").toUpperCase(),
           zip: homeAddr.pincode || "",
         });
       }
@@ -134,6 +138,7 @@ const Checkout = () => {
       street: targetAddr.street,
       street2: targetAddr.street2,
       city: targetAddr.city,
+      district: targetAddr.district,
       state: targetAddr.state,
       country: targetAddr.country,
       zip: targetAddr.zip,
@@ -415,7 +420,7 @@ const Checkout = () => {
                 className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-black placeholder-gray-600"
               />
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input
                   type="text"
                   placeholder="CITY"
@@ -426,6 +431,19 @@ const Checkout = () => {
                   className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-black placeholder-gray-600"
                   required
                 />
+                <input
+                  type="text"
+                  placeholder="DISTRICT"
+                  value={address.district}
+                  onChange={(e) =>
+                    setAddress({ ...address, district: e.target.value })
+                  }
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-black placeholder-gray-600"
+                  required
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input
                   type="text"
                   placeholder="STATE"

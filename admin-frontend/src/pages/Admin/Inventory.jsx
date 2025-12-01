@@ -103,32 +103,31 @@ const Inventory = () => {
     <PageContainer>
       <div className="p-4 md:p-10 max-w-7xl mx-auto">
         {/* Page Title */}
-        <h2 className="text-xl md:text-3xl font-bold text-gray-100 mb-6 md:mb-8 flex items-center gap-3">
-          <FaBoxOpen className="text-blue-300 text-lg md:text-3xl" /> Approved
-          Inventory & Stock Alerts
+        <h2 className="text-5xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl flex items-center justify-center gap-3">
+          <FaBoxOpen className="text-emerald-500 text-5xl" /> Approved Inventory & Stock Alerts
         </h2>
 
         {/* Filters */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
           {/* Search Bar */}
           <div className="relative w-full md:w-1/3">
-            <FaSearch className="absolute left-3 top-3 text-gray-400 text-sm md:text-base" />
+            <FaSearch className="absolute left-3 top-4 text-black z-10" />
             <input
               type="text"
               placeholder="Search product..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 md:py-3 rounded-xl border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm md:text-base"
+              className="w-full pl-10 pr-4 py-2 md:py-3 rounded-xl bg-white/40 border border-white/30 text-black placeholder-black/50 shadow-sm focus:ring-2 focus:ring-[#0000e6] focus:outline-none text-sm md:text-base backdrop-blur-sm"
             />
           </div>
 
           {/* Filter Dropdown */}
           <div className="flex items-center gap-2 w-full md:w-auto">
-            <FaFilter className="text-gray-500 text-sm md:text-base" />
+            <FaFilter className="text-blue-500 text-sm md:text-base" />
             <select
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
-              className="w-full md:w-auto px-4 py-2 rounded-xl border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm md:text-base"
+              className="w-full md:w-auto px-4 py-2 rounded-xl bg-white/40 border border-white/30 text-black shadow-sm focus:ring-2 focus:ring-[#0000e6] focus:outline-none text-sm md:text-base backdrop-blur-sm"
             >
               <option value="All">All</option>
               <option value="In Stock">In Stock</option>
@@ -144,40 +143,40 @@ const Inventory = () => {
             filteredInventory.map((item) => (
               <div
                 key={item.id}
-                className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-6 hover:shadow-2xl transition"
+                className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-lg p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-6 hover:shadow-2xl transition hover:scale-[1.01]"
               >
-                <div className="flex items-center gap-3">
-                  <div className="bg-blue-50 p-3 rounded-full">
-                    <FaBoxOpen className="text-blue-500 text-xl md:text-2xl" />
+                <div className="flex items-center gap-3 group">
+                  <div className="bg-white/20 p-3 rounded-full">
+                    <FaBoxOpen className="text-emerald-500 text-xl md:text-2xl transition-transform duration-300 group-hover:rotate-12" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-gray-800 font-semibold text-base md:text-lg">
+                    <span className="text-black font-bold text-base md:text-lg">
                       {item.product}
                     </span>
-                    <span className="text-gray-600 text-sm md:text-base">
+                    <span className="text-black/70 text-sm md:text-base font-medium">
                       ID: {item.id}
                     </span>
                   </div>
                 </div>
                 <div className="flex flex-col items-start md:items-center gap-2 md:gap-0 md:flex-row md:gap-6">
-                  <span className="text-gray-700 font-medium">
-                    Stock: {item.stock}
+                  <span className="text-black font-bold">
+                    Stock: <span className="text-[#0000e6]">{item.stock}</span>
                   </span>
                   <StatusBadge status={item.status} />
                 </div>
               </div>
             ))
           ) : (
-            <div className="p-6 text-center text-gray-500 italic text-sm md:text-base">
+            <div className="p-6 text-center text-black/70 italic text-sm md:text-base font-medium bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
               No approved products found
             </div>
           )}
         </div>
 
         {/* Footer Summary */}
-        <div className="p-4 bg-gray-100 text-gray-700 text-sm md:text-base flex flex-col md:flex-row justify-between items-center gap-2 md:gap-0 mt-6 rounded-xl">
+        <div className="p-4 bg-white/20 backdrop-blur-md border border-white/30 text-black text-sm md:text-base flex flex-col md:flex-row justify-between items-center gap-2 md:gap-0 mt-6 rounded-xl font-medium shadow-lg">
           <span>Total Approved Products: {filteredInventory.length}</span>
-          <span className="font-semibold">
+          <span className="font-bold">
             Low / Out of Stock:{" "}
             {
               filteredInventory.filter(

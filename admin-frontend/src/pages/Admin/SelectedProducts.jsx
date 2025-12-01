@@ -165,16 +165,16 @@ const SelectedProducts = () => {
 
         <div className="max-w-7xl mx-auto">
           <motion.h1
-            className="text-3xl font-bold text-gray-100 mb-8 flex items-center gap-2"
+            className="text-5xl font-extrabold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl flex items-center justify-center gap-3"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            🗂️ Category Management
+            Category Management
           </motion.h1>
 
           {loading ? (
             <div className="flex justify-center items-center h-64">
-              <Loader2 className="animate-spin w-12 h-12 text-indigo-600" />
+              <Loader2 className="animate-spin w-12 h-12 text-black" />
             </div>
           ) : (
             <AnimatePresence>
@@ -187,7 +187,7 @@ const SelectedProducts = () => {
                 {categories.map((category, index) => (
                   <motion.div
                     key={category._id}
-                    className="p-5 rounded-2xl border shadow-md bg-white hover:shadow-xl transition-all duration-300 relative"
+                    className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-xl p-5 hover:scale-[1.02] transition duration-300 relative"
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
@@ -195,33 +195,32 @@ const SelectedProducts = () => {
                     {/* Header */}
                     <div className="flex justify-between items-start mb-4">
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-800">
+                        <h3 className="text-xl font-bold text-black">
                           {category.name}
                         </h3>
                         <p
-                          className={`text-sm mt-1 font-medium ${
-                            category.enabled
-                              ? "text-green-900"
-                              : "text-red-900"
-                          }`}
+                          className={`text-sm mt-1 font-bold ${category.enabled
+                              ? "text-green-600"
+                              : "text-red-600"
+                            }`}
                         >
                           {category.enabled ? "Enabled" : "Disabled"}
                         </p>
                       </div>
 
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 bg-white/30 p-2 rounded-full backdrop-blur-sm">
                         {category.enabled ? (
-                          <CheckCircle className="text-green-500 w-5 h-5" />
+                          <CheckCircle className="text-green-600 w-5 h-5" />
                         ) : (
-                          <XCircle className="text-red-400 w-5 h-5" />
+                          <XCircle className="text-red-600 w-5 h-5" />
                         )}
                       </div>
                     </div>
 
                     {/* Details */}
-                    <div className="text-sm text-gray-600 space-y-1 mb-4">
-                      <p>Group: {category.group || "Not assigned"}</p>
-                      <p>Limit: {category.limit}</p>
+                    <div className="text-sm text-black/80 font-medium space-y-2 mb-4 bg-white/20 p-3 rounded-xl border border-white/10">
+                      <p>Group: <span className="font-bold text-black">{category.group || "Not assigned"}</span></p>
+                      <p>Limit: <span className="font-bold text-black">{category.limit}</span></p>
                     </div>
 
                     {/* Limit Input */}
@@ -233,12 +232,12 @@ const SelectedProducts = () => {
                         onChange={(e) =>
                           handleLimitChange(category._id, e.target.value)
                         }
-                        className="w-20 px-3 py-1.5 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                        className="w-24 px-3 py-2 border border-white/30 bg-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0000e6] text-black font-bold text-center"
                       />
                       {editingLimits[category._id] !== undefined && (
                         <button
                           onClick={() => handleSaveLimit(category._id)}
-                          className="flex items-center gap-1 px-3 py-1.5 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition-all"
+                          className="flex items-center gap-1 px-4 py-2 rounded-lg bg-[#0000e6] text-white hover:bg-[#0000cc] transition-all font-bold shadow-md"
                         >
                           <Save size={16} /> Save
                         </button>
@@ -248,11 +247,10 @@ const SelectedProducts = () => {
                     {/* Toggle Button */}
                     <button
                       onClick={() => handleToggle(category._id)}
-                      className={`w-full py-2.5 flex items-center justify-center gap-2 rounded-xl text-white font-medium shadow-md transition-all ${
-                        category.enabled
-                          ? "bg-gradient-to-r from-red-500 to-red-500 hover:from-red-600 hover:to-pink-600"
-                          : "bg-gradient-to-r from-green-500 to-green-500 hover:from-green-600 hover:to-emerald-600"
-                      }`}
+                      className={`w-full py-3 flex items-center justify-center gap-2 rounded-xl text-white font-bold shadow-lg transition-all transform active:scale-95 ${category.enabled
+                          ? "bg-red-600 hover:bg-red-900"
+                          : "bg-green-600 hover:bg-green-900"
+                        }`}
                     >
                       {category.enabled ? (
                         <>
@@ -265,16 +263,6 @@ const SelectedProducts = () => {
                       )}
                     </button>
 
-                    {/* Animated underline */}
-                    <motion.div
-                      className={`absolute bottom-0 left-0 h-1 ${
-                        category.enabled ? "bg-green-400" : "bg-red-300"
-                      }`}
-                      layoutId="underline"
-                      initial={{ width: "0%" }}
-                      animate={{ width: "100%" }}
-                      transition={{ duration: 0.4 }}
-                    />
                   </motion.div>
                 ))}
               </motion.div>

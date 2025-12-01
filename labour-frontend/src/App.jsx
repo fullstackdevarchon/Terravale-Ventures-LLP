@@ -4,6 +4,7 @@ import LabourNavbar from "./pages/Labour/LabourNavbar";
 import Login from "./pages/Auth/Login";
 import OrderList from "./pages/Labour/OrderList";
 import MyOrders from "./pages/Labour/MyOrders";
+import Profile from "./pages/Labour/Profile";
 import { Toaster } from "react-hot-toast";
 import Preloader from "./components/Preloader"; // ✅ import Preloader
 
@@ -134,6 +135,7 @@ const App = () => {
           <Route index element={<Navigate to="order-list" replace />} />
           <Route path="order-list" element={<OrderList mode="take" />} />
           <Route path="my-orders" element={<MyOrders />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
 
         {/* 404 Route */}

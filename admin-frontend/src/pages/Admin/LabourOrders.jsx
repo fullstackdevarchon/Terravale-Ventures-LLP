@@ -193,17 +193,17 @@ const LabourOrders = () => {
     <PageContainer>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-100 flex items-center gap-2">
-            <FaTruck className="text-indigo-300" /> Labour Orders
+        <div className="mb-10 text-center">
+          <h1 className="text-5xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl flex items-center justify-center gap-3">
+            <FaTruck className="text-green-500" /> Labour Orders
           </h1>
-          <p className="text-white">
+          <p className="text-white/80 font-medium text-lg">
             Monitor labour delivery workflow and performance
           </p>
         </div>
 
         {/* Filters & Stats */}
-        <div className="flex flex-col md:flex-row gap-3 md:items-center md:justify-between mb-6">
+        <div className="flex flex-col md:flex-row gap-3 md:items-center md:justify-between mb-8">
           <div className="flex gap-2">
             <div className="relative">
               <input
@@ -211,14 +211,14 @@ const LabourOrders = () => {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search by Labour name or Order ID"
-                className="pl-10 pr-3 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-indigo-500 w-72 max-w-full"
+                className="pl-10 pr-3 py-2 rounded-xl bg-white/40 border border-white/30 text-black placeholder-black/50 shadow-sm focus:ring-2 focus:ring-[#0000e6] focus:outline-none w-72 max-w-full backdrop-blur-sm"
               />
-              <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-black/50" />
             </div>
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              className="py-2 px-3 rounded-md border border-gray-300 focus:ring-2 focus:ring-indigo-500"
+              className="py-2 px-3 rounded-xl bg-white/40 border border-white/30 text-black shadow-md focus:ring-2 focus:ring-[#0000e6] focus:outline-none backdrop-blur-sm"
             >
               <option value="all">All</option>
               <option value="pending">Pending</option>
@@ -232,25 +232,25 @@ const LabourOrders = () => {
           </div>
           {/* Stats Section */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full md:w-auto">
-            <div className="bg-white rounded-lg shadow p-3 text-center">
-              <div className="text-sm text-gray-500">Total</div>
-              <div className="text-xl font-bold">{stats.total}</div>
+            <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-xl shadow-lg p-3 text-center">
+              <div className="text-sm text-black font-bold">Total</div>
+              <div className="text-xl font-extrabold text-black">{stats.total}</div>
             </div>
-            <div className="bg-white rounded-lg shadow p-3 text-center">
-              <div className="text-sm text-gray-500">Delivered</div>
-              <div className="text-xl font-bold text-green-600">
+            <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-xl shadow-lg p-3 text-center">
+              <div className="text-sm text-black font-bold">Delivered</div>
+              <div className="text-xl font-extrabold text-green-600">
                 {stats.delivered}
               </div>
             </div>
-            <div className="bg-white rounded-lg shadow p-3 text-center">
-              <div className="text-sm text-gray-500">Pending</div>
-              <div className="text-xl font-bold text-amber-600">
+            <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-xl shadow-lg p-3 text-center">
+              <div className="text-sm text-black font-bold">Pending</div>
+              <div className="text-xl font-extrabold text-amber-600">
                 {stats.pending}
               </div>
             </div>
-            <div className="bg-white rounded-lg shadow p-3 text-center">
-              <div className="text-sm text-gray-500">Unassigned</div>
-              <div className="text-xl font-bold text-indigo-600">
+            <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-xl shadow-lg p-3 text-center">
+              <div className="text-sm text-black font-bold">Unassigned</div>
+              <div className="text-xl font-extrabold text-[#0000e6]">
                 {stats.unassigned}
               </div>
             </div>
@@ -258,8 +258,8 @@ const LabourOrders = () => {
         </div>
 
         {/* Labour Performance */}
-        <div className="mb-6">
-          <h2 className="text-lg font-semibold text-gray-100 mb-3">
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold text-white mb-4 drop-shadow-md">
             Labour Performance
           </h2>
 
@@ -268,35 +268,35 @@ const LabourOrders = () => {
               {labourPerformance.map((l) => (
                 <div
                   key={l.id}
-                  className="bg-white rounded-lg shadow p-4 hover:shadow-md transition"
+                  className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-xl p-4 hover:scale-[1.02] transition duration-300"
                 >
                   <div className="flex items-center justify-between">
-                    <div className="font-semibold text-gray-900 flex items-center gap-2">
-                      <FaUser className="text-indigo-600" /> {l.name}
+                    <div className="font-bold text-black flex items-center gap-2 text-lg">
+                      <FaUser className="text-[#0000e6]" /> {l.name}
                     </div>
-                    <div className="text-xs text-gray-500">
+                    <div className="text-xs text-black/70 font-medium">
                       {l.id === "unassigned"
                         ? "Unassigned bucket"
                         : `ID: ${String(l.id).slice(-6)}`}
                     </div>
                   </div>
 
-                  <div className="mt-3 flex items-center gap-3 text-sm">
-                    <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-green-50 text-green-700">
+                  <div className="mt-3 flex items-center gap-3 text-sm font-medium">
+                    <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-green-100 text-green-800 border border-green-200">
                       <FaCheckCircle /> Finished: {l.finished}
                     </span>
-                    <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-amber-50 text-amber-700">
+                    <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-amber-100 text-amber-800 border border-amber-200">
                       <FaTruck /> Pending: {l.pending}
                     </span>
                   </div>
 
                   {l.activeOrder && (
-                    <div className="mt-3 text-sm text-gray-700">
-                      <div className="font-medium flex items-center gap-2">
-                        <FaClipboardList className="text-indigo-600" /> Active
+                    <div className="mt-3 text-sm text-black bg-white/30 p-2 rounded-lg backdrop-blur-sm border border-white/10">
+                      <div className="font-bold flex items-center gap-2">
+                        <FaClipboardList className="text-[#0000e6]" /> Active
                         Order #{String(l.activeOrder._id || "").slice(-6)}
                       </div>
-                      <div className="mt-1 text-gray-600">
+                      <div className="mt-1 text-black/80 font-medium">
                         Buyer: {l.activeOrder.buyer?.fullName || "-"} · Status:{" "}
                         {l.activeOrder.status || "-"}
                       </div>
@@ -306,81 +306,69 @@ const LabourOrders = () => {
               ))}
             </div>
           ) : (
-            <div className="text-gray-600 text-sm">
+            <div className="text-black/70 text-sm font-medium bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/20">
               No labour data for current filters.
             </div>
           )}
         </div>
 
         {/* Table */}
-        <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-xl p-6">
           {filtered.length ? (
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                      Order ID
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                      Labour
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                      Status
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                      Buyer
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                      Created
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {filtered.map((o) => {
-                    const badge = getStatusBadge(o.status);
-                    return (
-                      <tr key={o._id} className="hover:bg-gray-50 transition">
-                        <td className="px-4 py-3 text-sm font-mono">
-                          #{String(o._id || "").slice(-6)}
-                        </td>
-                        <td className="px-4 py-3 text-sm">
-                          <div className="inline-flex items-center gap-2">
-                            <FaUser className="text-indigo-600" />
-                            {(() => {
-                              const name = getEffectiveAssigneeName(o);
-                              return name === "Unassigned" ? (
-                                <span className="text-gray-500">Unassigned</span>
-                              ) : (
-                                name
-                              );
-                            })()}
-                          </div>
-                        </td>
-                        <td className="px-4 py-3 text-sm">
-                          <span
-                            className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold ${badge.cls}`}
-                          >
-                            {badge.icon} {o.status || "-"}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3 text-sm">
-                          {o.buyer?.fullName || "-"}
-                        </td>
-                        <td className="px-4 py-3 text-sm text-gray-600">
-                          {o.createdAt
-                            ? new Date(o.createdAt).toLocaleString()
-                            : "-"}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {filtered.map((o) => {
+                const badge = getStatusBadge(o.status);
+                return (
+                  <div
+                    key={o._id}
+                    className="bg-white/20 backdrop-blur-md border border-white/30 rounded-xl p-4 shadow-lg hover:scale-[1.02] transition duration-300 flex flex-col gap-3"
+                  >
+                    <div className="flex justify-between items-start">
+                      <span className="text-sm font-mono text-black font-bold bg-white/40 px-2 py-1 rounded">
+                        #{String(o._id || "").slice(-6)}
+                      </span>
+                      <span
+                        className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-bold shadow-sm ${badge.cls}`}
+                      >
+                        {badge.icon} {o.status || "-"}
+                      </span>
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                      <div className="text-xs text-black/60 font-bold uppercase">Labour</div>
+                      <div className="flex items-center gap-2 text-sm font-bold text-black">
+                        <FaUser className="text-[#0000e6]" />
+                        {(() => {
+                          const name = getEffectiveAssigneeName(o);
+                          return name === "Unassigned" ? (
+                            <span className="text-black/60 italic">Unassigned</span>
+                          ) : (
+                            name
+                          );
+                        })()}
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                      <div className="text-xs text-black/60 font-bold uppercase">Buyer</div>
+                      <div className="text-sm font-medium text-black truncate">
+                        {o.buyer?.fullName || "-"}
+                      </div>
+                    </div>
+
+                    <div className="mt-auto pt-3 border-t border-white/20 text-xs text-black/70 font-medium flex items-center gap-1">
+                      <FaHourglassHalf />
+                      {o.createdAt
+                        ? new Date(o.createdAt).toLocaleString()
+                        : "-"}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           ) : (
-            <div className="p-10 text-center text-gray-600">
-              <FaBoxOpen className="mx-auto text-4xl text-gray-400 mb-2" />
+            <div className="p-10 text-center text-black/70 font-medium">
+              <FaBoxOpen className="mx-auto text-4xl text-black/50 mb-2" />
               No orders match your filters.
             </div>
           )}

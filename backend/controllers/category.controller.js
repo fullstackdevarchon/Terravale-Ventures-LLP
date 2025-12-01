@@ -144,21 +144,24 @@ export const updateCategoryLimit = async (req, res) => {
     const allCategories = await Category.find();
     console.log("📦 Total categories:", allCategories.length);
 
-    // Calculate total excluding current category
-    const totalOtherLimits = allCategories
-      .filter(cat => cat._id.toString() !== category._id.toString())
+    // Calculate total of OTHER ENABLED categories
+    const totalOtherEnabledLimits = allCategories
+      .filter((cat) => cat._id.toString() !== category._id.toString() && cat.enabled)
       .reduce((sum, cat) => sum + (cat.limit || 0), 0);
 
-    console.log("🧮 Other limits total:", totalOtherLimits);
+    console.log("🧮 Other enabled limits total:", totalOtherEnabledLimits);
 
-    const newTotal = totalOtherLimits + limit;
-    console.log("🧾 New total after update:", newTotal);
+    // If current category is enabled, add new limit. If disabled, add 0.
+    const currentContribution = category.enabled ? limit : 0;
+    const newTotal = totalOtherEnabledLimits + currentContribution;
+
+    console.log("🧾 New total after update (Enabled only):", newTotal);
 
     if (newTotal > 20) {
       console.warn(`🚫 Limit exceeded! Total (${newTotal}) > 20.`);
       return res.status(400).json({
         success: false,
-        message: `Cannot update. Total limit would become ${newTotal}, exceeding the allowed 20.`,
+        message: `Cannot update. Total enabled limit would become ${newTotal}, exceeding the allowed 20.`,
       });
     }
 

@@ -48,6 +48,7 @@ export const getProfile = async (req, res) => {
         secondaryAddress: user.secondaryAddress || {},
         phone: user.phone || "",
         alternatePhone: user.alternatePhone || "",
+        profilePicture: user.profilePicture || "",
         role: user.role,
       },
     });
@@ -60,7 +61,7 @@ export const getProfile = async (req, res) => {
 // ✅ Update profile
 export const updateProfile = async (req, res) => {
   try {
-    const { fullName, phone, alternatePhone, address, secondaryAddress } = req.body;
+    const { fullName, phone, alternatePhone, address, secondaryAddress, profilePicture } = req.body;
 
     // Find the user by ID to ensure we have a proper Mongoose document
     const user = await User.findById(req.user.id);
@@ -72,6 +73,7 @@ export const updateProfile = async (req, res) => {
     if (fullName) user.fullName = fullName;
     if (phone) user.phone = phone;
     if (alternatePhone !== undefined) user.alternatePhone = alternatePhone;
+    if (profilePicture !== undefined) user.profilePicture = profilePicture;
 
     // Update address if provided
     if (address) {
@@ -118,6 +120,7 @@ export const updateProfile = async (req, res) => {
         secondaryAddress: updatedUser.secondaryAddress,
         phone: updatedUser.phone,
         alternatePhone: updatedUser.alternatePhone,
+        profilePicture: updatedUser.profilePicture,
         role: updatedUser.role,
       },
     });

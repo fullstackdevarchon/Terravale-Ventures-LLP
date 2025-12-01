@@ -56,73 +56,72 @@ const AddLabour = () => {
   return (
     <PageContainer>
       <div className="flex items-center justify-center">
-        <div className="max-w-lg w-full bg-white/90 backdrop-blur-md shadow-2xl rounded-2xl p-8">
-        <h2 className="text-3xl font-bold text-center mb-6 text-indigo-700 drop-shadow-sm">
-          Add Labour
-        </h2>
+        <div className="max-w-lg w-full backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl rounded-2xl p-8">
+          <h2 className="text-5xl font-extrabold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl">
+            Add Labour
+          </h2>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-          {/* Full Name */}
-          <div>
-            <label className="block text-gray-700 font-semibold mb-2">
-              Full Name
-            </label>
-            <input
-              type="text"
-              name="fullName"
-              value={formData.fullName}
-              placeholder="Enter full name"
-              onChange={handleChange}
-              required
-              className="border rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-indigo-400 focus:outline-none"
-            />
-          </div>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+            {/* Full Name */}
+            <div>
+              <label className="block text-black font-semibold mb-2">
+                Full Name
+              </label>
+              <input
+                type="text"
+                name="fullName"
+                value={formData.fullName}
+                placeholder="Enter full name"
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 text-black placeholder-black/50 bg-white/40 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0000e6] focus:border-transparent transition"
+              />
+            </div>
 
-          {/* Email */}
-          <div>
-            <label className="block text-gray-700 font-semibold mb-2">
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              placeholder="Enter email"
-              onChange={handleChange}
-              required
-              className="border rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-indigo-400 focus:outline-none"
-            />
-          </div>
+            {/* Email */}
+            <div>
+              <label className="block text-black font-semibold mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                placeholder="Enter email"
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 text-black placeholder-black/50 bg-white/40 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0000e6] focus:border-transparent transition"
+              />
+            </div>
 
-          {/* Password */}
-          <div>
-            <label className="block text-gray-700 font-semibold mb-2">
-              Password
-            </label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              placeholder="Enter password"
-              onChange={handleChange}
-              required
-              className="border rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-indigo-400 focus:outline-none"
-            />
-          </div>
+            {/* Password */}
+            <div>
+              <label className="block text-black font-semibold mb-2">
+                Password
+              </label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                placeholder="Enter password"
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 text-black placeholder-black/50 bg-white/40 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0000e6] focus:border-transparent transition"
+              />
+            </div>
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={loading}
-            className={`${
-              loading
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-indigo-600 hover:bg-indigo-700"
-            } text-white px-6 py-3 rounded-lg font-semibold transition duration-300 shadow-md`}
-          >
-            {loading ? "Adding..." : "Add Labour"}
-          </button>
-        </form>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={loading}
+              className={`${loading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-[#0000e6] hover:bg-[#0000cc]"
+                } text-white px-6 py-3 rounded-lg font-bold transition duration-300 shadow-md`}
+            >
+              {loading ? "Adding..." : "Add Labour"}
+            </button>
+          </form>
         </div>
       </div>
     </PageContainer>
