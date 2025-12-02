@@ -1,5 +1,5 @@
 import Labour from "../models/Labour.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { cookieOptions } from "../utils/cookieOptions.js"; // ✅ utility for cookies
 

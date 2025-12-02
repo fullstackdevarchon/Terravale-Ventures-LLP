@@ -1,6 +1,6 @@
 // controllers/user.controller.js
 import User from "../models/User.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 // Cookie options
@@ -94,8 +94,8 @@ export const loginUser = async (req, res) => {
 
     // ✅ Compare raw password with stored hash
     const isMatch = await bcrypt.compare(pass, user.pass);
-    console.log('pass',pass)
-    console.log('user.pass',user.pass)
+    console.log('pass', pass)
+    console.log('user.pass', user.pass)
     console.log("🔑 Password match:", isMatch);
 
     if (!isMatch) {
