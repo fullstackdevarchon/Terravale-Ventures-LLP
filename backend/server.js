@@ -24,16 +24,13 @@ dotenv.config();
 const app = express();
 
 // ===================================================
-// CORS
+// ✅ CORS (Render-friendly)
 // ===================================================
 app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "http://localhost:5174",
-      "http://localhost:5175",
-      "http://localhost:5176",
-      process.env.FRONTEND_URL, // optional for production frontend
+      process.env.FRONTEND_URL,     // e.g. https://terravale.onrender.com
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
@@ -46,7 +43,7 @@ app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(cookieParser());
 
 // ===================================================
-// API ROUTES
+// 📌 API ROUTES
 // ===================================================
 app.use("/api/users", userRoutes);
 app.use("/api/v1/products", productRoutes);
@@ -61,27 +58,22 @@ app.use("/api/notifications", pushRoutes);
 app.use("/api/auth/google", googleRoutes);
 
 // ===================================================
-// ❗ REMOVE STATIC FRONTEND (Important for Render)
+// ❗ Render Backend — DO NOT SERVE FRONTEND
 // ===================================================
-// ❌ Removed this because Render backend DOES NOT contain frontend files
-// app.use(express.static(...));
-// app.get("*", ...);
-
-// Instead, just show a simple API root message:
 app.get("/", (req, res) => {
-  res.send("Terravale Backend API is running 🚀");
+  res.send("🚀 Terravale Backend API is running successfully!");
 });
 
 // ===================================================
-// MONGODB CONNECTION
+// 📌 MongoDB Connection
 // ===================================================
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB Connected"))
-  .catch((err) => console.error("❌ MongoDB Connection Error:", err));
+  .catch((err) => console.error("❌ MongoDB Error:", err));
 
 // ===================================================
-// SOCKET.IO SETUP
+// 📌 SOCKET.IO Setup
 // ===================================================
 const server = http.createServer(app);
 
@@ -89,9 +81,6 @@ const io = new Server(server, {
   cors: {
     origin: [
       "http://localhost:5173",
-      "http://localhost:5174",
-      "http://localhost:5175",
-      "http://localhost:5176",
       process.env.FRONTEND_URL,
     ],
     methods: ["GET", "POST"],
@@ -102,10 +91,10 @@ const io = new Server(server, {
 app.set("io", io);
 
 // ===================================================
-// WEB PUSH CONFIG
+// 📌 Web Push
 // ===================================================
 if (!process.env.VAPID_PUBLIC_KEY || !process.env.VAPID_PRIVATE_KEY) {
-  console.error("❌ Missing VAPID keys in .env file!");
+  console.error("❌ Missing VAPID keys. Add them in .env");
   process.exit(1);
 }
 
@@ -116,7 +105,7 @@ webpush.setVapidDetails(
 );
 
 // ===================================================
-// SOCKET EVENTS
+// 📌 Socket Events
 // ===================================================
 io.on("connection", (socket) => {
   console.log("⚡ Client connected:", socket.id);
@@ -125,9 +114,9 @@ io.on("connection", (socket) => {
     if (role === "admin") {
       socket.join("admin");
       console.log("🟢 Admin joined room");
-    } else if (id) {
+    } else {
       socket.join(id);
-      console.log(`🟢 Client joined room: ${id}`);
+      console.log(`🟢 User joined room: ${id}`);
     }
   });
 
@@ -149,11 +138,10 @@ io.on("connection", (socket) => {
       subs.forEach((sub) => {
         webpush
           .sendNotification(sub, payload)
-          .then(() => console.log("📬 Web Push sent"))
-          .catch((err) => console.error("Push error:", err));
+          .catch((err) => console.error("Push Error:", err));
       });
     } catch (err) {
-      console.error("❌ Error sending push:", err);
+      console.error("❌ Push Notification Error:", err);
     }
   });
 
@@ -163,7 +151,7 @@ io.on("connection", (socket) => {
 });
 
 // ===================================================
-// START SERVER
+// 🚀 Start Server
 // ===================================================
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {

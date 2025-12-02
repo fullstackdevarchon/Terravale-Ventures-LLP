@@ -11,5 +11,6 @@ export default defineConfig({
   define: {
     __DEFINES__: {},
     __HMR_CONFIG_NAME__: 'null',
+    __BASE__: '"./"',
   },
 });
