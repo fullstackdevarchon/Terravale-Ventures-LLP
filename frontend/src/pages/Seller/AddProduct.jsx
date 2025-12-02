@@ -5,6 +5,7 @@ import { FaUpload, FaBalanceScale, FaBoxes, FaPlusCircle, FaRupeeSign, FaTag, Fa
 import { useNavigate } from "react-router-dom";
 import PageContainer from "../../components/PageContainer";
 import Footer from "./Footer";
+import API_BASE from "../../config";
 
 function AddProduct() {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ function AddProduct() {
     const fetchCategories = async () => {
       if (!token) return;
       try {
-        const res = await fetch("http://localhost:5000/api/v1/categories/all", {
+        const res = await fetch(`${API_BASE}/api/v1/categories/all`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
@@ -91,7 +92,7 @@ function AddProduct() {
         formData.append(k, v)
       );
 
-      const res = await fetch("http://localhost:5000/api/v1/products/create", {
+      const res = await fetch(`${API_BASE}/api/v1/products/create`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,

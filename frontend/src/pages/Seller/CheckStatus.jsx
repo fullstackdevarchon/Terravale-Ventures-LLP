@@ -16,6 +16,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import PageContainer from "../../components/PageContainer";
 import Footer from "./Footer";
+import API_BASE from "../../config";
 
 function CheckStatus() {
   const [orders, setOrders] = useState([]);
@@ -27,7 +28,7 @@ function CheckStatus() {
       setLoading(true);
       const token = localStorage.getItem("token");
       const { data } = await axios.get(
-        "http://localhost:5000/api/v1/products/seller",
+        `${API_BASE}/api/v1/products/seller`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -52,7 +53,7 @@ function CheckStatus() {
   const handleDelete = async (id) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5000/api/v1/products/${id}`, {
+      await axios.delete(`${API_BASE}/api/v1/products/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setOrders((prev) => prev.filter((p) => p._id !== id));

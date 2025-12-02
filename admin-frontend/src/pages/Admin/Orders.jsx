@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import PageContainer from "../../components/PageContainer";
 import Preloader from "../../components/Preloader";
+import API_BASE from "../../config";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -22,7 +23,7 @@ const Orders = () => {
     const fetchOrders = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/v1/orders/admin/all",
+          `${API_BASE}/api/v1/orders/admin/all`,
           { withCredentials: true }
         );
         setOrders(res.data.orders || []);

@@ -1,7 +1,9 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const API_URL = 'http://localhost:5000/api';
+import API_BASE from '../config';
+
+const API_URL = `${API_BASE}/api`;
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
@@ -30,11 +32,11 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    
+
     // If error is 401 and we haven't tried to refresh yet
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      
+
       try {
         // Try to refresh the token
         const response = await axios.post(
@@ -42,16 +44,16 @@ axiosInstance.interceptors.response.use(
           {},
           { withCredentials: true }
         );
-        
+
         const { token } = response.data;
-        
+
         // Update token in storage
         localStorage.setItem('token', token);
         Cookies.set('token', token, { path: '/', expires: 1, sameSite: 'Strict' });
-        
+
         // Update the Authorization header
         originalRequest.headers.Authorization = `Bearer ${token}`;
-        
+
         // Retry the original request
         return axiosInstance(originalRequest);
       } catch (refreshError) {
@@ -60,14 +62,14 @@ axiosInstance.interceptors.response.use(
         localStorage.removeItem('user');
         Cookies.remove('token');
         Cookies.remove('role');
-        
+
         // Redirect to login page
         if (window.location.pathname !== '/login') {
           window.location.href = '/login';
         }
       }
     }
-    
+
     return Promise.reject(error);
   }
 );

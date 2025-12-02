@@ -7,6 +7,7 @@ import { FaShoppingCart, FaCreditCard, FaFilter, FaSortAmountDown, FaWeightHangi
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import axios from "axios";
+import API_BASE from "../config";
 
 const ProductList = () => {
   const [data, setData] = useState([]);
@@ -50,7 +51,7 @@ const ProductList = () => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("http://localhost:5000/api/v1/products/buyer");
+        const res = await axios.get(`${API_BASE}/api/v1/products/buyer`);
         if (res.data.success) {
           setData(res.data.products);
           setFilter(res.data.products);
@@ -68,7 +69,7 @@ const ProductList = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/v1/categories/enabled");
+        const res = await axios.get(`${API_BASE}/api/v1/categories/enabled`);
         if (res.data.success) {
           setCategories(res.data.categories);
         }

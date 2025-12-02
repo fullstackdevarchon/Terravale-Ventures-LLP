@@ -10,6 +10,7 @@ import {
     FaBuilding,
 } from "react-icons/fa";
 import Preloader from "../../components/Preloader";
+import API_BASE from "../../config";
 
 const Profile = () => {
     const [loading, setLoading] = useState(true);
@@ -31,7 +32,7 @@ const Profile = () => {
         },
     });
 
-    const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 
     useEffect(() => {
         fetchProfile();

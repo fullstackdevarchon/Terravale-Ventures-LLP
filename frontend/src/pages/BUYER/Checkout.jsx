@@ -9,6 +9,7 @@ import { delCart } from "../../redux/action";
 import PageContainer from "../../components/PageContainer";
 import Footer from "./Footer";
 import { FaHome, FaBuilding } from "react-icons/fa";
+import API_BASE from "../../config";
 
 const Checkout = () => {
   const cart = useSelector((state) => state.handleCart);
@@ -52,7 +53,7 @@ const Checkout = () => {
   const fetchProfile = async () => {
     if (!token) return;
     try {
-      const { data } = await axios.get("http://localhost:5000/api/profile/", {
+      const { data } = await axios.get(`${API_BASE}/api/profile/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -190,7 +191,7 @@ const Checkout = () => {
       };
 
       const { data } = await axios.post(
-        "http://localhost:5000/api/v1/orders/create",
+        `${API_BASE}/api/v1/orders/create`,
         orderData,
         {
           headers: {

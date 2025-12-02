@@ -7,6 +7,7 @@ import MyOrders from "./pages/Labour/MyOrders";
 import Profile from "./pages/Labour/Profile";
 import { Toaster } from "react-hot-toast";
 import Preloader from "./components/Preloader"; // ✅ import Preloader
+import API_BASE from "./config";
 
 export const AuthContext = createContext(null);
 
@@ -29,7 +30,7 @@ const App = () => {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/auth/verify`,
+        `${API_BASE}/api/auth/verify`,
         {
           method: "GET",
           headers: {

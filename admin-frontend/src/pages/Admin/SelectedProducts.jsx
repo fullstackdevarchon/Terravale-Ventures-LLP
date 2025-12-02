@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import PageContainer from "../../components/PageContainer";
 import Preloader from "../../components/Preloader";
+import API_BASE from "../../config";
 
 const SelectedProducts = () => {
   const [categories, setCategories] = useState([]);
@@ -36,7 +37,7 @@ const SelectedProducts = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        "http://localhost:5000/api/v1/categories/all",
+        `${API_BASE}/api/v1/categories/all`,
         { withCredentials: true }
       );
 
@@ -62,7 +63,7 @@ const SelectedProducts = () => {
   const handleToggle = async (id) => {
     try {
       const { data } = await axios.patch(
-        `http://localhost:5000/api/v1/categories/${id}/toggle`,
+        `${API_BASE}/api/v1/categories/${id}/toggle`,
         {},
         { withCredentials: true }
       );
@@ -104,7 +105,7 @@ const SelectedProducts = () => {
       }
 
       const { data } = await axios.patch(
-        `http://localhost:5000/api/v1/categories/${id}/limit`,
+        `${API_BASE}/api/v1/categories/${id}/limit`,
         { limit: newLimit },
         {
           withCredentials: true,

@@ -18,6 +18,7 @@ import {
   FaEnvelope,
 } from "react-icons/fa";
 import Preloader from "../../components/Preloader"; // Assuming Preloader is available and correct
+import API_BASE from "../../config";
 
 const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSummary = false }) => {
   const [orders, setOrders] = useState([]);
@@ -26,7 +27,6 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
   const [filter, setFilter] = useState("all");
   const [updating, setUpdating] = useState({});
   const [expanded, setExpanded] = useState(null); // row details
-  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
   const myUserId = typeof window !== 'undefined' ? localStorage.getItem("userId") : null;
   const navigate = useNavigate();
   const location = useLocation();

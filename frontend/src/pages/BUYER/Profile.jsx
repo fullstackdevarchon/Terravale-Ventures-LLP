@@ -21,6 +21,7 @@ import {
 } from "react-icons/fa";
 import PageContainer from "../../components/PageContainer";
 import Footer from "./Footer";
+import API_BASE from "../../config";
 
 const Profile = () => {
   const [formData, setFormData] = useState({
@@ -66,7 +67,7 @@ const Profile = () => {
 
     try {
       setLoading(true);
-      const { data } = await axios.get("http://localhost:5000/api/profile/", {
+      const { data } = await axios.get(`${API_BASE}/api/profile/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -210,7 +211,7 @@ const Profile = () => {
 
     try {
       setSaving(true);
-      await axios.put("http://localhost:5000/api/profile/", formData, {
+      await axios.put(`${API_BASE}/api/profile/`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",

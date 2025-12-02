@@ -7,12 +7,13 @@ import {
   FaClipboardList,
   FaChartLine,
   FaSignOutAlt,
-  FaBars,  
+  FaBars,
   FaTimes,
   FaWarehouse,
   FaTruck,
   FaTags,
 } from "react-icons/fa";
+import API_BASE from "../config";
 
 const AdminNavbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -21,7 +22,7 @@ const AdminNavbar = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/users/logout', {
+      const response = await fetch(`${API_BASE}/api/users/logout`, {
         method: 'POST',
         credentials: 'include',
         headers: {

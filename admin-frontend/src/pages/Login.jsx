@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
+import API_BASE from "../config";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/users/admin/login", {
+      const response = await fetch(`${API_BASE}/api/users/admin/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -101,9 +102,8 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${
-                loading ? "bg-indigo-400" : "bg-indigo-600 hover:bg-indigo-700"
-              } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+              className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${loading ? "bg-indigo-400" : "bg-indigo-600 hover:bg-indigo-700"
+                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
             >
               {loading ? "Signing in..." : "Sign in"}
             </button>

@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { GoogleLogin } from "@react-oauth/google";
 import Cookies from "js-cookie";
 import PageContainer1 from "../../components/PageContainer1";
+import API_BASE from "../../config";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const Login = () => {
     }
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/auth/google`, {
+      const res = await fetch(`${API_BASE}/api/auth/google`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token: idToken, role: "labour" }),
@@ -81,7 +82,7 @@ const Login = () => {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/labours/login`,
+        `${API_BASE}/api/labours/login`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -122,7 +123,7 @@ const Login = () => {
 
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/forgot/send-otp`,
+        `${API_BASE}/api/forgot/send-otp`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -153,7 +154,7 @@ const Login = () => {
 
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/forgot/reset-password`,
+        `${API_BASE}/api/forgot/reset-password`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

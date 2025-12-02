@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import PageContainer from "../../components/PageContainer";
 import Footer from "./Footer";
+import API_BASE from "../../config";
 
 const Product = () => {
   const { id } = useParams();
@@ -34,7 +35,7 @@ const Product = () => {
   // Fetch main product
   useEffect(() => {
     setLoading(true);
-    axios.get(`http://localhost:5000/api/v1/products/${id}`)
+    axios.get(`${API_BASE}/api/v1/products/${id}`)
       .then(res => {
         if (res.data.success) {
           setProduct(res.data.product);
@@ -51,7 +52,7 @@ const Product = () => {
   useEffect(() => {
     if (!product?.category) return;
     setLoadingSimilar(true);
-    axios.get(`http://localhost:5000/api/v1/products/similar/${product.category._id}/${product._id}`)
+    axios.get(`${API_BASE}/api/v1/products/similar/${product.category._id}/${product._id}`)
       .then(res => {
         if (res.data.success) setSimilarProducts(res.data.products);
       })

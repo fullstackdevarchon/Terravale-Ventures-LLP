@@ -14,6 +14,7 @@ import {
 import axios from "axios";
 import PageContainer from "../../components/PageContainer";
 import Preloader from "../../components/Preloader"; // ✅ Import your Preloader
+import API_BASE from "../../config";
 
 const LabourList = () => {
   const [labours, setLabours] = useState([]);
@@ -24,7 +25,7 @@ const LabourList = () => {
   // ✅ Fetch labours from backend
   const fetchLabours = async () => {
     try {
-      const { data } = await axios.get("http://localhost:5000/api/labours", {
+      const { data } = await axios.get(`${API_BASE}/api/labours`, {
         withCredentials: true,
       });
       setLabours(data.labours || []);
@@ -39,7 +40,7 @@ const LabourList = () => {
   // ✅ Delete labour
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/labours/${id}`, {
+      await axios.delete(`${API_BASE}/api/labours/${id}`, {
         withCredentials: true,
       });
       setLabours((prev) => prev.filter((labour) => labour._id !== id));

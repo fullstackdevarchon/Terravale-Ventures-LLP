@@ -9,6 +9,7 @@ import {
 import toast from "react-hot-toast";
 import PageContainer from "../../components/PageContainer";
 import Preloader from "../../components/Preloader";
+import API_BASE from "../../config";
 
 const Inventory = () => {
   const [inventory, setInventory] = useState([]);
@@ -21,7 +22,7 @@ const Inventory = () => {
       try {
         // ✅ Include withCredentials so cookies/JWT go with the request
         const res = await axios.get(
-          "http://localhost:5000/api/v1/products/all",
+          `${API_BASE}/api/v1/products/all`,
           { withCredentials: true }
         );
 

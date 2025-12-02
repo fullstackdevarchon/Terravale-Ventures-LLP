@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
 import { FiMail, FiLock, FiUser } from "react-icons/fi";
 import { FaSpinner } from "react-icons/fa";
+import API_BASE from "../config";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/users/admin/login", {
+      const response = await fetch(`${API_BASE}/api/users/admin/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -122,11 +123,10 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full flex justify-center items-center gap-2 py-2.5 px-4 text-sm font-semibold rounded-lg text-white transition-all duration-300 ${
-                loading
+              className={`w-full flex justify-center items-center gap-2 py-2.5 px-4 text-sm font-semibold rounded-lg text-white transition-all duration-300 ${loading
                   ? "bg-indigo-400 cursor-not-allowed"
                   : "bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg transform hover:scale-[1.02]"
-              } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
             >
               {loading ? (
                 <>

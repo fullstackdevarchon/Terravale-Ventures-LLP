@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import PageContainer from "../../components/PageContainer";
+import API_BASE from "../../config";
 
 const AddLabour = () => {
   const [formData, setFormData] = useState({
@@ -23,7 +24,7 @@ const AddLabour = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/labours/add",
+        `${API_BASE}/api/labours/add`,
         formData,
         {
           withCredentials: true,

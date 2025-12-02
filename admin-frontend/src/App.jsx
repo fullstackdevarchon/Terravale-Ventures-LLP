@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect, createContext } from "react";
 import AdminNavbar from "./pages/Admin/AdminNavbar";
 import Login from "./pages/Auth/Login";
+import API_BASE from "./config";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import SelectedProducts from "./pages/Admin/SelectedProducts";
 import ProductList from "./pages/Admin/ProductList";
@@ -44,7 +45,7 @@ const App = () => {
           const existingSubscription = await registration.pushManager.getSubscription();
 
           if (!existingSubscription) {
-            const response = await fetch("http://localhost:5000/api/notifications/vapid-key");
+            const response = await fetch(`${API_BASE}/api/notifications/vapid-key`);
             const { publicKey } = await response.json();
 
             const subscription = await registration.pushManager.subscribe({
@@ -52,7 +53,7 @@ const App = () => {
               applicationServerKey: urlBase64ToUint8Array(publicKey),
             });
 
-            await fetch("http://localhost:5000/api/notifications/subscribe", {
+            await fetch(`${API_BASE}/api/notifications/subscribe`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(subscription),

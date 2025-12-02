@@ -6,6 +6,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import PageContainer from "../../components/PageContainer";
 import Preloader from "../../components/Preloader";
+import API_BASE from "../../config";
 
 const ProductListAdmin = () => {
   const [data, setData] = useState([]);
@@ -29,7 +30,7 @@ const ProductListAdmin = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get("http://localhost:5000/api/v1/products/all", {
+      const { data } = await axios.get(`${API_BASE}/api/v1/products/all`, {
         withCredentials: true,
       });
       if (data.success) {
@@ -47,7 +48,7 @@ const ProductListAdmin = () => {
   // ✅ Fetch enabled categories
   const fetchCategories = async () => {
     try {
-      const { data } = await axios.get("http://localhost:5000/api/v1/categories/all", {
+      const { data } = await axios.get(`${API_BASE}/api/v1/categories/all`, {
         withCredentials: true,
       });
       if (data.success) {
@@ -90,7 +91,7 @@ const ProductListAdmin = () => {
   const deleteProduct = async (id) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/v1/products/${id}`, {
+        await axios.delete(`${API_BASE}/api/v1/products/${id}`, {
           withCredentials: true,
         });
         const updatedData = data.filter((item) => item._id !== id);

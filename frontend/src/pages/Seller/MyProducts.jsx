@@ -5,6 +5,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import PageContainer from "../../components/PageContainer";
 import Footer from "./Footer";
+import API_BASE from "../../config";
 
 const MyProducts = () => {
   const [products, setProducts] = useState([]);
@@ -19,7 +20,7 @@ const MyProducts = () => {
       setLoading(true);
       const token = localStorage.getItem("token");
       const { data } = await axios.get(
-        "http://localhost:5000/api/v1/products/seller",
+        `${API_BASE}/api/v1/products/seller`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -51,7 +52,7 @@ const MyProducts = () => {
     if (!deleteModal.productId) return;
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5000/api/v1/products/${deleteModal.productId}`, {
+      await axios.delete(`${API_BASE}/api/v1/products/${deleteModal.productId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setProducts(products.filter((p) => p._id !== deleteModal.productId));
@@ -79,7 +80,7 @@ const MyProducts = () => {
     try {
       const token = localStorage.getItem("token");
       const { data } = await axios.put(
-        `http://localhost:5000/api/v1/products/${editingProduct._id}`,
+        `${API_BASE}/api/v1/products/${editingProduct._id}`,
         { quantity: newStock },
         { headers: { Authorization: `Bearer ${token}` } }
       );

@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { FaUserShield, FaLock } from "react-icons/fa";
 import { GoogleLogin } from "@react-oauth/google";
 import Cookies from "js-cookie";
+import API_BASE from "../../config";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ const Login = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/google", {
+      const res = await fetch(`${API_BASE}/api/auth/google`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token: idToken, role: "admin" }), // Requesting admin role
@@ -84,7 +85,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/users/admin/login", {
+      const response = await fetch(`${API_BASE}/api/users/admin/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -119,7 +120,7 @@ const Login = () => {
 
     setForgotLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/forgot/send-otp", {
+      const res = await fetch(`${API_BASE}/api/forgot/send-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -146,7 +147,7 @@ const Login = () => {
 
     setForgotLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/forgot/reset-password", {
+      const res = await fetch(`${API_BASE}/api/forgot/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, otp, newPassword }),

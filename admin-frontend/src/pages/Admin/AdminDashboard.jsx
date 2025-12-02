@@ -13,6 +13,7 @@ import {
 import toast from "react-hot-toast";
 import PageContainer from "../../components/PageContainer";
 import Preloader from "../../components/Preloader"; // ✅ Added Preloader
+import API_BASE from "../../config";
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
@@ -38,7 +39,7 @@ const AdminDashboard = () => {
         const token = localStorage.getItem("token");
         if (!token) throw new Error("Token missing");
 
-        const productRes = await fetch("http://localhost:5000/api/v1/products/all", {
+        const productRes = await fetch(`${API_BASE}/api/v1/products/all`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const productData = await productRes.json();
@@ -52,14 +53,14 @@ const AdminDashboard = () => {
           0
         );
 
-        const ordersRes = await fetch("http://localhost:5000/api/v1/orders/admin/all", {
+        const ordersRes = await fetch(`${API_BASE}/api/v1/orders/admin/all`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const ordersData = await ordersRes.json();
         const deliveredOrders =
           ordersData.orders?.filter((o) => o.currentStatus?.status === "Delivered").length || 0;
 
-        const usersRes = await fetch("http://localhost:5000/api/users/", {
+        const usersRes = await fetch(`${API_BASE}/api/users/`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const usersData = await usersRes.json();

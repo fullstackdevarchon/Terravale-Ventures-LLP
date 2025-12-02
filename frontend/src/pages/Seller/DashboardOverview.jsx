@@ -10,6 +10,7 @@ import {
 import PageContainer from "../../components/PageContainer";
 import Preloader from "../../components/Preloader";
 import Footer from "./Footer";
+import API_BASE from "../../config";
 
 // Socket removed
 
@@ -33,7 +34,7 @@ const DashboardOverview = () => {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("http://localhost:5000/api/v1/products/seller", {
+      const res = await fetch(`${API_BASE}/api/v1/products/seller`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -14,8 +14,9 @@ import {
 import Cookies from "js-cookie";
 import PageContainer from "../../components/PageContainer";
 import Footer from "./Footer";
+import API_BASE from "../../config";
 
-const API_URL = "http://localhost:5000/api/v1/orders";
+const API_URL = `${API_BASE}/api/v1/orders`;
 
 const STATUS_META = {
   Delivered: {

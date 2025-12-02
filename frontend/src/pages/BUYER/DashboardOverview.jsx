@@ -12,6 +12,7 @@ import axios from "axios";
 import PageContainer from "../../components/PageContainer";
 import Preloader from "../../components/Preloader";
 import Footer from "./Footer";
+import API_BASE from "../../config";
 
 const DashboardOverview = () => {
   const [stats, setStats] = useState({
@@ -39,7 +40,7 @@ const DashboardOverview = () => {
           return;
         }
 
-        const response = await axios.get("http://localhost:5000/api/v1/orders", {
+        const response = await axios.get(`${API_BASE}/api/v1/orders`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

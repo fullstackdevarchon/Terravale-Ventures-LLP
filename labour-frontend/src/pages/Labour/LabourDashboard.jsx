@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../App";
 import toast from "react-hot-toast";
+import API_BASE from "../../config";
 
 const LabourDashboard = () => {
   const { authState } = useContext(AuthContext);
@@ -20,7 +21,7 @@ const LabourDashboard = () => {
   const fetchDashboardData = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/labour/dashboard", {
+      const response = await fetch(`${API_BASE}/api/labour/dashboard`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -159,13 +160,12 @@ const LabourDashboard = () => {
                         {order.shippingAddress?.address || "N/A"}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                          order.status === "delivered" 
+                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${order.status === "delivered"
                             ? "bg-green-100 text-green-800"
                             : order.status === "shipped"
-                            ? "bg-blue-100 text-blue-800"
-                            : "bg-yellow-100 text-yellow-800"
-                        }`}>
+                              ? "bg-blue-100 text-blue-800"
+                              : "bg-yellow-100 text-yellow-800"
+                          }`}>
                           {order.status}
                         </span>
                       </td>

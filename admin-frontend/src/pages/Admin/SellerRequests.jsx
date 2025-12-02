@@ -16,6 +16,7 @@ import toast from "react-hot-toast";
 // import { sendNotification } from "../../socket"; // Socket removed
 import PageContainer from "../../components/PageContainer";
 import Preloader from "../../components/Preloader";
+import API_BASE from "../../config";
 
 const SellerRequests = () => {
   const [requests, setRequests] = useState([]);
@@ -42,7 +43,7 @@ const SellerRequests = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        "http://localhost:5000/api/v1/products/all",
+        `${API_BASE}/api/v1/products/all`,
         { withCredentials: true }
       );
       if (data.success) {
@@ -59,7 +60,7 @@ const SellerRequests = () => {
   const fetchCategories = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:5000/api/v1/categories/all",
+        `${API_BASE}/api/v1/categories/all`,
         { withCredentials: true }
       );
       if (data.success) {
@@ -105,7 +106,7 @@ const SellerRequests = () => {
 
     try {
       const { data } = await axios.patch(
-        `http://localhost:5000/api/v1/products/${id}/status`,
+        `${API_BASE}/api/v1/products/${id}/status`,
         { status: newStatus.toLowerCase(), rejectionReason },
         { withCredentials: true }
       );
