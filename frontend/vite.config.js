@@ -10,5 +10,6 @@ export default defineConfig({
   base: './', // ensures relative paths work for Netlify
   define: {
     __DEFINES__: {},
+    __HMR_CONFIG_NAME__: 'null',
   },
 });
