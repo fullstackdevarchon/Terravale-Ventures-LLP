@@ -50,11 +50,7 @@ const TermsAndPrivacy = () => {
                         {/* Return Button */}
                         <div className="pt-8 text-center">
                             <Link to="/login/buyer">
-                                <button className="
-                  px-8 py-3 rounded-xl font-bold text-white shadow-lg
-                  bg-[#0000e6]
-                  hover:scale-105 transition-transform duration-300
-                ">
+                                <button className="px-8 py-3 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer">
                                     Return to Login
                                 </button>
                             </Link>

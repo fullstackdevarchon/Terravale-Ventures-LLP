@@ -212,16 +212,15 @@ const ProductListAdmin = () => {
               </div>
 
               <div className="mb-3 flex justify-between items-center">
-                <p className="text-sm text-black font-medium flex items-center gap-2">
-                  <FaBox className="text-[#0000e6]" />
-                  Stock: <span className="font-bold text-[#0000e6]">{product.quantity || 0}</span>
+                <p className="text-black text-lg font-bold flex items-center gap-2">
+                  Stock: <span className="font-bold text-white">{product.quantity || 0}</span>
                 </p>
                 <div className="flex items-center gap-2">
                   <div className="text-lg bg-white/30 p-1.5 rounded-full border border-white/20">
                     {getCategoryIcon(product.category?.name)}
                   </div>
                   <p className="text-xs text-black/60 font-semibold">
-                    <span className="font-bold text-black">
+                    <span className="font-bold text-black text-lg">
                       {product.category?.name || "N/A"}
                     </span>
                   </p>
@@ -229,7 +228,7 @@ const ProductListAdmin = () => {
               </div>
 
               <div className="mt-auto flex justify-between items-center">
-                <p className="text-2xl font-extrabold text-[#0000e6]">
+                <p className="text-2xl font-extrabold text-white">
                   ₹ {product.price}
                 </p>
                 {product.weight && (

@@ -173,7 +173,7 @@ const Analytics = () => {
                       className="flex justify-between items-center bg-white/40 backdrop-blur-md rounded-lg px-4 py-2 text-sm font-medium hover:bg-white/60 transition border border-white/20"
                     >
                       <span className="truncate w-2/3 text-black">{p.title}</span>
-                      <span className="text-[#0000e6] font-bold">
+                      <span className="text-white font-bold">
                         {p.sold} sold
                       </span>
                     </li>

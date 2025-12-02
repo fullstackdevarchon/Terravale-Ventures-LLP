@@ -182,11 +182,11 @@ const Profile = () => {
                                     />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center text-gray-400 text-4xl">
-                                        <FaUser className="text-[#0000e6]" />
+                                        <FaUser className="text-white" />
                                     </div>
                                 )}
                             </div>
-                            <label className="absolute bottom-0 right-0 bg-[#0000e6] text-white p-2 rounded-full cursor-pointer hover:bg-[#0000cc] transition shadow-md">
+                            <label className="absolute bottom-0 right-0 bg-white text-white p-2 rounded-full cursor-pointer hover:bg-[#0000cc] transition shadow-md">
                                 <FaCamera size={16} />
                                 <input
                                     type="file"
@@ -210,7 +210,7 @@ const Profile = () => {
                                 name="fullName"
                                 value={user.fullName}
                                 onChange={handleChange}
-                                className="w-full bg-white/40 border border-black/10 rounded-xl px-4 py-3 text-black placeholder-black/50 focus:ring-2 focus:ring-[#0000e6] focus:border-transparent transition uppercase"
+                                className="w-full bg-white/40 border border-black/10 rounded-xl px-4 py-3 text-black placeholder-black/50 focus:ring-2 focus:ring-white focus:border-transparent transition uppercase"
                                 placeholder="Enter your full name"
                                 required
                             />
@@ -238,7 +238,7 @@ const Profile = () => {
                                 value={user.phone}
                                 onChange={handleChange}
                                 maxLength={10}
-                                className="w-full bg-white/40 border border-black/10 rounded-xl px-4 py-3 text-black placeholder-black/50 focus:ring-2 focus:ring-[#0000e6] focus:border-transparent transition uppercase"
+                                className="w-full bg-white/40 border border-black/10 rounded-xl px-4 py-3 text-black placeholder-black/50 focus:ring-2 focus:ring-white focus:border-transparent transition uppercase"
                                 placeholder="Enter phone number"
                                 required
                             />
@@ -254,7 +254,7 @@ const Profile = () => {
                                 value={user.alternatePhone}
                                 onChange={handleChange}
                                 maxLength={10}
-                                className="w-full bg-white/40 border border-black/10 rounded-xl px-4 py-3 text-black placeholder-black/50 focus:ring-2 focus:ring-[#0000e6] focus:border-transparent transition uppercase"
+                                className="w-full bg-white/40 border border-black/10 rounded-xl px-4 py-3 text-black placeholder-black/50 focus:ring-2 focus:ring-white focus:border-transparent transition uppercase"
                                 placeholder="Enter alternate phone"
                             />
                         </div>
@@ -274,7 +274,7 @@ const Profile = () => {
                                     name="address.street"
                                     value={user.address.street}
                                     onChange={handleChange}
-                                    className="w-full bg-white/40 border border-black/10 rounded-xl px-4 py-3 text-black placeholder-black/50 focus:ring-2 focus:ring-[#0000e6] transition uppercase"
+                                    className="w-full bg-white/40 border border-black/10 rounded-xl px-4 py-3 text-black placeholder-black/50 focus:ring-2 focus:ring-white transition uppercase"
                                     placeholder="Street Address"
                                 />
                             </div>
@@ -285,7 +285,7 @@ const Profile = () => {
                                     name="address.street2"
                                     value={user.address.street2}
                                     onChange={handleChange}
-                                    className="w-full bg-white/40 border border-black/10 rounded-xl px-4 py-3 text-black placeholder-black/50 focus:ring-2 focus:ring-[#0000e6] transition uppercase"
+                                    className="w-full bg-white/40 border border-black/10 rounded-xl px-4 py-3 text-black placeholder-black/50 focus:ring-2 focus:ring-white transition uppercase"
                                     placeholder="Apartment, suite, etc."
                                 />
                             </div>
@@ -296,7 +296,7 @@ const Profile = () => {
                                     name="address.city"
                                     value={user.address.city}
                                     onChange={handleChange}
-                                    className="w-full bg-white/40 border border-black/10 rounded-xl px-4 py-3 text-black placeholder-black/50 focus:ring-2 focus:ring-[#0000e6] transition uppercase"
+                                    className="w-full bg-white/40 border border-black/10 rounded-xl px-4 py-3 text-black placeholder-black/50 focus:ring-2 focus:ring-white transition uppercase"
                                     placeholder="City"
                                 />
                             </div>
@@ -307,7 +307,7 @@ const Profile = () => {
                                     name="address.district"
                                     value={user.address.district}
                                     onChange={handleChange}
-                                    className="w-full bg-white/40 border border-black/10 rounded-xl px-4 py-3 text-black placeholder-black/50 focus:ring-2 focus:ring-[#0000e6] transition uppercase"
+                                    className="w-full bg-white/40 border border-black/10 rounded-xl px-4 py-3 text-black placeholder-black/50 focus:ring-2 focus:ring-white transition uppercase"
                                     placeholder="District"
                                 />
                             </div>
@@ -318,7 +318,7 @@ const Profile = () => {
                                     name="address.state"
                                     value={user.address.state}
                                     onChange={handleChange}
-                                    className="w-full bg-white/40 border border-black/10 rounded-xl px-4 py-3 text-black placeholder-black/50 focus:ring-2 focus:ring-[#0000e6] transition uppercase"
+                                    className="w-full bg-white/40 border border-black/10 rounded-xl px-4 py-3 text-black placeholder-black/50 focus:ring-2 focus:ring-white transition uppercase"
                                     placeholder="State"
                                 />
                             </div>
@@ -329,7 +329,7 @@ const Profile = () => {
                                     name="address.pincode"
                                     value={user.address.pincode}
                                     onChange={handleChange}
-                                    className="w-full bg-white/40 border border-black/10 rounded-xl px-4 py-3 text-black placeholder-black/50 focus:ring-2 focus:ring-[#0000e6] transition uppercase"
+                                    className="w-full bg-white/40 border border-black/10 rounded-xl px-4 py-3 text-black placeholder-black/50 focus:ring-2 focus:ring-white transition uppercase"
                                     placeholder="Pincode"
                                 />
                             </div>
@@ -340,7 +340,7 @@ const Profile = () => {
                                     name="address.country"
                                     value={user.address.country}
                                     onChange={handleChange}
-                                    className="w-full bg-white/40 border border-black/10 rounded-xl px-4 py-3 text-black placeholder-black/50 focus:ring-2 focus:ring-[#0000e6] transition uppercase"
+                                    className="w-full bg-white/40 border border-black/10 rounded-xl px-4 py-3 text-black placeholder-black/50 focus:ring-2 focus:ring-white transition uppercase"
                                     placeholder="Country"
                                 />
                             </div>
@@ -352,7 +352,7 @@ const Profile = () => {
                         <button
                             type="submit"
                             disabled={saving}
-                            className="w-full bg-[#0000e6] hover:bg-[#0000cc] text-white font-bold py-4 rounded-xl shadow-lg transform transition hover:scale-[1.02] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed uppercase"
+                            className="w-full bg-white hover:bg-[#0000cc] text-white font-bold py-4 rounded-xl shadow-lg transform transition hover:scale-[1.02] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed uppercase"
                         >
                             {saving ? (
                                 <>Saving...</>

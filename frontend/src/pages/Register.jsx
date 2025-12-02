@@ -122,7 +122,7 @@ const Register = () => {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="w-full bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-indigo-700 transition"
+                className="w-full py-3 px-6 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer"
               >
                 Register
               </button>

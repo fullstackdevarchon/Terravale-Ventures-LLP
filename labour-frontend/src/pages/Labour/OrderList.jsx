@@ -243,7 +243,7 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
             disabled={isUpdating || !canShip}
             className={`px-3 py-1 text-sm font-medium rounded-md text-white inline-flex items-center gap-2 transition ${isUpdating || !canShip
               ? "bg-gray-400 cursor-not-allowed"
-              : "bg-[#0000e6] hover:bg-[#0000cc]"
+              : "bg-white hover:bg-[#0000cc]"
               }`}
           >
             <FaShippingFast /> {isUpdating && canShip ? "Updating..." : "Mark Shipped"}
@@ -253,7 +253,7 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
             disabled={isUpdating || !canDeliver}
             className={`px-3 py-1 text-sm font-medium rounded-md text-white inline-flex items-center gap-2 transition ${isUpdating || !canDeliver
               ? "bg-gray-400 cursor-not-allowed"
-              : "bg-[#0000e6] hover:bg-[#0000cc]"
+              : "bg-white hover:bg-[#0000cc]"
               }`}
           >
             <FaCheckCircle /> {isUpdating && canDeliver ? "Updating..." : "Mark Delivered"}
@@ -283,7 +283,7 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
           disabled={updating[order._id]?.action === "assign"}
           className={`px-3 py-1 text-sm font-medium rounded-md text-white inline-flex items-center gap-2 transition ${updating[order._id]?.action === "assign"
             ? "bg-gray-400 cursor-not-allowed"
-            : "bg-[#0000e6] hover:bg-[#0000cc]"
+            : "bg-white hover:bg-[#0000cc]"
             }`}
         >
           <FaBoxOpen /> {updating[order._id]?.action === "assign" ? "Assigning..." : "Take Order"}
@@ -536,7 +536,7 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
                 <div className="flex items-center gap-1 text-black">
                   <FaBoxOpen className="text-orange-600" /> {order.products?.length || 0} Items
                 </div>
-                <div className="flex items-center gap-1 text-xl font-bold text-[#0000e6]">
+                <div className="flex items-center gap-1 text-xl font-bold text-white">
                   <FaRupeeSign className="text-yellow-600" /> {order.total}
                 </div>
               </div>

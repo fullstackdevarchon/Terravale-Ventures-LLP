@@ -265,7 +265,7 @@ const Login = () => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full rounded-xl py-3 bg-[#0000e6] text-white font-semibold shadow-md hover:bg-blue-700 transition-all"
+                    className="w-full rounded-xl py-3 bg-white text-white font-semibold shadow-md hover:bg-blue-700 transition-all"
                   >
                     {loading ? "Processing..." : step === 1 ? "Send OTP" : "Reset Password"}
                   </button>
@@ -322,7 +322,7 @@ const Login = () => {
                     <button
                       type="submit"
                       disabled={loading}
-                      className="w-full rounded-xl py-3 bg-[#0000e6] text-white font-semibold shadow-md hover:bg-blue-700 transition-all hover:scale-105"
+                      className="w-full rounded-xl py-3 bg-white text-white font-semibold shadow-md hover:bg-blue-700 transition-all hover:scale-105"
                     >
                       {loading ? "Signing In..." : "Sign In"}
                     </button>

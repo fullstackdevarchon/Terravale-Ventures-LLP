@@ -261,7 +261,7 @@ const Profile = () => {
 
             <button
               onClick={toggleEdit}
-              className="px-6 py-2 bg-white/20 text-black font-bold rounded-lg border border-white/30 hover:bg-white/30 transition flex items-center gap-2 w-full sm:w-auto justify-center"
+              className="px-6 py-2 border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold cursor-pointer flex items-center gap-2 w-full sm:w-auto justify-center"
             >
               {isEditing ? <><FaSave /> CANCEL</> : <><FaEdit /> EDIT PROFILE</>}
             </button>
@@ -279,7 +279,7 @@ const Profile = () => {
 
             <InputField
               label="FULL NAME"
-              icon={<FaUser className="text-blue-600" />}
+              icon={<FaUser className="text-black" />}
               name="fullName"
               value={formData.fullName}
               onChange={handleChange}
@@ -289,7 +289,7 @@ const Profile = () => {
 
             <InputField
               label="EMAIL"
-              icon={<FaEnvelope className="text-yellow-600" />}
+              icon={<FaEnvelope className="text-black" />}
               name="email"
               value={formData.email}
               disabled
@@ -297,7 +297,7 @@ const Profile = () => {
 
             <InputField
               label="PHONE"
-              icon={<FaPhone className="text-green-600" />}
+              icon={<FaPhone className="text-black" />}
               name="phone"
               value={formData.phone}
               onChange={handleChange}
@@ -307,7 +307,7 @@ const Profile = () => {
 
             <InputField
               label="ALTERNATE PHONE (OPTIONAL)"
-              icon={<FaMobileAlt className="text-teal-600" />}
+              icon={<FaMobileAlt className="text-black" />}
               name="alternatePhone"
               value={formData.alternatePhone}
               onChange={handleChange}
@@ -317,13 +317,13 @@ const Profile = () => {
             {/* --- MAIN ADDRESS (HOME) --- */}
             <div className="sm:col-span-2 mt-6">
               <h2 className="text-xl font-bold text-black mb-4 border-b border-white/10 pb-2 flex items-center gap-2">
-                <FaHome className="text-orange-600" /> PERMANENT ADDRESS (HOME)
+                <FaHome className="text-black" /> PERMANENT ADDRESS (HOME)
               </h2>
             </div>
 
             <InputField
               label="STREET"
-              icon={<FaMapMarkerAlt className="text-red-600" />}
+              icon={<FaMapMarkerAlt className="text-black" />}
               name="street"
               value={formData.address.street}
               onChange={handleAddressChange}
@@ -334,7 +334,7 @@ const Profile = () => {
 
             <InputField
               label="STREET 2 (OPTIONAL)"
-              icon={<FaRoad className="text-gray-900" />}
+              icon={<FaRoad className="text-black" />}
               name="street2"
               value={formData.address.street2}
               onChange={handleAddressChange}
@@ -344,7 +344,7 @@ const Profile = () => {
 
             <InputField
               label="CITY"
-              icon={<FaCity className="text-indigo-900" />}
+              icon={<FaCity className="text-black" />}
               name="city"
               value={formData.address.city}
               onChange={handleAddressChange}
@@ -354,7 +354,7 @@ const Profile = () => {
 
             <InputField
               label="DISTRICT"
-              icon={<FaLocationArrow className="text-pink-600" />}
+              icon={<FaLocationArrow className="text-black" />}
               name="district"
               value={formData.address.district}
               onChange={handleAddressChange}
@@ -363,7 +363,7 @@ const Profile = () => {
 
             <InputField
               label="STATE"
-              icon={<FaGlobe className="text-cyan-600" />}
+              icon={<FaGlobe className="text-black" />}
               name="state"
               value={formData.address.state}
               onChange={handleAddressChange}
@@ -372,7 +372,7 @@ const Profile = () => {
 
             <InputField
               label="COUNTRY"
-              icon={<FaGlobe className="text-cyan-600" />}
+              icon={<FaGlobe className="text-black" />}
               name="country"
               value={formData.address.country}
               onChange={handleAddressChange}
@@ -381,7 +381,7 @@ const Profile = () => {
 
             <InputField
               label="PINCODE"
-              icon={<FaHashtag className="text-yellow-600" />}
+              icon={<FaHashtag className="text-black" />}
               name="pincode"
               value={formData.address.pincode}
               onChange={handleAddressChange}
@@ -392,7 +392,7 @@ const Profile = () => {
             {/* --- SECONDARY ADDRESS --- */}
             <div className="sm:col-span-2 mt-6">
               <h2 className="text-xl font-bold text-black mb-4 border-b border-white/10 pb-2 flex items-center gap-2">
-                <FaBuilding className="text-purple-600" /> SECONDARY ADDRESS (OPTIONAL)
+                <FaBuilding className="text-black" /> SECONDARY ADDRESS (OPTIONAL)
               </h2>
             </div>
 
@@ -403,7 +403,7 @@ const Profile = () => {
               </label>
               <div className="flex items-center gap-3 bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-3 sm:p-4 shadow-xl">
                 <span className="text-black text-lg">
-                  {formData.secondaryAddress.type === "APARTMENT" ? <FaBuilding className="text-purple-600" /> : <FaBriefcase className="text-blue-600" />}
+                  {formData.secondaryAddress.type === "APARTMENT" ? <FaBuilding className="text-black" /> : <FaBriefcase className="text-black" />}
                 </span>
                 <select
                   name="type"
@@ -420,7 +420,7 @@ const Profile = () => {
 
             <InputField
               label="STREET"
-              icon={<FaMapMarkerAlt className="text-red-600" />}
+              icon={<FaMapMarkerAlt className="text-black" />}
               name="street"
               value={formData.secondaryAddress.street}
               onChange={handleSecondaryAddressChange}
@@ -430,7 +430,7 @@ const Profile = () => {
 
             <InputField
               label="STREET 2 (OPTIONAL)"
-              icon={<FaRoad className="text-gray-900" />}
+              icon={<FaRoad className="text-black" />}
               name="street2"
               value={formData.secondaryAddress.street2}
               onChange={handleSecondaryAddressChange}
@@ -440,7 +440,7 @@ const Profile = () => {
 
             <InputField
               label="CITY"
-              icon={<FaCity className="text-indigo-900" />}
+              icon={<FaCity className="text-black" />}
               name="city"
               value={formData.secondaryAddress.city}
               onChange={handleSecondaryAddressChange}
@@ -449,7 +449,7 @@ const Profile = () => {
 
             <InputField
               label="DISTRICT"
-              icon={<FaLocationArrow className="text-pink-600" />}
+              icon={<FaLocationArrow className="text-black" />}
               name="district"
               value={formData.secondaryAddress.district}
               onChange={handleSecondaryAddressChange}
@@ -458,7 +458,7 @@ const Profile = () => {
 
             <InputField
               label="STATE"
-              icon={<FaGlobe className="text-cyan-600" />}
+              icon={<FaGlobe className="text-black" />}
               name="state"
               value={formData.secondaryAddress.state}
               onChange={handleSecondaryAddressChange}
@@ -467,7 +467,7 @@ const Profile = () => {
 
             <InputField
               label="COUNTRY"
-              icon={<FaGlobe className="text-cyan-600" />}
+              icon={<FaGlobe className="text-black" />}
               name="country"
               value={formData.secondaryAddress.country}
               onChange={handleSecondaryAddressChange}
@@ -476,7 +476,7 @@ const Profile = () => {
 
             <InputField
               label="PINCODE"
-              icon={<FaHashtag className="text-yellow-600" />}
+              icon={<FaHashtag className="text-black" />}
               name="pincode"
               value={formData.secondaryAddress.pincode}
               onChange={handleSecondaryAddressChange}
@@ -488,7 +488,7 @@ const Profile = () => {
               <div className="col-span-1 sm:col-span-2 flex justify-center sm:justify-end pt-6 border-t border-white/20">
                 <button
                   type="submit"
-                  className="px-8 py-3 bg-white/20 text-black font-bold rounded-lg border border-white/30 hover:bg-white/30 transition flex items-center gap-2 w-full sm:w-auto justify-center"
+                  className="px-8 py-3 border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold cursor-pointer flex items-center gap-2 w-full sm:w-auto justify-center"
                   disabled={saving}
                 >
                   {saving ? "SAVING..." : <><FaSave /> SAVE</>}

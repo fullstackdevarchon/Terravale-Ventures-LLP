@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../App";
 import toast from "react-hot-toast";
 import { FaUserShield, FaLock } from "react-icons/fa";
+import { GoogleLogin } from "@react-oauth/google";
+import Cookies from "js-cookie";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -27,6 +29,53 @@ const Login = () => {
       ...prev,
       [e.target.name]: e.target.value,
     }));
+  };
+
+  // ========== GOOGLE LOGIN HANDLER ==========
+  const handleGoogleSuccess = async (credentialResponse) => {
+    const idToken = credentialResponse.credential;
+
+    if (!idToken) {
+      toast.error("Google Login Failed: No ID Token Found");
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/google", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: idToken, role: "admin" }), // Requesting admin role
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(data.message || "Google Login Failed");
+        return;
+      }
+
+      // Check if the user is actually an admin
+      if (data.user.role !== "admin") {
+        toast.error("Access Denied: You are not an admin.");
+        return;
+      }
+
+      // Login Success
+      login(data);
+      Cookies.set("token", data.token, { path: "/", expires: 1 });
+      Cookies.set("role", data.user.role, { path: "/", expires: 1 });
+
+      toast.success("Welcome back, Admin!");
+      navigate("/admin-dashboard");
+
+    } catch (err) {
+      console.error("Google Login Error:", err);
+      toast.error("An error occurred during Google login.");
+    }
+  };
+
+  const handleGoogleError = () => {
+    toast.error("Google login failed. Please try again.");
   };
 
   // ========== LOGIN HANDLER ==========
@@ -194,7 +243,7 @@ const Login = () => {
             disabled={loading}
             className={`w-full flex justify-center items-center gap-2 py-3 px-4 text-sm font-bold text-white rounded-lg shadow-lg transition-all duration-300 ${loading
               ? "bg-indigo-400 cursor-not-allowed"
-              : "bg-[#0000e6] hover:bg-[#0000cc] active:scale-95"
+              : "bg-white hover:bg-[#0000cc] active:scale-95"
               }`}
           >
             {loading ? (
@@ -207,6 +256,24 @@ const Login = () => {
             )}
           </button>
         </form>
+
+        {/* Divider */}
+        <div className="my-6 flex items-center gap-3">
+          <div className="flex-1 h-px bg-black/20" />
+          <div className="text-black/60 text-sm">OR</div>
+          <div className="flex-1 h-px bg-black/20" />
+        </div>
+
+        {/* Google Login */}
+        <div className="flex justify-center">
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={handleGoogleError}
+            theme="filled_blue"
+            shape="pill"
+            width="100%"
+          />
+        </div>
 
         <p className="text-xs text-center text-black/70 mt-6">
           © {new Date().getFullYear()} Terravale Ventures LLP | All rights reserved

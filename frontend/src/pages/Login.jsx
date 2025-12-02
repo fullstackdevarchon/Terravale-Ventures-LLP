@@ -330,8 +330,7 @@ const Login = () => {
 
                   <button
                     type="submit"
-                    className="w-full rounded-xl py-2.5 bg-[#0000e6]
-                      text-white font-semibold shadow-md"
+                    className="w-full py-2.5 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer"
                   >
                     {step === 1 ? "Send OTP" : "Reset Password"}
                   </button>
@@ -339,7 +338,7 @@ const Login = () => {
                   <button
                     type="button"
                     onClick={() => setIsForgot(false)}
-                    className="text-sm text-[#0000e6] underline block mx-auto mt-2"
+                    className="text-sm text-white underline block mx-auto mt-2"
                   >
                     Back to Login
                   </button>
@@ -386,12 +385,7 @@ const Login = () => {
                     </div>
                     <button
                       type="submit"
-                      className="
-                      w-60 mx-auto flex justify-center rounded-xl py-2.5
-                      bg-[#0000e6]
-                      text-white font-semibold shadow-md 
-                      hover:shadow-lg hover:scale-105 transition-all duration-300
-                    "
+                      className="w-60 mx-auto flex justify-center py-2.5 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer"
                     >
                       {isRegister ? "Sign-Up" : "Sign-In"}
                     </button>
@@ -419,7 +413,7 @@ const Login = () => {
                         Already have an account?{" "}
                         <button
                           onClick={() => setIsRegister(false)}
-                          className="text-[#0000e6] underline"
+                          className="text-black hover:text-white underline"
                         >
                           Sign-In
                         </button>
@@ -429,7 +423,7 @@ const Login = () => {
                         New here?{" "}
                         <button
                           onClick={() => setIsRegister(true)}
-                          className="text-[#0000e6] underline"
+                          className="text-black hover:text-white underline"
                         >
                           Sign-Up
                         </button>
@@ -452,8 +446,8 @@ const Login = () => {
 
           <div className="mt-6 text-center text-xs text-black">
             By continuing you agree to our{" "}
-            <a href="/terms" className="text-[#0000e6] underline">Terms</a> &{" "}
-            <a href="/terms" className="text-[#0000e6] underline">Privacy</a>.
+            <a href="/terms" className="text-black hover:text-white underline">Terms</a> &{" "}
+            <a href="/terms" className="text-black hover:text-white underline">Privacy</a>.
           </div>
         </div>
       </main>

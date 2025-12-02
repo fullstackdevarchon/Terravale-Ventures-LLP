@@ -337,16 +337,7 @@ const ProductList = () => {
                       </div>
 
                       <div className="pt-3 border-t border-gray-100 flex justify-between items-center mt-auto">
-                        <div>
-                          <p className="text-xs text-gray-500">Price</p>
-                          <p className="text-xl font-bold text-blue-700">₹ {product.price}</p>
-                        </div>
-                        <button
-                          onClick={() => addProduct(product)}
-                          className="px-4 py-2 bg-black text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors"
-                        >
-                          Add to Cart
-                        </button>
+                        <p className="text-xl font-bold text-black">Price: ₹ {product.price}</p>
                       </div>
                     </div>
                   </div>

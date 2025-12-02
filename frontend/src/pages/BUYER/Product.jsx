@@ -112,13 +112,13 @@ const Product = () => {
           ₹ {product?.price}
         </h2>
 
-        <p className="text-black/80 leading-relaxed text-lg border-l-4 border-[#0000e6] pl-4">
+        <p className="text-black/80 leading-relaxed text-lg border-l-4 border-white pl-4">
           {product?.description}
         </p>
 
         <div className="flex gap-4 pt-4">
           <button
-            className="px-8 py-4 bg-[#0000e6] text-white font-bold rounded-xl shadow-lg hover:bg-blue-800 hover:scale-105 transition-all duration-300 flex items-center gap-3 text-lg group"
+            className="px-8 py-4 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer flex items-center gap-3 group"
             onClick={() => addProduct(product)}
           >
             <FaShoppingCart className="group-hover:rotate-12 transition-transform" /> Add to Cart

@@ -30,16 +30,7 @@ const Cart = () => {
       </p>
       <Link
         to="/product"
-        className="
-          px-8 py-3 
-          text-white
-          rounded-xl 
-          shadow 
-          border border-white/30 
-          bg-[#0000e6]
-          hover:scale-105
-          transition
-        "
+        className="px-8 py-3 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer"
       >
         <i className="fa fa-arrow-left mr-2"></i> Continue Shopping
       </Link>
@@ -76,7 +67,7 @@ const Cart = () => {
                     <img
                       src={item.image}
                       alt={item.title}
-                      className="w-28 h-28 object-contain bg-white/20 rounded-xl border border-white/20 p-2 shadow"
+                      className="w-28 h-28 object-cover rounded-xl border border-white/20 shadow"
                     />
 
                     {/* PRODUCT DETAILS */}
@@ -162,13 +153,7 @@ const Cart = () => {
 
               <Link
                 to="/buyer-dashboard/Checkout"
-                className="
-                  mt-6 block w-full text-center
-                  text-white font-semibold py-3 rounded-xl shadow
-                  bg-[#0000e6]
-                  hover:scale-105
-                  transition
-                "
+                className="mt-6 block w-full text-center py-2.5 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer"
               >
                 Proceed to Checkout
               </Link>

@@ -37,7 +37,7 @@ const AssignTask = () => {
         <div className="flex justify-center mb-8">
           <button
             onClick={handleAssign}
-            className="px-8 py-3 bg-[#0000e6] text-white rounded-xl font-bold hover:bg-[#0000cc] shadow-lg transition transform hover:scale-105"
+            className="px-8 py-3 bg-white text-white rounded-xl font-bold hover:bg-[#0000cc] shadow-lg transition transform hover:scale-105"
           >
             Assign Task
           </button>
@@ -50,7 +50,7 @@ const AssignTask = () => {
             <div className="space-y-3">
               {notifications.map((n, i) => (
                 <div key={i} className="bg-white/40 backdrop-blur-md p-4 rounded-xl border border-white/20 shadow-sm">
-                  <b className="text-[#0000e6] block mb-1">{n.title}</b>
+                  <b className="text-white block mb-1">{n.title}</b>
                   <p className="text-black font-medium">{n.message}</p>
                 </div>
               ))}

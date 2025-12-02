@@ -144,12 +144,12 @@ const MyProducts = () => {
                   </h3>
 
                   <p className="text-xl font-bold text-black mb-2 flex items-center gap-2">
-                    <FaRupeeSign className="text-yellow-900" /> {product.price}
+                    <FaRupeeSign className="text-black" /> {product.price}
                   </p>
 
                   {product.description && (
                     <div className="flex items-start gap-2 mb-1">
-                      <FaAlignLeft className="text-purple-900 mt-1 min-w-[16px] flex-shrink-0" />
+                      <FaAlignLeft className="text-black mt-1 min-w-[16px] flex-shrink-0" />
                       <p className="text-black/70 text-sm line-clamp-2">
                         {product.description}
                       </p>
@@ -158,17 +158,17 @@ const MyProducts = () => {
 
                   {product.weight && (
                     <p className="text-black/80 text-sm mb-2 flex items-center gap-2">
-                      <FaBalanceScale className="text-green-900" />
+                      <FaBalanceScale className="text-black" />
                       <strong>Weight:</strong> {product.weight}
                     </p>
                   )}
 
                   <div className="flex justify-between text-sm mb-4">
                     <span className="font-semibold text-black/80 flex items-center gap-2">
-                      <FaBoxOpen className="text-blue-900" /> Stock: {product.quantity}
+                      <FaBoxOpen className="text-black" /> Stock: {product.quantity}
                     </span>
                     <span className="font-semibold text-black/80 flex items-center gap-2">
-                      <FaChartLine className="text-orange-900" /> Sold: {product.sold || 0}
+                      <FaChartLine className="text-black" /> Sold: {product.sold || 0}
                     </span>
                   </div>
 
@@ -176,9 +176,9 @@ const MyProducts = () => {
                   <div className="flex gap-3">
                     <button
                       onClick={() => handleEdit(product)}
-                      className="flex items-center justify-center gap-2 bg-[#0000e6] hover:bg-[#0000cc] text-white px-3 py-2 rounded-lg transition flex-1"
+                      className="flex items-center justify-center gap-2 border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold cursor-pointer flex-1 px-3 py-2"
                     >
-                      <FaEdit className="text-yellow-300" /> Edit
+                      <FaEdit className="text-black" /> Edit
                     </button>
 
                     <button
@@ -214,21 +214,21 @@ const MyProducts = () => {
                 type="number"
                 value={newStock}
                 onChange={(e) => setNewStock(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg bg-white text-black border border-gray-300 focus:ring-2 focus:ring-[#0000e6] outline-none mb-4"
+                className="w-full px-3 py-2 rounded-lg bg-white text-black border border-gray-300 focus:ring-2 focus:ring-white outline-none mb-4"
                 placeholder="Enter new quantity"
               />
 
               <div className="flex justify-end gap-3">
                 <button
                   onClick={() => setEditingProduct(null)}
-                  className="px-4 py-2 rounded-lg border border-gray-400 hover:bg-gray-200 transition text-black"
+                  className="px-4 py-2 border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold cursor-pointer"
                 >
                   Cancel
                 </button>
 
                 <button
                   onClick={handleUpdateStock}
-                  className="px-4 py-2 rounded-lg bg-[#0000e6] hover:bg-[#0000cc] text-white transition"
+                  className="px-4 py-2 border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold cursor-pointer"
                 >
                   Save
                 </button>
@@ -242,7 +242,7 @@ const MyProducts = () => {
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-50 animate-fadeIn">
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all scale-100 p-6 text-center">
               <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
-                <FaExclamationTriangle className="h-6 w-6 text-red-600" />
+                <FaExclamationTriangle className="h-6 w-6 text-black" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">Delete Product?</h3>
               <p className="text-sm text-gray-500 mb-6">
@@ -251,13 +251,13 @@ const MyProducts = () => {
               <div className="flex justify-center gap-3">
                 <button
                   onClick={() => setDeleteModal({ isOpen: false, productId: null })}
-                  className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition"
+                  className="px-4 py-2 border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={confirmDelete}
-                  className="px-4 py-2 rounded-lg bg-red-600 text-white font-bold hover:bg-red-700 shadow-md transition"
+                  className="px-4 py-2 border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold cursor-pointer"
                 >
                   Yes, Delete
                 </button>

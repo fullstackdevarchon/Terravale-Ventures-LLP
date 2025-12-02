@@ -78,14 +78,11 @@ const Home = () => {
           <Link to="/login">
             <button
               className="
-                px-12 py-4 text-lg font-semibold 
-                rounded-lg 
-                bg-[#0000e6]
-                text-white
-                shadow-xl hover:shadow-2xl 
-                transition-all duration-300 
-                hover:scale-110
-                backdrop-blur-md
+                    flex items-center px-8 py-4
+                    border border-white/40 text-black text-lg
+                    rounded-md bg-white/10 
+                    hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white
+                    transition shadow-md font-semibold
               "
             >
               Explore Now

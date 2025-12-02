@@ -74,7 +74,7 @@ const AddLabour = () => {
                 placeholder="Enter full name"
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 text-black placeholder-black/50 bg-white/40 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0000e6] focus:border-transparent transition"
+                className="w-full px-4 py-3 text-black placeholder-black/50 bg-white/40 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent transition"
               />
             </div>
 
@@ -90,7 +90,7 @@ const AddLabour = () => {
                 placeholder="Enter email"
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 text-black placeholder-black/50 bg-white/40 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0000e6] focus:border-transparent transition"
+                className="w-full px-4 py-3 text-black placeholder-black/50 bg-white/40 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent transition"
               />
             </div>
 
@@ -106,7 +106,7 @@ const AddLabour = () => {
                 placeholder="Enter password"
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 text-black placeholder-black/50 bg-white/40 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0000e6] focus:border-transparent transition"
+                className="w-full px-4 py-3 text-black placeholder-black/50 bg-white/40 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent transition"
               />
             </div>
 
@@ -115,9 +115,9 @@ const AddLabour = () => {
               type="submit"
               disabled={loading}
               className={`${loading
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-[#0000e6] hover:bg-[#0000cc]"
-                } text-white px-6 py-3 rounded-lg font-bold transition duration-300 shadow-md`}
+                ? "backdrop-blur-xl bg-white/10 border border-white/20 text-white px-6 py-3 rounded-lg font-bold transition duration-300 shadow-md"
+                : "backdrop-blur-xl bg-white/10 border border-white/20 text-white px-6 py-3 rounded-lg font-bold transition duration-300 shadow-md hover:bg-blue-800"
+                }`}
             >
               {loading ? "Adding..." : "Add Labour"}
             </button>

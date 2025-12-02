@@ -141,13 +141,7 @@ const ProductList = () => {
         <div className="w-full md:w-auto md:absolute md:left-0 flex justify-start z-10">
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className={`
-              group flex items-center gap-3 px-6 py-3 rounded-full font-bold tracking-wide transition-all duration-300 shadow-lg hover:shadow-blue-500/30 active:scale-95
-              ${showFilters
-                ? 'bg-red-500 text-white hover:bg-red-600'
-                : 'bg-gradient-to-r from-blue-600 to-violet-600 text-white hover:from-blue-700 hover:to-violet-700'
-              }
-            `}
+            className="group flex items-center gap-3 px-6 py-3 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer"
           >
             {showFilters ? <FaTimes /> : <FaFilter />}
             {showFilters ? "Close Filters" : "Filter Products"}
@@ -275,15 +269,14 @@ const ProductList = () => {
                   group-hover:opacity-100 transition-opacity duration-300 z-20">
                     <Link
                       to={`/product/${product._id}`}
-                      className="p-3 bg-black/70 hover:bg-black text-white rounded-full shadow-md"
+                      className="p-3 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer"
                     >
                       <FaCreditCard />
                     </Link>
 
                     <button
                       onClick={() => addProduct(product)}
-                      className="p-3 bg-white/70 text-black border border-black 
-                      hover:bg-black hover:text-white rounded-full shadow-md transition"
+                      className="p-3 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer"
                     >
                       <FaShoppingCart />
                     </button>
@@ -314,17 +307,17 @@ const ProductList = () => {
 
                     <div className="flex justify-between items-center border-t border-white/30 pt-3 mt-auto">
                       <div>
-                        <p className="text-xs text-black/70">Price</p>
-                        <p className="text-xl font-bold text-[#0000e6]">
+                        <p className="text-xs text-black font-bold text-xl">Price</p>
+                        <p className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                           ₹ {product.price}
-                          <span className="text-sm font-normal text-black ml-1">
+                          <span className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                             ({product.weight})
                           </span>
                         </p>
                       </div>
 
                       <div className={`flex items-center gap-1 text-xs font-bold px-2 py-1 rounded
-                        ${product.quantity > 0 ? 'bg-green-500/20 text-green-800' : 'bg-red-500/20 text-red-800'}`}>
+                        ${product.quantity > 0 ? 'bg-green-200/20 text-green-900' : 'bg-red-200/20 text-red-900'}`}>
                         <FaBoxes /> {product.quantity > 0 ? product.quantity : '0'}
                       </div>
                     </div>

@@ -67,7 +67,7 @@ const Stepper = ({ currentStep, cancelled }) => (
                   ${cancelled
                     ? "bg-red-300"
                     : isCompleted
-                      ? "bg-[#0000e6]"
+                      ? "bg-white"
                       : "bg-gray-300"}
                 `}
               ></div>
@@ -82,7 +82,7 @@ const Stepper = ({ currentStep, cancelled }) => (
               ${cancelled
                 ? "bg-red-500 text-white"
                 : isCompleted || isActive
-                  ? "bg-[#0000e6] text-white"
+                  ? "bg-white text-white"
                   : "bg-gray-300 text-gray-700"
               }
             `}
@@ -128,7 +128,7 @@ const OrderCard = ({ order, onCancel, isExpanded, toggleExpand }) => {
           </h3>
 
           <div className="mt-2 text-sm text-black flex items-center gap-2">
-            <FaCalendarAlt className="text-orange-500 animate-pulse" />
+            <FaCalendarAlt className="text-orange-100" />
             <span>
               Ordered on{" "}
               <span className="font-semibold text-black">
@@ -138,7 +138,7 @@ const OrderCard = ({ order, onCancel, isExpanded, toggleExpand }) => {
           </div>
 
           <div className="mt-2 flex items-center gap-2 text-sm text-black">
-            <FaMapMarkerAlt className="text-red-500 animate-bounce" />
+            <FaMapMarkerAlt className="text-red-100" />
             <span className="truncate">
               Deliver to: {formatAddress(order.address)}
             </span>
@@ -178,7 +178,7 @@ const OrderCard = ({ order, onCancel, isExpanded, toggleExpand }) => {
             onClick={toggleExpand}
             className="
               px-4 py-2 text-sm border rounded-lg
-              bg-[#0000e6] text-white border-[#0000e6]
+              bg-white text-white border-white
               hover:bg-blue-800 transition flex items-center shadow-md hover:scale-105
             "
           >
@@ -194,8 +194,8 @@ const OrderCard = ({ order, onCancel, isExpanded, toggleExpand }) => {
               onClick={() => onCancel(order._id)}
               className="
                 px-3 py-2 text-sm border rounded-lg
-                text-red-300 bg-red-500/20 border-red-400/40
-                hover:bg-red-500/30 transition shadow-sm
+                text-red-500 bg-red-200 border-red-900
+                hover:bg-red-500/30 hover:text-red-100 transition shadow-sm
               "
             >
               Cancel My Order
@@ -319,7 +319,7 @@ const OrderList = () => {
                   onClick={() => setFilter(f)}
                   className={`px-4 py-2 rounded-full text-sm shadow transition-all
                     ${active
-                      ? "bg-[#0000e6] text-white shadow-blue-300 scale-105"
+                      ? "bg-white text-white shadow-blue-300 scale-105"
                       : "bg-white border border-gray-300 text-black hover:bg-gray-100"
                     }`}
                 >
@@ -341,7 +341,7 @@ const OrderList = () => {
                   w-full pl-10 pr-3 py-2 rounded-xl
                   border border-gray-300 bg-white/80 text-black
                   placeholder-gray-500 shadow-sm
-                  focus:outline-none focus:ring-2 focus:ring-[#0000e6]
+                  focus:outline-none focus:ring-2 focus:ring-white
                 "
               />
             </div>
@@ -357,7 +357,7 @@ const OrderList = () => {
             </p>
             <Link
               to="/"
-              className="inline-block mt-6 px-5 py-2.5 bg-[#0000e6] text-white rounded-lg shadow-md hover:bg-blue-800"
+              className="inline-block mt-6 px-5 py-2.5 bg-white text-white rounded-lg shadow-md hover:bg-blue-800"
             >
               Continue Shopping
             </Link>

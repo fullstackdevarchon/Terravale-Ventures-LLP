@@ -46,7 +46,7 @@ const AboutPage = () => {
 
             <p className="text-lg leading-relaxed text-black font-medium">
               Born from the heart of Kerala's spice valleys,{" "}
-              <span className="font-bold text-green-900">
+              <span className="font-bold text-black">
                 Terravale Ventures LLP
               </span>{" "}
               is more than a company — it is a bridge between tradition and the

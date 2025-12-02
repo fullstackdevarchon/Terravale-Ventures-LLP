@@ -43,7 +43,7 @@ const Product = () => {
         const related = productsData.filter(
           (item) =>
             item.category.toLowerCase() ===
-              foundProduct.category.toLowerCase() && item.id !== foundProduct.id
+            foundProduct.category.toLowerCase() && item.id !== foundProduct.id
         );
         setSimilarProducts(related);
       }
@@ -106,14 +106,14 @@ const Product = () => {
 
         <div className="flex gap-4">
           <button
-            className="px-6 py-3 bg-gray-900 text-white rounded-lg shadow-md hover:bg-gray-800 transition flex items-center gap-2"
+            className="px-6 py-3 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer flex items-center gap-2"
             onClick={() => addProduct(product)}
           >
             <FaShoppingCart /> Add to Cart
           </button>
           <Link
             to="/cart"
-            className="px-6 py-3 border border-gray-900 text-gray-900 rounded-lg shadow-md hover:bg-gray-900 hover:text-white transition"
+            className="px-6 py-3 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer"
           >
             Go to Cart
           </Link>
@@ -169,13 +169,13 @@ const Product = () => {
               {/* ✅ Correct Dynamic Link (buyer-dashboard path) */}
               <Link
                 to={`/product/${item.id}`}
-                className="px-4 py-2 text-center bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition"
+                className="px-4 py-2 text-center border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer"
               >
                 <FaCreditCard className="inline mr-2" /> Buy Now
               </Link>
               <button
                 onClick={() => addProduct(item)}
-                className="px-4 py-2 text-center border border-gray-900 text-gray-900 rounded-lg hover:bg-gray-900 hover:text-white transition"
+                className="px-4 py-2 text-center border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer"
               >
                 <FaShoppingCart className="inline mr-2" /> Add to Cart
               </button>

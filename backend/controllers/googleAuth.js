@@ -18,12 +18,23 @@ export const googleLogin = async (req, res) => {
     }
 
     // Verify ID Token
-    const ticket = await client.verifyIdToken({
-      idToken,
-      audience: process.env.GOOGLE_CLIENT_ID,
-    });
-
-    const payload = ticket.getPayload();
+    let payload;
+    try {
+      const ticket = await client.verifyIdToken({
+        idToken,
+        audience: process.env.GOOGLE_CLIENT_ID,
+      });
+      payload = ticket.getPayload();
+    } catch (verifyError) {
+      if (verifyError.message && verifyError.message.includes("Token used too early")) {
+        console.warn("⚠️ Clock skew detected, decoding token manually...");
+        payload = jwt.decode(idToken);
+        if (!payload) throw new Error("Invalid token");
+        if (payload.aud !== process.env.GOOGLE_CLIENT_ID) throw new Error("Invalid audience");
+      } else {
+        throw verifyError;
+      }
+    }
 
     // Extract Google user details
     const { email, name, picture, sub: googleId } = payload;

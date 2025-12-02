@@ -183,14 +183,14 @@ const AdminDashboard = () => {
               <h1 className="text-5xl font-extrabold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl">
                 Admin Dashboard
               </h1>
-              <p className="text-black mt-2 font-medium">
+              <p className="text-white mt-2 font-medium">
                 Welcome back,{" "}
-                <span className="font-bold text-black">Admin</span> 👋
+                <span className="font-bold text-white">Admin</span> 👋
               </p>
             </div>
-            <div className="mt-4 md:mt-0 text-sm text-black font-medium">
+            <div className="mt-4 md:mt-0 text-sm text-white font-medium">
               Last updated:{" "}
-              <span className="font-bold text-black">
+              <span className="font-bold text-white">
                 {new Date().toLocaleString()}
               </span>
             </div>
@@ -207,9 +207,9 @@ const AdminDashboard = () => {
               >
                 <div className="relative flex items-start justify-between z-10">
                   <div>
-                    <h2 className="text-lg font-bold text-black">{card.title}</h2>
-                    <p className="mt-2 text-3xl font-extrabold text-[#0000e6]">{card.count}</p>
-                    <p className="mt-2 text-sm text-black/80 font-medium">
+                    <h2 className="text-lg font-bold text-white">{card.title}</h2>
+                    <p className="mt-2 text-3xl font-extrabold text-white">{card.count}</p>
+                    <p className="mt-2 text-sm text-white font-medium">
                       {card.description}
                     </p>
                   </div>

@@ -88,27 +88,17 @@ const CartPage = () => {
         {/* Empty Cart */}
         {cartItems.length === 0 ? (
           <div className="flex flex-col items-center justify-center flex-grow text-center">
-            <FaShoppingBasket className="text-6xl text-gray-300 mb-4 animate-pulse" />
+            <FaShoppingBasket className="text-6xl text-gray-200 mb-4" />
             <h2 className="text-4xl font-bold text-black drop-shadow mb-4">
               Your Cart is Empty
             </h2>
-            <p className="text-gray-600 mb-6">
+            <p className="text-black mb-6">
               Looks like you haven't added anything yet.
             </p>
 
             <Link
               to="/buyer-dashboard/products"
-              className="
-                px-8 py-3 
-                text-white 
-                rounded-xl 
-                shadow-lg
-                bg-[#0000e6]
-                hover:bg-blue-800
-                hover:scale-105
-                transition-all duration-300
-                flex items-center gap-2
-              "
+              className="px-8 py-3 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer flex items-center gap-2"
             >
               <FaArrowLeft className="animate-pulse" />
               Continue Shopping
@@ -119,7 +109,7 @@ const CartPage = () => {
             {/* Cart Items */}
             <div className="md:col-span-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-2xl">
               <h2 className="text-3xl font-bold text-black mb-6 flex items-center gap-2">
-                <FaShoppingCart className="text-[#0000e6]" /> Shopping Cart
+                Shopping Cart
               </h2>
 
               <div className="space-y-6">
@@ -136,27 +126,24 @@ const CartPage = () => {
 
                     <div className="flex-1 text-center sm:text-left">
                       <h3 className="text-xl font-bold text-black flex items-center justify-center sm:justify-start gap-2">
-                        <FaTag className="text-purple-900 animate-pulse" />
+                        <FaTag className="text-purple-900 " />
                         {item.name}
                       </h3>
 
                       {/* Product Description */}
                       {item.description && (
                         <p className="text-sm text-black mt-1 flex items-center justify-center sm:justify-start gap-1">
-                          <FaInfoCircle className="text-blue-400" />
                           {item.description.substring(0, 60)}...
                         </p>
                       )}
 
                       {item.weight && (
                         <p className="text-sm text-black mt-1 flex items-center justify-center sm:justify-start gap-1">
-                          <FaWeightHanging className="text-teal-500" />
                           Weight: {item.weight}
                         </p>
                       )}
 
-                      <p className="text-black text-sm font-medium mt-1 flex items-center justify-center sm:justify-start gap-1">
-                        <FaMoneyBillWave className="text-green-900" />
+                      <p className="text-black font-bold text-lg mt-1 flex items-center justify-center sm:justify-start gap-1">
                         ₹{item.price.toFixed(2)} each
                       </p>
 
@@ -191,13 +178,12 @@ const CartPage = () => {
 
                     <div className="flex flex-col items-center sm:items-end space-y-2">
                       <div className="text-xl font-bold text-black flex items-center gap-1">
-                        <FaMoneyBillWave className="text-green-600 animate-bounce" />
                         ₹{(item.price * item.qty).toFixed(2)}
                       </div>
 
                       <button
                         onClick={() => dispatch(delCart(item))}
-                        className="text-red-500 hover:text-red-700 text-lg transition hover:rotate-12"
+                        className="text-red-700 hover:text-red-900 text-lg transition hover:rotate-12"
                         title="Remove Item"
                       >
                         <FaTrash />
@@ -211,27 +197,27 @@ const CartPage = () => {
             {/* Order Summary */}
             <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-2xl h-max">
               <h2 className="text-3xl font-bold text-black mb-6 flex items-center gap-2">
-                <FaCalculator className="text-orange-500 animate-pulse" /> Order Summary
+                Order Summary
               </h2>
 
               <ul className="space-y-4 text-black text-lg">
                 <li className="flex justify-between items-center">
                   <span className="flex items-center gap-2">
-                    <FaMoneyBillWave className="text-green-900" /> Subtotal
+                    Subtotal
                   </span>
                   <span className="font-semibold">₹{subtotal.toFixed(2)}</span>
                 </li>
 
                 <li className="flex justify-between items-center">
                   <span className="flex items-center gap-2">
-                    <FaTruck className="text-blue-900" /> Shipping
+                    Shipping
                   </span>
                   <span className="font-semibold">₹{shipping.toFixed(2)}</span>
                 </li>
 
                 <li className="flex justify-between border-t border-gray-300 pt-4 text-2xl font-bold text-black">
                   <span className="flex items-center gap-2">
-                    <FaMoneyCheckAlt className="text-[#0000e6]" /> Total
+                    <FaMoneyCheckAlt className="text-white" /> Total
                   </span>
                   <span>₹{total.toFixed(2)}</span>
                 </li>
@@ -241,16 +227,7 @@ const CartPage = () => {
               <button
                 onClick={loading ? null : handleCheckout}
                 disabled={loading}
-                className="
-                  mt-6 block w-full text-center
-                  text-white font-bold py-3 rounded-xl shadow-lg
-                  bg-[#0000e6]
-                  hover:bg-blue-800
-                  hover:scale-105
-                  transition-all duration-300
-                  flex items-center justify-center gap-2
-                  disabled:opacity-60 disabled:cursor-not-allowed
-                "
+                className="mt-6 block w-full text-center border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer py-3 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <span className="flex items-center gap-3">

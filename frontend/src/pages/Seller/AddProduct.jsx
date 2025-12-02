@@ -117,7 +117,7 @@ function AddProduct() {
       <div className="p-6 max-w-6xl mx-auto">
 
         <h2 className="text-5xl font-extrabold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl flex items-center justify-center gap-3">
-          <FaPlusCircle className="text-[#0000e6]" /> Add New Product
+          Add New Product
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -132,7 +132,7 @@ function AddProduct() {
               {/* Name */}
               <div>
                 <label className="font-semibold text-sm flex items-center gap-2">
-                  <FaTag className="text-blue-600" /> Product Name
+                  <FaTag className="text-black" /> Product Name
                 </label>
                 <input
                   type="text"
@@ -142,7 +142,7 @@ function AddProduct() {
                   required
                   className="
                     w-full mt-1 p-3 rounded-lg bg-white/50 text-black
-                    border border-white/30 focus:ring-2 focus:ring-[#0000e6]
+                    border border-white/30 focus:ring-2 focus:ring-white
                   "
                 />
               </div>
@@ -150,7 +150,7 @@ function AddProduct() {
               {/* Price */}
               <div>
                 <label className="font-semibold text-sm flex items-center gap-2">
-                  <FaRupeeSign className="text-yellow-900" /> Price
+                  <FaRupeeSign className="text-black" /> Price
                 </label>
                 <input
                   type="number"
@@ -160,7 +160,7 @@ function AddProduct() {
                   required
                   className="
                     w-full mt-1 p-3 rounded-lg bg-white/50 text-black
-                    border border-white/30 focus:ring-2 focus:ring-[#0000e6]
+                    border border-white/30 focus:ring-2 focus:ring-white
                   "
                 />
               </div>
@@ -171,7 +171,7 @@ function AddProduct() {
                 {/* Weight */}
                 <div>
                   <label className="font-semibold text-sm flex items-center gap-2">
-                    <FaBalanceScale className="text-green-900" /> Weight
+                    <FaBalanceScale className="text-black" /> Weight
                   </label>
 
                   <select
@@ -203,7 +203,7 @@ function AddProduct() {
                       placeholder="Enter weight"
                       className="
                         w-full mt-2 p-3 rounded-lg bg-white/50 text-black
-                        border border-white/30 focus:ring-2 focus:ring-[#0000e6]
+                        border border-white/30 focus:ring-2 focus:ring-white
                       "
                     />
                   )}
@@ -213,7 +213,7 @@ function AddProduct() {
                 {/* Quantity */}
                 <div>
                   <label className="font-semibold text-sm flex items-center gap-2">
-                    <FaBoxes className="text-orange-900" /> Quantity
+                    <FaBoxes className="text-black" /> Quantity
                   </label>
                   <input
                     type="number"
@@ -222,7 +222,7 @@ function AddProduct() {
                     onChange={handleChange}
                     className="
                       w-full mt-1 p-3 rounded-lg bg-white/50 text-black
-                      border border-white/30 focus:ring-2 focus:ring-[#0000e6]
+                      border border-white/30 focus:ring-2 focus:ring-white
                     "
                     required
                   />
@@ -232,7 +232,7 @@ function AddProduct() {
               {/* Description */}
               <div>
                 <label className="font-semibold text-sm flex items-center gap-2">
-                  <FaAlignLeft className="text-purple-900" /> Description
+                  <FaAlignLeft className="text-black" /> Description
                 </label>
                 <textarea
                   name="description"
@@ -241,7 +241,7 @@ function AddProduct() {
                   rows="4"
                   className="
                     w-full mt-1 p-3 rounded-lg bg-white/50 text-black
-                    border border-white/30 focus:ring-2 focus:ring-[#0000e6]
+                    border border-white/30 focus:ring-2 focus:ring-white
                   "
                 />
               </div>
@@ -249,7 +249,7 @@ function AddProduct() {
               {/* Category */}
               <div>
                 <label className="font-semibold text-sm flex items-center gap-2">
-                  <FaListAlt className="text-pink-900" /> Category
+                  <FaListAlt className="text-black" /> Category
                 </label>
 
                 <select
@@ -260,7 +260,7 @@ function AddProduct() {
                   className="
                     w-full mt-1 p-3 rounded-lg text-black
                     bg-white/50 border border-white/40 backdrop-blur-xl
-                    focus:ring-2 focus:ring-[#0000e6]
+                    focus:ring-2 focus:ring-white
                     hover:bg-white/60 transition
                   "
                 >
@@ -274,14 +274,13 @@ function AddProduct() {
               {/* Image */}
               <div>
                 <label className="font-semibold text-sm mb-1 flex items-center gap-2">
-                  <FaImage className="text-teal-900" /> Product Image
+                  <FaImage className="text-black" /> Product Image
                 </label>
 
                 <label
                   className="
                     cursor-pointer flex items-center justify-center gap-3
-                    p-4 rounded-xl border border-dashed border-[#0000e6]
-                    bg-white/10 hover:bg-white/20 transition text-[#0000e6] font-bold
+                    p-4 border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold
                   "
                 >
                   <FaUpload /> Upload Image
@@ -300,9 +299,7 @@ function AddProduct() {
                 type="submit"
                 disabled={loading}
                 className="
-                  w-full py-3 rounded-xl font-semibold
-                  bg-[#0000e6] hover:bg-[#0000cc] text-white
-                  shadow-lg hover:shadow-blue-500/40 transition
+                  w-full py-3 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer
                 "
               >
                 {loading ? "Submitting..." : "➕ Add Product"}
@@ -335,7 +332,7 @@ function AddProduct() {
 
             <div className="text-center mt-4 space-y-2">
               <h3 className="text-xl font-semibold">{form.name || "Product Name"}</h3>
-              <p className="text-[#0000e6] text-lg font-bold">
+              <p className="text-gray-200 text-lg font-bold">
                 {form.price ? `₹${form.price}` : "Price"}
               </p>
               <p className="text-black/80">⚖️ {displayWeight || "Weight"}</p>

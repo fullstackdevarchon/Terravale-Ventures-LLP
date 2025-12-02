@@ -172,7 +172,7 @@ const LabourOrders = () => {
     switch (v) {
       case "order placed":
       case "confirmed":
-        return { cls: "bg-blue-100 text-blue-800", icon: <FaClipboardList /> };
+        return { cls: "bg-blue-100 text-black", icon: <FaClipboardList /> };
       case "shipped":
         return { cls: "bg-purple-100 text-purple-800", icon: <FaShippingFast /> };
       case "delivered":
@@ -238,19 +238,19 @@ const LabourOrders = () => {
             </div>
             <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-xl shadow-lg p-3 text-center">
               <div className="text-sm text-black font-bold">Delivered</div>
-              <div className="text-xl font-extrabold text-green-600">
+              <div className="text-xl font-extrabold text-black">
                 {stats.delivered}
               </div>
             </div>
             <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-xl shadow-lg p-3 text-center">
               <div className="text-sm text-black font-bold">Pending</div>
-              <div className="text-xl font-extrabold text-amber-600">
+              <div className="text-xl font-extrabold text-black">
                 {stats.pending}
               </div>
             </div>
             <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-xl shadow-lg p-3 text-center">
               <div className="text-sm text-black font-bold">Unassigned</div>
-              <div className="text-xl font-extrabold text-[#0000e6]">
+              <div className="text-xl font-extrabold text-black">
                 {stats.unassigned}
               </div>
             </div>

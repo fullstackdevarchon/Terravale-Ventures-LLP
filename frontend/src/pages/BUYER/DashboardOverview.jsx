@@ -257,10 +257,10 @@ const DashboardOverview = () => {
                     </div>
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-medium border ${order.currentStatus?.status === "Delivered"
-                        ? "bg-green-500/10 text-green-300 border-green-500/30"
+                        ? "bg-green-100/10 text-green-900 border-green-900"
                         : order.currentStatus?.status === "Cancelled"
-                          ? "bg-red-500/10 text-red-300 border-red-500/30"
-                          : "bg-yellow-500/10 text-yellow-300 border-yellow-500/30"
+                          ? "bg-red-100/10 text-red-900 border-red-900"
+                          : "bg-yellow-100/10 text-yellow-900 border-yellow-900"
                         }`}
                     >
                       {order.currentStatus?.status || "Pending"}

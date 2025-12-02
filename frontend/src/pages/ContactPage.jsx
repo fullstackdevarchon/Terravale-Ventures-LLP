@@ -83,9 +83,7 @@ const ContactPage = () => {
                 <button
                   type="submit"
                   disabled
-                  className="mt-6 w-full py-3 text-md font-semibold rounded-lg 
-                  text-white shadow-lg disabled:opacity-100 
-                  bg-[#0000e6]"
+                  className="mt-6 w-full py-3 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer"
                 >
                   Send Message
                 </button>
@@ -107,7 +105,7 @@ const ContactPage = () => {
                   {/* Office */}
                   <div className="flex items-center gap-4 group">
                     <div className="p-4 bg-white/20 rounded-xl shadow-md transition-colors duration-300 group-hover:bg-[#1B3C2B]">
-                      <MapPin className="h-6 w-6 text-[#0000e6] transition-colors duration-300 group-hover:text-yellow-400" />
+                      <MapPin className="h-6 w-6 text-black transition-colors duration-300 group-hover:text-yellow-400" />
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-black">Office Location</h3>
@@ -121,7 +119,7 @@ const ContactPage = () => {
                   {/* Phone */}
                   <div className="flex items-center gap-4 group">
                     <div className="p-4 bg-white/20 rounded-xl shadow-md transition-colors duration-300 group-hover:bg-[#1B3C2B]">
-                      <Phone className="h-6 w-6 text-[#0000e6] transition-colors duration-300 group-hover:text-yellow-400" />
+                      <Phone className="h-6 w-6 text-black transition-colors duration-300 group-hover:text-yellow-400" />
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-black">Phone</h3>
@@ -132,7 +130,7 @@ const ContactPage = () => {
                   {/* Email */}
                   <div className="flex items-center gap-4 group">
                     <div className="p-4 bg-white/20 rounded-xl shadow-md transition-colors duration-300 group-hover:bg-[#1B3C2B]">
-                      <Mail className="h-6 w-6 text-[#0000e6] transition-colors duration-300 group-hover:text-yellow-400" />
+                      <Mail className="h-6 w-6 text-black transition-colors duration-300 group-hover:text-yellow-400" />
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-black">Email</h3>

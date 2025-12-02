@@ -316,7 +316,7 @@ const Checkout = () => {
             </h2>
             <Link
               to="/buyer-dashboard/products"
-              className="px-6 py-3 bg-[#0000e6] text-white rounded-lg shadow hover:bg-[#0000cc] transition"
+              className="px-6 py-3 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer"
             >
               CONTINUE SHOPPING
             </Link>
@@ -337,7 +337,7 @@ const Checkout = () => {
                   type="button"
                   onClick={() => handleAddressTypeChange("HOME")}
                   className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl border transition-all duration-300 ${selectedType === "HOME"
-                    ? "bg-[#0000e6] text-white border-[#0000e6] font-bold shadow-lg scale-105"
+                    ? "bg-white text-white border-white font-bold shadow-lg scale-105"
                     : "bg-white/10 text-black border-white/20 hover:bg-white/20"
                     }`}
                 >
@@ -347,7 +347,7 @@ const Checkout = () => {
                   type="button"
                   onClick={() => handleAddressTypeChange("SECONDARY")}
                   className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl border transition-all duration-300 ${selectedType === "SECONDARY"
-                    ? "bg-[#0000e6] text-white border-[#0000e6] font-bold shadow-lg scale-105"
+                    ? "bg-white text-white border-white font-bold shadow-lg scale-105"
                     : "bg-white/10 text-black border-white/20 hover:bg-white/20"
                     }`}
                 >
@@ -517,7 +517,7 @@ const Checkout = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full mt-6 bg-[#0000e6] text-white py-3 rounded-lg shadow hover:bg-[#0000cc] transition"
+                className="w-full mt-6 py-3 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer"
               >
                 {loading ? "PLACING ORDER..." : "PLACE ORDER (COD)"}
               </button>

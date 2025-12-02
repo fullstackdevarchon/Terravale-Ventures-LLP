@@ -116,13 +116,13 @@ const DashboardOverview = () => {
             <h1 className="text-4xl font-extrabold mb-2">
               Welcome to Your Dashboard! 🌾
             </h1>
-            <p className="text-black/70 text-lg">
+            <p className="text-black text-lg">
               Manage your products and track your sales performance.
             </p>
           </div>
 
           {/* STATS */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-black">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-black font-bold text-lg">
             <StatCard
               icon={<FaBoxOpen />}
               title="Total Products"
@@ -172,12 +172,10 @@ const DashboardOverview = () => {
                 className="
                   group
                   flex items-center justify-center gap-3
-                  backdrop-blur-xl bg-blue-300/50 border border-blue-200/50
-                  text-black p-4 rounded-xl font-semibold
-                  hover:bg-blue-200/60 hover:scale-105 transition-all
+                  border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold cursor-pointer p-4
                 "
               >
-                <FaPlusCircle className="text-xl text-blue-600 group-hover:rotate-90 transition-transform duration-300" /> Add New Product
+                <FaPlusCircle className="text-xl text-blue-900 group-hover:rotate-90 transition-transform duration-300" /> Add New Product
               </Link>
 
               <Link
@@ -185,12 +183,10 @@ const DashboardOverview = () => {
                 className="
                   group
                   flex items-center justify-center gap-3
-                  backdrop-blur-xl bg-green-300/50 border border-green-200/50
-                  text-black p-4 rounded-xl font-semibold
-                  hover:bg-green-200/60 hover:scale-105 transition-all
+                  border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold cursor-pointer p-4
                 "
               >
-                <FaBoxOpen className="text-xl text-green-600 group-hover:rotate-12 transition-transform duration-300" /> View My Products
+                <FaBoxOpen className="text-xl text-green-900 group-hover:rotate-12 transition-transform duration-300" /> View My Products
               </Link>
 
               <Link
@@ -198,12 +194,10 @@ const DashboardOverview = () => {
                 className="
                   group
                   flex items-center justify-center gap-3
-                  backdrop-blur-xl bg-orange-300/50 border border-orange-200/50
-                  text-black p-4 rounded-xl font-semibold
-                  hover:bg-orange-200/60 hover:scale-105 transition-all
+                  border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold cursor-pointer p-4
                 "
               >
-                <FaClipboardCheck className="text-xl text-orange-600 group-hover:rotate-12 transition-transform duration-300" /> Check Status
+                <FaClipboardCheck className="text-xl text-orange-900 group-hover:rotate-12 transition-transform duration-300" /> Check Status
               </Link>
 
             </div>
@@ -259,7 +253,7 @@ const DashboardOverview = () => {
                         {product.name}
                       </h3>
 
-                      <p className="text-blue-700 font-bold mt-1">
+                      <p className="text-gray-200 font-bold mt-1">
                         ₹{product.price}
                       </p>
 
@@ -293,9 +287,7 @@ const DashboardOverview = () => {
                 to="/seller/add-product"
                 className="
                   inline-flex items-center
-                  backdrop-blur-xl bg-orange-100 border border-orange-300/30
-                  text-black px-6 py-3 rounded-xl font-semibold
-                  hover:bg-orange-200 hover:scale-105 transition-all
+                  border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold cursor-pointer px-6 py-3
                 "
               >
                 <FaPlusCircle className="inline mr-2 text-orange-600" />

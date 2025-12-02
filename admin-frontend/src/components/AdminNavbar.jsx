@@ -7,7 +7,7 @@ import {
   FaClipboardList,
   FaChartLine,
   FaSignOutAlt,
-  FaBars,  
+  FaBars,
   FaTimes,
   FaWarehouse,
   FaTruck,
@@ -55,7 +55,7 @@ const AdminNavbar = () => {
         to="/admin-dashboard"
         className="flex items-center gap-2 relative group"
       >
-        <FaChartLine />
+        <FaChartLine className="text-white transition-colors" />
         Dashboard
         <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
       </Link>
@@ -64,7 +64,7 @@ const AdminNavbar = () => {
         to="/admin-dashboard/categories"
         className="flex items-center gap-2 relative group"
       >
-        <FaTags />
+        <FaTags className="text-white transition-colors" />
         Categories
         <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
       </Link>
@@ -84,7 +84,7 @@ const AdminNavbar = () => {
             onClick={handleLogout}
             className="flex items-center gap-2 hover:text-red-300 transition"
           >
-            <FaSignOutAlt /> Logout
+            <FaSignOutAlt className="text-white group-hover:text-red-300 transition-colors" /> Logout
           </button>
         </div>
 
@@ -108,7 +108,7 @@ const AdminNavbar = () => {
             }}
             className="flex items-center gap-2 text-red-200 border-b border-white/40 pb-2"
           >
-            <FaSignOutAlt /> Logout
+            <FaSignOutAlt className="text-white" /> Logout
           </button>
         </div>
       )}

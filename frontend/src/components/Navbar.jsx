@@ -125,14 +125,10 @@ const Navbar = () => {
               <button
                 onClick={() => setIsDesktopLoginOpen(!isDesktopLoginOpen)}
                 className="
-                    flex items-center px-4 py-2 
-                    border border-white/40 text-white
-                    rounded-md bg-white/10 
-                    hover:bg-[rgba(27,60,43,0.6)] hover:scale-105
-                    transition shadow-md font-semibold
+                    flex items-center px-4 py-2 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer
                   "
               >
-                <FiLogIn className="mr-2 text-yellow-400" /> Login
+                <FiLogIn className="mr-2 text-white group-hover:text-yellow-400" /> Login
                 <FiChevronDown
                   className={`ml-2 transition ${isDesktopLoginOpen ? "rotate-180" : ""}`}
                 />
@@ -156,7 +152,7 @@ const Navbar = () => {
                           font-bold text-[15px]
                         "
                     >
-                      <FiUser className="text-green-700" /> {role.toUpperCase()}
+                      <FiUser className="text-white group-hover:text-green-700" /> {role.toUpperCase()}
                     </button>
                   ))}
                 </div>
@@ -167,14 +163,10 @@ const Navbar = () => {
             <NavLink
               to="/cart"
               className="
-                  flex items-center px-4 py-2 
-                  border border-white/40 text-white 
-                  rounded-md bg-white/10 
-                  hover:bg-[rgba(27,60,43,0.6)] hover:scale-105
-                  transition shadow-md font-semibold group
+                  flex items-center px-4 py-2 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer group
                 "
             >
-              <FiShoppingCart className="mr-2 text-[#1B3C2B] group-hover:text-yellow-400" />
+              <FiShoppingCart className="mr-2 text-white group-hover:text-yellow-400" />
               {loading ? (
                 <Skeleton width={40} height={20} baseColor="#999" />
               ) : (
@@ -220,7 +212,7 @@ const Navbar = () => {
               onClick={() => setIsMobileLoginOpen(!isMobileLoginOpen)}
               className="w-full py-3 flex items-center justify-center"
             >
-              <FiLogIn className="mr-2 text-yellow-400" /> Login
+              <FiLogIn className="mr-2 text-white group-hover:text-yellow-400" /> Login
               <FiChevronDown
                 className={`ml-2 transition ${isMobileLoginOpen ? "rotate-180" : ""}`}
               />
@@ -238,7 +230,7 @@ const Navbar = () => {
                       font-bold
                     "
                   >
-                    <FiUser className="text-yellow-300" /> {role.toUpperCase()}
+                    <FiUser className="text-white group-hover:text-yellow-300" /> {role.toUpperCase()}
                   </button>
                 ))}
               </div>
@@ -254,7 +246,7 @@ const Navbar = () => {
               rounded-lg hover:bg-green-700 font-semibold
             "
           >
-            <FiShoppingCart className="inline mr-2 text-[#1B3C2B]" /> Cart ({cartState.length})
+            <FiShoppingCart className="inline mr-2 text-white group-hover:text-[#1B3C2B]" /> Cart ({cartState.length})
           </NavLink>
         </div>
       )}

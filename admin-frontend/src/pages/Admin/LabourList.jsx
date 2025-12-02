@@ -87,7 +87,7 @@ const LabourList = () => {
                         className="w-8 h-8 rounded-full object-cover border border-gray-300"
                       />
                     ) : (
-                      <FaUser className="text-[#0000e6]" />
+                      <FaUser className="text-white" />
                     )}
                     {labour.fullName}
                   </h3>
@@ -108,13 +108,13 @@ const LabourList = () => {
                 <div className="mt-6 flex justify-between items-center pt-4 border-t border-white/20">
                   <button
                     onClick={() => setSelectedLabour(labour)}
-                    className="flex items-center gap-2 bg-[#0000e6] text-white px-4 py-2 rounded-lg font-bold hover:bg-blue-800 transition duration-200 shadow-md"
+                    className="backdrop-blur-xl bg-white/10 border border-white/20 text-white px-4 py-2 rounded-lg font-bold hover:bg-blue-800 transition duration-200 shadow-md flex items-center gap-2"
                   >
                     <FaInfoCircle /> Info
                   </button>
                   <button
                     onClick={() => handleDelete(labour._id)}
-                    className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-red-700 transition duration-200 shadow-md"
+                    className="backdrop-blur-xl bg-white/10 border border-white/20 text-white px-4 py-2 rounded-lg font-bold hover:bg-red-700 transition duration-200 shadow-md flex items-center gap-2"
                   >
                     <FaTrashAlt /> Delete
                   </button>
@@ -129,9 +129,9 @@ const LabourList = () => {
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fadeIn">
             <div className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden border border-white/40 transform transition-all scale-100">
               {/* Modal Header */}
-              <div className="bg-gradient-to-r from-[#0000e6] to-blue-600 p-6 flex justify-between items-center">
-                <h3 className="text-2xl font-extrabold text-white flex items-center gap-3">
-                  <FaUser className="text-white" /> Labour Details
+              <div className="bg-gradient-to-r from-green-400 to-blue-600 p-6 flex justify-between items-center">
+                <h3 className="text-2xl font-extrabold text-black flex items-center gap-3">
+                  <FaUser className="text-blue-600" /> Labour Details
                 </h3>
                 <button
                   onClick={() => setSelectedLabour(null)}
@@ -154,7 +154,7 @@ const LabourList = () => {
                       />
                     ) : (
                       <div className="p-3">
-                        <FaUser className="text-[#0000e6] text-xl" />
+                        <FaUser className="text-white text-xl" />
                       </div>
                     )}
                   </div>

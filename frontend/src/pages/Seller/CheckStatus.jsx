@@ -68,20 +68,20 @@ function CheckStatus() {
     switch (status.toLowerCase()) {
       case "pending":
         return (
-          <span className="flex items-center gap-2 text-yellow-700 bg-yellow-500/20 border border-yellow-500/30 px-3 py-1 rounded-full text-sm font-semibold backdrop-blur-md">
+          <span className="inline-flex items-center gap-2 text-yellow-700 bg-yellow-500/20 border border-yellow-500/30 px-3 py-1 rounded-full text-sm font-semibold backdrop-blur-md">
             <FaClock /> Pending
           </span>
         );
       case "approved":
       case "accepted":
         return (
-          <span className="flex items-center gap-2 text-green-700 bg-green-500/20 border border-green-500/30 px-3 py-1 rounded-full text-sm font-semibold backdrop-blur-md">
+          <span className="inline-flex items-center gap-2 text-green-700 bg-green-500/20 border border-green-500/30 px-3 py-1 rounded-full text-sm font-semibold backdrop-blur-md">
             <FaCheckCircle /> Accepted
           </span>
         );
       case "rejected":
         return (
-          <span className="flex items-center gap-2 text-red-700 bg-red-500/20 border border-red-500/30 px-3 py-1 rounded-full text-sm font-semibold backdrop-blur-md">
+          <span className="inline-flex items-center gap-2 text-red-700 bg-red-500/20 border border-red-500/30 px-3 py-1 rounded-full text-sm font-semibold backdrop-blur-md">
             <FaTimesCircle /> Rejected
           </span>
         );
@@ -124,27 +124,27 @@ function CheckStatus() {
                 {/* Product Body */}
                 <div className="p-5">
                   <h3 className="text-lg font-bold mb-1 truncate flex items-center gap-2">
-                    <FaTag className="text-blue-600" /> {product.name}
+                    <FaTag className="text-black" /> {product.name}
                   </h3>
 
                   <p className="text-sm text-black/70 mb-1 flex items-center gap-2">
-                    <FaListAlt className="text-pink-600" /> {product.category?.name || "Uncategorized"}
+                    <FaListAlt className="text-black" /> {product.category?.name || "Uncategorized"}
                   </p>
 
-                  <p className="text-xl font-bold text-[#0000e6] mb-3 flex items-center gap-2">
-                    <FaRupeeSign className="text-yellow-700" /> {product.price}
+                  <p className="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <FaRupeeSign className="text-black" /> {product.price}
                   </p>
 
                   {/* Weight & Quantity */}
                   <div className="flex items-center justify-between mb-3 text-sm text-black/80">
                     <span className="flex items-center gap-2">
-                      <FaBalanceScale className="text-green-900" />
+                      <FaBalanceScale className="text-black" />
                       <span className="font-medium">Weight:</span>{" "}
                       {product.weight}
                     </span>
 
                     <span className="flex items-center gap-2">
-                      <FaBoxes className="text-orange-600" />
+                      <FaBoxes className="text-black" />
                       <span className="font-medium">Qty:</span>{" "}
                       {product.quantity}
                     </span>
@@ -155,7 +155,7 @@ function CheckStatus() {
 
                   {/* Admin Note */}
                   <p className="text-sm text-black/70 mb-3 flex items-start gap-2">
-                    <FaUserShield className="text-purple-900 mt-1 min-w-[16px]" />
+                    <FaUserShield className="text-black mt-1 min-w-[16px]" />
                     <span>
                       <span className="font-semibold text-black">Admin:</span>{" "}
                       {product.rejectionReason

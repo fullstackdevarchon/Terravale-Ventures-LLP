@@ -73,19 +73,19 @@ const SellerNavbar = () => {
             <div className="hidden md:flex items-center gap-8">
               <NavLink to="/seller/add-product" className={navItemClass}>
                 <span className="inline-flex items-center gap-2">
-                  <FaPlusCircle className="text-green-400" /> Add Product
+                  <FaPlusCircle/> Add Product
                 </span>
               </NavLink>
 
               <NavLink to="/seller/my-products" className={navItemClass}>
                 <span className="inline-flex items-center gap-2">
-                  <FaBoxOpen className="text-orange-400" /> My Products
+                  <FaBoxOpen /> My Products
                 </span>
               </NavLink>
 
               <NavLink to="/seller/check-status" className={navItemClass}>
                 <span className="inline-flex items-center gap-2">
-                  <FaClipboardCheck className="text-blue-400" /> Check Status
+                  <FaClipboardCheck /> Check Status
                 </span>
               </NavLink>
 
@@ -95,8 +95,7 @@ const SellerNavbar = () => {
                 className="
                   text-red-300 hover:text-red-200 
                   font-semibold flex items-center gap-2 px-4 py-2 
-                  bg-white/10 border border-white/30 rounded-lg 
-                  hover:bg-red-800/40 transition
+                  border border-white/40 text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md cursor-pointer
                 "
               >
                 <FaSignOutAlt /> Logout

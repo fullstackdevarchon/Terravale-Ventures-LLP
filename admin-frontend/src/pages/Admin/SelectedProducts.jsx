@@ -200,8 +200,8 @@ const SelectedProducts = () => {
                         </h3>
                         <p
                           className={`text-sm mt-1 font-bold ${category.enabled
-                              ? "text-green-600"
-                              : "text-red-600"
+                            ? "text-green-600"
+                            : "text-red-600"
                             }`}
                         >
                           {category.enabled ? "Enabled" : "Disabled"}
@@ -232,12 +232,12 @@ const SelectedProducts = () => {
                         onChange={(e) =>
                           handleLimitChange(category._id, e.target.value)
                         }
-                        className="w-24 px-3 py-2 border border-white/30 bg-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0000e6] text-black font-bold text-center"
+                        className="w-24 px-3 py-2 border border-white/30 bg-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-white text-black font-bold text-center"
                       />
                       {editingLimits[category._id] !== undefined && (
                         <button
                           onClick={() => handleSaveLimit(category._id)}
-                          className="flex items-center gap-1 px-4 py-2 rounded-lg bg-[#0000e6] text-white hover:bg-[#0000cc] transition-all font-bold shadow-md"
+                          className="flex items-center gap-1 px-4 py-2 rounded-lg bg-white text-white hover:bg-[#0000cc] transition-all font-bold shadow-md"
                         >
                           <Save size={16} /> Save
                         </button>
@@ -248,8 +248,8 @@ const SelectedProducts = () => {
                     <button
                       onClick={() => handleToggle(category._id)}
                       className={`w-full py-3 flex items-center justify-center gap-2 rounded-xl text-white font-bold shadow-lg transition-all transform active:scale-95 ${category.enabled
-                          ? "bg-red-600 hover:bg-red-900"
-                          : "bg-green-600 hover:bg-green-900"
+                        ? "bg-red-600 hover:bg-red-900"
+                        : "bg-green-600 hover:bg-green-900"
                         }`}
                     >
                       {category.enabled ? (

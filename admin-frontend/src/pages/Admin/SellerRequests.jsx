@@ -188,7 +188,7 @@ const SellerRequests = () => {
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="px-4 py-2 rounded-xl bg-white/40 border border-white/30 text-black shadow-md focus:ring-2 focus:ring-[#0000e6] focus:outline-none backdrop-blur-sm font-medium"
+              className="px-4 py-2 rounded-xl bg-white/40 border border-white/30 text-black shadow-md focus:ring-2 focus:ring-white focus:outline-none backdrop-blur-sm font-medium"
             >
               <option value="All">All Categories</option>
               {categories.map((cat) => (
@@ -202,7 +202,7 @@ const SellerRequests = () => {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-4 py-2 rounded-xl bg-white/40 border border-white/30 text-black shadow-md focus:ring-2 focus:ring-[#0000e6] focus:outline-none backdrop-blur-sm font-medium"
+              className="px-4 py-2 rounded-xl bg-white/40 border border-white/30 text-black shadow-md focus:ring-2 focus:ring-white focus:outline-none backdrop-blur-sm font-medium"
             >
               <option value="pending">Pending</option>
               <option value="approved">Approved</option>
@@ -284,7 +284,7 @@ const SellerRequests = () => {
                       <div className="grid grid-cols-2 gap-4 mb-4">
                         <div className="flex flex-row gap-1">
                           <span className="text-xm text-black font-bold flex items-center gap-1">
-                            <FaUser className="text-blue-900" /> Seller :
+                            Seller :
                           </span>
                           <span className="text-xm font-bold text-black">
                             {req.seller?.fullName || "N/A"}
@@ -292,15 +292,15 @@ const SellerRequests = () => {
                         </div>
                         <div className="flex flex-row gap-1">
                           <span className="text-xm text-black font-bold flex items-center gap-1">
-                            <FaTag className="text-green-900" />  Price :
+                            Price :
                           </span>
-                          <span className="text-xm font-bold text-[#0000e6]">
+                          <span className="text-xm font-bold text-white">
                             ₹{req.price}
                           </span>
                         </div>
                         <div className="flex flex-row gap-1">
                           <span className="text-xm text-black font-bold flex items-center gap-1">
-                            <FaWeightHanging className="text-orange-900" /> Weight :
+                            Weight :
                           </span>
                           <span className="text-xm font-bold text-black">
                             {req.weight}
@@ -308,7 +308,7 @@ const SellerRequests = () => {
                         </div>
                         <div className="flex flex-row gap-1">
                           <span className="text-xm text-black font-bold flex items-center gap-1">
-                            <FaBox className="text-purple-900" /> Quantity :
+                            Quantity :
                           </span>
                           <span className="text-xm font-bold text-black">
                             {req.quantity}
@@ -317,8 +317,8 @@ const SellerRequests = () => {
                       </div>
 
                       {category && (
-                        <div className="text-xs mt-2 text-black/60 bg-white/20 p-2 rounded-lg mb-3 font-medium text-center border border-white/10">
-                          Category Limit: <span className="font-bold text-black">{category.limit}</span> | Approved: <span className={`font-bold ${approvedCount >= category.limit ? "text-red-600" : "text-green-600"}`}>{approvedCount}</span>
+                        <div className="text-xs mt-2 text-black bg-white/20 p-2 rounded-lg mb-3 font-medium text-center border border-white/10">
+                          Category Limit: <span className="font-bold text-black">{category.limit}</span> | Approved: <span className={`font-bold ${approvedCount >= category.limit ? "text-red-600" : "text-black"}`}>{approvedCount}</span>
                         </div>
                       )}
 
@@ -340,7 +340,7 @@ const SellerRequests = () => {
                         <div className="mt-auto space-y-3">
                           <button
                             onClick={() => updateStatus(req._id, "Approved")}
-                            className="w-full bg-[#0000e6] hover:bg-blue-800 text-white py-2.5 rounded-xl font-bold flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-md transition transform active:scale-95"
+                            className="backdrop-blur-xl bg-white/10 border border-white/20 text-white w-full hover:bg-blue-800 text-white py-2.5 rounded-xl font-bold flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-md transition transform active:scale-95"
                             disabled={
                               category &&
                               getApprovedCount(category.name) >= category.limit
@@ -357,7 +357,7 @@ const SellerRequests = () => {
                                   [req._id]: true,
                                 }))
                               }
-                              className="w-full bg-red-600 hover:bg-red-700 text-white py-2.5 rounded-xl font-bold flex justify-center items-center gap-2 shadow-md transition transform active:scale-95"
+                              className="backdrop-blur-xl bg-white/10 border border-white/20 text-white w-full bg-red-600 hover:bg-red-700 text-white py-2.5 rounded-xl font-bold flex justify-center items-center gap-2 shadow-md transition transform active:scale-95"
                             >
                               <FaTimes /> Reject
                             </button>

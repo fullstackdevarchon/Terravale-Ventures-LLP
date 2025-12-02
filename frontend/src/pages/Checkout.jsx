@@ -23,7 +23,7 @@ const Checkout = () => {
       </h4>
       <Link
         to="/"
-        className="px-6 py-3 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 transition"
+        className="px-6 py-3 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer"
       >
         <i className="fa fa-arrow-left mr-2"></i> Continue Shopping
       </Link>
@@ -41,7 +41,7 @@ const Checkout = () => {
     });
 
     return (
-      
+
       <section className="min-h-[70vh] bg-gradient-to-br from-gray-50 via-white to-gray-100 py-10 px-4">
         <div className="container mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Order Summary */}
@@ -220,7 +220,7 @@ const Checkout = () => {
               <button
                 type="submit"
                 disabled
-                className="w-full bg-indigo-600 text-white font-semibold py-3 rounded-lg shadow hover:bg-indigo-700 transition mt-6"
+                className="w-full py-3 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer mt-6"
               >
                 Continue to Checkout
               </button>

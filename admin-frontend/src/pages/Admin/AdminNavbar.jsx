@@ -117,7 +117,6 @@ const AdminNavbar = () => {
                   to={`/admin-dashboard/${path}`}
                   className="flex items-center gap-2 px-3 py-2 rounded-md transition duration-200 hover:bg-[rgba(27,60,43,0.6)] hover:text-black focus:text-yellow-300 active:text-yellow-300"
                 >
-                  <Icon className={`${color} group-hover:text-black`} />
                   {text}
                 </Link>
               ))}
@@ -128,7 +127,6 @@ const AdminNavbar = () => {
                   onClick={() => setManagementOpen(!managementOpen)}
                   className="flex items-center gap-2 px-3 py-2 rounded-md transition duration-200 hover:bg-[rgba(27,60,43,0.6)] hover:text-black focus:text-yellow-300 active:text-yellow-300 font-medium"
                 >
-                  <FaTasks className="text-red-400 group-hover:text-black" />
                   Management
                   <FaChevronDown
                     className={`text-xs transition-transform duration-300 ${managementOpen ? "rotate-180" : ""
@@ -149,7 +147,7 @@ const AdminNavbar = () => {
                       onClick={() => setManagementOpen(false)}
                       className="flex items-center gap-3 w-full text-left px-4 py-3 hover:bg-green-100 font-bold text-[15px]"
                     >
-                      <Icon className={color} /> {text}
+                      {text}
                     </Link>
                   ))}
                 </div>
@@ -161,7 +159,6 @@ const AdminNavbar = () => {
                   onClick={() => setDeliveryOpen(!deliveryOpen)}
                   className="flex items-center gap-2 px-3 py-2 rounded-md transition duration-200 hover:bg-[rgba(27,60,43,0.6)] hover:text-black focus:text-yellow-300 active:text-yellow-300 font-medium"
                 >
-                  <FaTruck className="text-lime-400 group-hover:text-black" />
                   Delivery
                   <FaChevronDown
                     className={`text-xs transition-transform duration-300 ${deliveryOpen ? "rotate-180" : ""
@@ -182,7 +179,7 @@ const AdminNavbar = () => {
                       onClick={() => setDeliveryOpen(false)}
                       className="flex items-center gap-3 w-full text-left px-4 py-3 hover:bg-green-100 font-bold text-[15px]"
                     >
-                      <Icon className={color} /> {text}
+                      {text}
                     </Link>
                   ))}
                 </div>
@@ -226,7 +223,6 @@ const AdminNavbar = () => {
                 onClick={() => setMenuOpen(false)}
                 className="flex items-center gap-3 py-4 px-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all active:scale-95"
               >
-                <Icon className={`${color} text-xl`} />
                 <span className="text-lg font-bold text-white">{text}</span>
               </Link>
             ))}
@@ -238,7 +234,6 @@ const AdminNavbar = () => {
                 className="w-full py-4 px-4 flex items-center justify-between hover:bg-white/5 transition-colors"
               >
                 <div className="flex items-center gap-3">
-                  <FaTasks className="text-red-400 text-xl" />
                   <span className="text-lg font-bold text-white">Management</span>
                 </div>
                 <FaChevronDown
@@ -257,7 +252,6 @@ const AdminNavbar = () => {
                     onClick={() => setMenuOpen(false)}
                     className="flex items-center gap-3 px-8 py-3 hover:bg-white/10 text-white/90 transition-colors"
                   >
-                    <Icon className={color} />
                     <span className="font-medium">{text}</span>
                   </Link>
                 ))}
@@ -271,7 +265,6 @@ const AdminNavbar = () => {
                 className="w-full py-4 px-4 flex items-center justify-between hover:bg-white/5 transition-colors"
               >
                 <div className="flex items-center gap-3">
-                  <FaTruck className="text-lime-400 text-xl" />
                   <span className="text-lg font-bold text-white">Delivery</span>
                 </div>
                 <FaChevronDown
@@ -290,7 +283,6 @@ const AdminNavbar = () => {
                     onClick={() => setMenuOpen(false)}
                     className="flex items-center gap-3 px-8 py-3 hover:bg-white/10 text-white/90 transition-colors"
                   >
-                    <Icon className={color} />
                     <span className="font-medium">{text}</span>
                   </Link>
                 ))}
