@@ -8,4 +8,7 @@ export default defineConfig({
     outDir: 'dist', // output folder as requested
   },
   base: './', // ensures relative paths work for Netlify
+  define: {
+    __DEFINES__: {},
+  },
 });
