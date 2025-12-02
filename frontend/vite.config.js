@@ -7,4 +7,9 @@ export default defineConfig({
     outDir: "dist",
   },
   base: "/",  // <-- Very important for Render static hosting
+  define: {
+    __DEFINES__: {},
+    __HMR_CONFIG_NAME__: 'null',
+    __BASE__: '"/"',
+  },
 });
