@@ -4,18 +4,14 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
 
-  base: "/",  // Required for Render static hosting
+  base: "/", // Required for Render
 
   build: {
     outDir: "dist",
   },
 
-  define: {
-    __SERVER_HOST__ : JSON.stringify(process.env.VITE_API_URL), 
-  },
-
   server: {
     host: true,
     port: 5173,
-  },
+  }
 });
