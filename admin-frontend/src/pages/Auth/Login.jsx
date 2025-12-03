@@ -242,11 +242,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className={`flex items-center px-8 py-4
-                    border border-white/40 text-black text-lg
-                    rounded-md bg-white/10 
-                    hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white
-                    transition shadow-md font-semibold ${loading
+            className={`w-full py-2.5 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer ${loading
               ? "bg-indigo-400 cursor-not-allowed"
               : "bg-white hover:bg-[#0000cc] active:scale-95"
               }`}
