@@ -23,16 +23,18 @@ import googleRoutes from "./routes/google.routes.js";
 dotenv.config();
 const app = express();
 
-// ===================================================
-// ✅ CORS (Render-friendly)
-// ===================================================
+// =========================================
+// ✅ CORS CONFIG
+// =========================================
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://terravale.onrender.com",
+  process.env.FRONTEND_URL?.replace(/\/+$/, ""), // Remove trailing slash
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://terravale.onrender.com/",
-      process.env.FRONTEND_URL,     // e.g. https://terravale.onrender.com
-    ],
+    origin: allowedOrigins,
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -43,9 +45,9 @@ app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(cookieParser());
 
-// ===================================================
-// 📌 API ROUTES
-// ===================================================
+// =========================================
+// 📌 ROUTES
+// =========================================
 app.use("/api/users", userRoutes);
 app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/categories", categoryRoutes);
@@ -58,33 +60,26 @@ app.use("/api/forgot", forgotRoutes);
 app.use("/api/notifications", pushRoutes);
 app.use("/api/auth/google", googleRoutes);
 
-// ===================================================
-// ❗ Render Backend — DO NOT SERVE FRONTEND
-// ===================================================
 app.get("/", (req, res) => {
   res.send("🚀 Terravale Backend API is running successfully!");
 });
 
-// ===================================================
-// 📌 MongoDB Connection
-// ===================================================
+// =========================================
+// 📌 MONGODB
+// =========================================
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB Connected"))
   .catch((err) => console.error("❌ MongoDB Error:", err));
 
-// ===================================================
-// 📌 SOCKET.IO Setup
-// ===================================================
+// =========================================
+// 📌 SOCKET.IO
+// =========================================
 const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: [
-      "http://localhost:5173",
-      "https://terravale.onrender.com/",
-      process.env.FRONTEND_URL,
-    ],
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -92,11 +87,11 @@ const io = new Server(server, {
 
 app.set("io", io);
 
-// ===================================================
-// 📌 Web Push
-// ===================================================
+// =========================================
+// 📌 WEB PUSH
+// =========================================
 if (!process.env.VAPID_PUBLIC_KEY || !process.env.VAPID_PRIVATE_KEY) {
-  console.error("❌ Missing VAPID keys. Add them in .env");
+  console.error("❌ Missing VAPID Public/Private Keys");
   process.exit(1);
 }
 
@@ -106,9 +101,9 @@ webpush.setVapidDetails(
   process.env.VAPID_PRIVATE_KEY
 );
 
-// ===================================================
-// 📌 Socket Events
-// ===================================================
+// =========================================
+// 📌 SOCKET EVENTS
+// =========================================
 io.on("connection", (socket) => {
   console.log("⚡ Client connected:", socket.id);
 
@@ -132,7 +127,7 @@ io.on("connection", (socket) => {
     if (role === "admin") io.to("admin").emit("receiveNotification", data);
     else io.to(role).emit("receiveNotification", data);
 
-    // Web push
+    // Push notifications via Web Push
     try {
       const { default: Subscription } = await import("./models/Subscription.js");
       const subs = await Subscription.find({ role });
@@ -152,9 +147,9 @@ io.on("connection", (socket) => {
   });
 });
 
-// ===================================================
-// 🚀 Start Server
-// ===================================================
+// =========================================
+// 🚀 START SERVER
+// =========================================
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
