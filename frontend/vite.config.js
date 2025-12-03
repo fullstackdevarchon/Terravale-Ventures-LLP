@@ -4,16 +4,20 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
 
-  // Vercel serves from root, so base is "/"
-  base: "/",
+  base: "/",  // Required for Render static hosting
 
   build: {
     outDir: "dist",
   },
 
-  // ONLY STATIC CONSTANTS HERE
   define: {
-    __APP_VERSION__: JSON.stringify("1.0.0"), // optional
+    __SERVER_HOST__: JSON.stringify(process.env.VITE_API_URL),
+    __DEFINES__: { SERVER_HOST: process.env.VITE_API_URL },
+    __HMR_CONFIG_NAME__: JSON.stringify(process.env.VITE_HMR_CONFIG_NAME || ""),
+    __BASE__: JSON.stringify(process.env.BASE_URL || ""),
+    __HMR_PROTOCOL__: JSON.stringify(process.env.VITE_HMR_PROTOCOL || ""),
+    __HMR_PORT__: JSON.stringify(process.env.VITE_HMR_PORT || ""),
+    __HMR_HOSTNAME__: JSON.stringify(process.env.VITE_HMR_HOSTNAME || "")
   },
 
   server: {
