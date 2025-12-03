@@ -12,7 +12,8 @@ export default defineConfig({
 
   define: {
     __SERVER_HOST__: JSON.stringify(process.env.VITE_API_URL),
-    __DEFINES__: { SERVER_HOST: process.env.VITE_API_URL }
+    __DEFINES__: { SERVER_HOST: process.env.VITE_API_URL },
+    __HMR_CONFIG_NAME__: JSON.stringify(process.env.VITE_HMR_CONFIG_NAME || "")
   },
 
   server: {
