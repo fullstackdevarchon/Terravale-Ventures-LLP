@@ -15,9 +15,9 @@ const generateToken = (user) => {
 const setTokenCookie = (res, token) => {
   res.cookie("token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
-    maxAge: 24 * 60 * 60 * 1000 // 1 day
+    secure: true,
+    sameSite: "none",
+    path: "/",
   });
 };
 
@@ -36,9 +36,9 @@ export const isAuthenticated = async (req, res, next) => {
 
     if (!token) {
       console.log('❌ No token provided');
-      return res.status(401).json({ 
-        success: false, 
-        message: "Please login to access this resource" 
+      return res.status(401).json({
+        success: false,
+        message: "Please login to access this resource"
       });
     }
 
@@ -60,13 +60,13 @@ export const isAuthenticated = async (req, res, next) => {
       }
 
       if (!principal) {
-        console.error('❌ User not found for token:', { 
+        console.error('❌ User not found for token:', {
           decoded,
-          token: token.substring(0, 20) + '...' 
+          token: token.substring(0, 20) + '...'
         });
-        return res.status(401).json({ 
-          success: false, 
-          message: "User not found. Please log in again." 
+        return res.status(401).json({
+          success: false,
+          message: "User not found. Please log in again."
         });
       }
 
@@ -87,19 +87,19 @@ export const isAuthenticated = async (req, res, next) => {
         fullName: principal.fullName || principal.name || '',
         name: principal.name || principal.fullName || ''
       };
-      
-      console.log('🔑 Authenticated user:', { 
-        id: principal._id, 
-        role: principal.role 
+
+      console.log('🔑 Authenticated user:', {
+        id: principal._id,
+        role: principal.role
       });
-      
+
       return next();
     } catch (error) {
       if (error.name === 'TokenExpiredError') {
         // If token is expired, try to refresh it using refresh token if available
         // For now, we'll just return an error and let the client handle login
-        return res.status(401).json({ 
-          success: false, 
+        return res.status(401).json({
+          success: false,
           message: "Session expired. Please log in again.",
           code: "TOKEN_EXPIRED"
         });
@@ -108,8 +108,8 @@ export const isAuthenticated = async (req, res, next) => {
     }
   } catch (error) {
     console.error("❌ Auth error:", error.message);
-    return res.status(401).json({ 
-      success: false, 
+    return res.status(401).json({
+      success: false,
       message: "Authentication failed. Please log in again.",
       error: error.message
     });
