@@ -93,6 +93,9 @@ function ProtectedRoute({ children, allowedRoles }) {
 function AuthRedirect() {
   const { isAuthenticated, userRole } = useAuth();
 
+  // force rebuild
+console.log("rebuild:", Date.now());
+
   if (isAuthenticated) {
     return (
       <Navigate
