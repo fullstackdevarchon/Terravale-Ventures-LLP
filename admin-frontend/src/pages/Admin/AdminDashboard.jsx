@@ -1,3 +1,5 @@
+// admin-frontend/src/pages/Admin/AdminDashboard.jsx
+
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -12,8 +14,10 @@ import {
 } from "react-icons/fa";
 import toast from "react-hot-toast";
 import PageContainer from "../../components/PageContainer";
-import Preloader from "../../components/Preloader"; // ✅ Added Preloader
-import API_BASE from "../../config";
+import Preloader from "../../components/Preloader";
+
+// 👉 ALWAYS USE SHARED AXIOS INSTANCE
+import api from "../../api/axios";
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
@@ -28,46 +32,62 @@ const AdminDashboard = () => {
   });
 
   const [loading, setLoading] = useState(true);
-  const [notifications, setNotifications] = useState([]);
 
-  // ============================
-  // Dashboard Stats Loader
-  // ============================
   useEffect(() => {
     const fetchDashboardStats = async () => {
       try {
-        const token = localStorage.getItem("token");
-        if (!token) throw new Error("Token missing");
-
-        const productRes = await fetch(`${API_BASE}/api/v1/products/all`, {
-          headers: { Authorization: `Bearer ${token}` },
+        // ============================
+        // 1️⃣ PRODUCTS
+        // ============================
+        const productRes = await api.get("/api/v1/products/all", {
+          withCredentials: true,
         });
-        const productData = await productRes.json();
-        const products = productData.products || [];
 
+        const products = productRes.data.products || [];
         const totalProducts = products.length;
-        const pendingSellers = products.filter((p) => p.status === "pending").length;
-        const inventoryItems = products.reduce((acc, p) => acc + (p.quantity || 0), 0);
-        const totalRevenue = products.reduce(
-          (acc, p) => acc + ((p.sold || 0) * (p.price || 0)),
+        const pendingSellers = products.filter(
+          (p) => p.status === "pending"
+        ).length;
+
+        const inventoryItems = products.reduce(
+          (acc, p) => acc + (p.quantity || 0),
           0
         );
 
-        const ordersRes = await fetch(`${API_BASE}/api/v1/orders/admin/all`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const ordersData = await ordersRes.json();
-        const deliveredOrders =
-          ordersData.orders?.filter((o) => o.currentStatus?.status === "Delivered").length || 0;
+        const totalRevenue = products.reduce(
+          (acc, p) => acc + (p.sold || 0) * (p.price || 0),
+          0
+        );
 
-        const usersRes = await fetch(`${API_BASE}/api/users/`, {
-          headers: { Authorization: `Bearer ${token}` },
+        // ============================
+        // 2️⃣ ORDERS (Admin Endpoint)
+        // ============================
+        const ordersRes = await api.get("/api/v1/orders/admin/all", {
+          withCredentials: true,
         });
-        const usersData = await usersRes.json();
-        const users = Array.isArray(usersData) ? usersData : usersData.users || [];
+
+        const deliveredOrders =
+          ordersRes.data.orders?.filter(
+            (o) => o.currentStatus?.status === "Delivered"
+          ).length || 0;
+
+        // ============================
+        // 3️⃣ USERS
+        // ============================
+        const usersRes = await api.get("/api/users/", {
+          withCredentials: true,
+        });
+
+        const users = Array.isArray(usersRes.data)
+          ? usersRes.data
+          : usersRes.data.users || [];
+
         const buyers = users.filter((u) => u.role === "buyer");
         const sellers = users.filter((u) => u.role === "seller");
 
+        // ============================
+        // SET FINAL DASHBOARD STATS
+        // ============================
         setStats({
           totalProducts,
           pendingSellers,
@@ -78,9 +98,9 @@ const AdminDashboard = () => {
           activeSellers: sellers.length,
           totalActiveUsers: buyers.length + sellers.length,
         });
-      } catch (error) {
-        console.error("Error loading dashboard stats:", error);
-        toast.error("Failed to load dashboard statistics");
+      } catch (err) {
+        console.error("❌ Dashboard Error:", err);
+        toast.error("Failed to load dashboard");
       } finally {
         setLoading(false);
       }
@@ -89,14 +109,8 @@ const AdminDashboard = () => {
     fetchDashboardStats();
   }, []);
 
-  // ============================
-  // Socket.IO Setup
-  // ============================
+  if (loading) return <Preloader />;
 
-
-  // ============================
-  // Dashboard cards setup
-  // ============================
   const dashboardCards = [
     {
       title: "Total Active Users",
@@ -135,7 +149,7 @@ const AdminDashboard = () => {
       count: stats.inventoryItems,
       icon: FaWarehouse,
       link: "/admin-dashboard/inventory",
-      description: "Available stock only (quantity > 0)",
+      description: "Available stock",
       color: "text-purple-900",
     },
     {
@@ -164,58 +178,36 @@ const AdminDashboard = () => {
     },
   ];
 
-  // ============================
-  // Loading Screen
-  // ============================
-  if (loading) {
-    return <Preloader />;
-  }
-
-  // ============================
-  // Main Dashboard UI
-  // ============================
   return (
     <PageContainer>
       <div className="p-8">
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-            <div>
-              <h1 className="text-5xl font-extrabold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl">
-                Admin Dashboard
-              </h1>
-              <p className="text-white mt-2 font-medium">
-                Welcome back,{" "}
-                <span className="font-bold text-white">Admin</span> 👋
-              </p>
-            </div>
-            <div className="mt-4 md:mt-0 text-sm text-white font-medium">
-              Last updated:{" "}
-              <span className="font-bold text-white">
-                {new Date().toLocaleString()}
-              </span>
-            </div>
-          </div>
+          <h1 className="text-5xl font-extrabold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white">
+            Admin Dashboard
+          </h1>
 
-          {/* Dashboard Cards */}
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {dashboardCards.map((card, index) => (
               <Link
                 key={index}
                 to={card.link}
-                className={`group relative p-6 rounded-2xl shadow-md backdrop-blur-xl bg-white/10 border border-white/20 text-black 
-                transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,255,255,0.6)] hover:scale-[1.03]`}
+                className={`group relative p-6 rounded-2xl shadow-md backdrop-blur-xl bg-white/10 border border-white/20
+                transition duration-300 hover:shadow-[0_0_20px_rgba(0,255,255,0.6)] hover:scale-[1.03]`}
               >
                 <div className="relative flex items-start justify-between z-10">
                   <div>
                     <h2 className="text-lg font-bold text-white">{card.title}</h2>
-                    <p className="mt-2 text-3xl font-extrabold text-white">{card.count}</p>
+                    <p className="mt-2 text-3xl font-extrabold text-white">
+                      {card.count}
+                    </p>
                     <p className="mt-2 text-sm text-white font-medium">
                       {card.description}
                     </p>
                   </div>
                   <div className="p-3 rounded-xl bg-white/20">
-                    <card.icon className={`text-3xl ${card.color} transition-transform duration-300 group-hover:rotate-12`} />
+                    <card.icon
+                      className={`text-3xl ${card.color} transition-transform duration-300 group-hover:rotate-12`}
+                    />
                   </div>
                 </div>
               </Link>
