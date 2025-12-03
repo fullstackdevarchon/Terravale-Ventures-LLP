@@ -1,4 +1,7 @@
-// server.js
+// =========================================
+//  TERRAVALE BACKEND (UPDATED FOR ADMIN)
+// =========================================
+
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -24,12 +27,13 @@ dotenv.config();
 const app = express();
 
 // =========================================
-// ✅ CORS CONFIG
+// ✅ UPDATED CORS CONFIG (ADMIN + USER)
 // =========================================
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://terravale.onrender.com",
-  process.env.FRONTEND_URL?.replace(/\/+$/, ""), // Remove trailing slash
+  "https://terravale.onrender.com",        // customer frontend
+  "https://terravale-admin.onrender.com",  // admin frontend
+  process.env.FRONTEND_URL?.replace(/\/+$/, ""),
 ].filter(Boolean);
 
 app.use(
@@ -91,7 +95,7 @@ app.set("io", io);
 // 📌 WEB PUSH
 // =========================================
 if (!process.env.VAPID_PUBLIC_KEY || !process.env.VAPID_PRIVATE_KEY) {
-  console.error("❌ Missing VAPID Public/Private Keys");
+  console.error("❌ Missing VAPID Keys");
   process.exit(1);
 }
 
