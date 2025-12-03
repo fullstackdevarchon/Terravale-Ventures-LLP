@@ -15,9 +15,7 @@ import {
 import toast from "react-hot-toast";
 import PageContainer from "../../components/PageContainer";
 import Preloader from "../../components/Preloader";
-
-// 👉 ALWAYS USE SHARED AXIOS INSTANCE
-import api from "../../api/axios";
+import api from "../../api/axios"; // shared axios instance
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
@@ -36,58 +34,34 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchDashboardStats = async () => {
       try {
-        // ============================
-        // 1️⃣ PRODUCTS
-        // ============================
-        const productRes = await api.get("/api/v1/products/all", {
-          withCredentials: true,
-        });
 
+        // ----------- PRODUCTS -----------
+        const productRes = await api.get("/api/v1/products/all");
         const products = productRes.data.products || [];
+
         const totalProducts = products.length;
-        const pendingSellers = products.filter(
-          (p) => p.status === "pending"
-        ).length;
-
-        const inventoryItems = products.reduce(
-          (acc, p) => acc + (p.quantity || 0),
-          0
-        );
-
+        const pendingSellers = products.filter(p => p.status === "pending").length;
+        const inventoryItems = products.reduce((a, p) => a + (p.quantity || 0), 0);
         const totalRevenue = products.reduce(
-          (acc, p) => acc + (p.sold || 0) * (p.price || 0),
+          (a, p) => a + (p.sold || 0) * (p.price || 0),
           0
         );
 
-        // ============================
-        // 2️⃣ ORDERS (Admin Endpoint)
-        // ============================
-        const ordersRes = await api.get("/api/v1/orders/admin/all", {
-          withCredentials: true,
-        });
+        // ----------- ORDERS -----------
+        const ordersRes = await api.get("/api/v1/orders/admin/all");
+        const deliveredOrders = ordersRes.data.orders?.filter(
+          o => o.currentStatus?.status === "Delivered"
+        ).length || 0;
 
-        const deliveredOrders =
-          ordersRes.data.orders?.filter(
-            (o) => o.currentStatus?.status === "Delivered"
-          ).length || 0;
-
-        // ============================
-        // 3️⃣ USERS
-        // ============================
-        const usersRes = await api.get("/api/users/", {
-          withCredentials: true,
-        });
-
+        // ----------- USERS -----------
+        const usersRes = await api.get("/api/users/");
         const users = Array.isArray(usersRes.data)
           ? usersRes.data
           : usersRes.data.users || [];
 
-        const buyers = users.filter((u) => u.role === "buyer");
-        const sellers = users.filter((u) => u.role === "seller");
+        const buyers = users.filter(u => u.role === "buyer");
+        const sellers = users.filter(u => u.role === "seller");
 
-        // ============================
-        // SET FINAL DASHBOARD STATS
-        // ============================
         setStats({
           totalProducts,
           pendingSellers,
@@ -98,6 +72,7 @@ const AdminDashboard = () => {
           activeSellers: sellers.length,
           totalActiveUsers: buyers.length + sellers.length,
         });
+
       } catch (err) {
         console.error("❌ Dashboard Error:", err);
         toast.error("Failed to load dashboard");
@@ -187,31 +162,34 @@ const AdminDashboard = () => {
           </h1>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {dashboardCards.map((card, index) => (
-              <Link
-                key={index}
-                to={card.link}
-                className={`group relative p-6 rounded-2xl shadow-md backdrop-blur-xl bg-white/10 border border-white/20
-                transition duration-300 hover:shadow-[0_0_20px_rgba(0,255,255,0.6)] hover:scale-[1.03]`}
-              >
-                <div className="relative flex items-start justify-between z-10">
-                  <div>
-                    <h2 className="text-lg font-bold text-white">{card.title}</h2>
-                    <p className="mt-2 text-3xl font-extrabold text-white">
-                      {card.count}
-                    </p>
-                    <p className="mt-2 text-sm text-white font-medium">
-                      {card.description}
-                    </p>
+
+            {dashboardCards.map((card, index) => {
+              const Icon = card.icon; // 👈 FIX HERE
+
+              return (
+                <Link
+                  key={index}
+                  to={card.link}
+                  className="group relative p-6 rounded-2xl shadow-md backdrop-blur-xl bg-white/10 border border-white/20
+                  transition duration-300 hover:shadow-[0_0_20px_rgba(0,255,255,0.6)] hover:scale-[1.03]"
+                >
+                  <div className="relative flex items-start justify-between z-10">
+                    <div>
+                      <h2 className="text-lg font-bold text-white">{card.title}</h2>
+                      <p className="mt-2 text-3xl font-extrabold text-white">{card.count}</p>
+                      <p className="mt-2 text-sm text-white font-medium">{card.description}</p>
+                    </div>
+
+                    <div className="p-3 rounded-xl bg-white/20">
+                      <Icon
+                        className={`text-3xl ${card.color} transition-transform duration-300 group-hover:rotate-12`}
+                      />
+                    </div>
                   </div>
-                  <div className="p-3 rounded-xl bg-white/20">
-                    <card.icon
-                      className={`text-3xl ${card.color} transition-transform duration-300 group-hover:rotate-12`}
-                    />
-                  </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              );
+            })}
+
           </div>
         </div>
       </div>
