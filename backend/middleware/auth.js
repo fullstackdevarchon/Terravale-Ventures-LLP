@@ -2,7 +2,9 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import Labour from "../models/Labour.js";
 
-// Utility function to generate token
+// ================================
+// Generate Token (Helper Function)
+// ================================
 const generateToken = (user) => {
   return jwt.sign(
     { id: user._id.toString(), role: user.role },
@@ -11,20 +13,27 @@ const generateToken = (user) => {
   );
 };
 
-// Utility function to set token in cookie
+// ================================
+// Set Cookie with JWT
+// ================================
 const setTokenCookie = (res, token) => {
   res.cookie("token", token, {
     httpOnly: true,
-    secure: true,
-    sameSite: "none",
+    secure: true,     // MUST be true in Render
+    sameSite: "none", // REQUIRED for cross-domain cookies
     path: "/",
+    maxAge: 24 * 60 * 60 * 1000,
   });
 };
 
+// ================================
+// AUTHENTICATION MIDDLEWARE
+// ================================
 export const isAuthenticated = async (req, res, next) => {
   try {
-    // Get token from cookies or Authorization header
+    // 1. Get Token
     let token = req.cookies?.token;
+
     if (!token && req.headers.authorization) {
       const authHeader = req.headers.authorization;
       token = authHeader.startsWith("Bearer ")
@@ -39,16 +48,17 @@ export const isAuthenticated = async (req, res, next) => {
       });
     }
 
-    // Verify token
+    // 2. Verify Token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
     let principal = null;
 
-    // Labour users
+    // Labour Model
     if (decoded.role === "labour") {
       principal = await Labour.findById(decoded.id).select("-password");
     }
 
-    // Admin & Normal Users (both stored in User collection)
+    // User/Admin (same model)
     if (!principal) {
       principal =
         (await User.findById(decoded.id).select("-pass")) ||
@@ -62,9 +72,12 @@ export const isAuthenticated = async (req, res, next) => {
       });
     }
 
-    // Normalize role
-    const normalizedRole = String(principal.role || "").trim().toLowerCase();
+    // 3. Normalize role
+    const normalizedRole = String(principal.role || "")
+      .trim()
+      .toLowerCase();
 
+    // 4. Attach User to Request
     req.user = {
       _id: principal._id,
       id: principal._id,
@@ -83,22 +96,33 @@ export const isAuthenticated = async (req, res, next) => {
   }
 };
 
+// ================================
+// AUTHORIZATION MIDDLEWARE
+// ================================
 export const authorizeRoles = (roles = []) => {
   return (req, res, next) => {
     if (!req.user) {
       return res.status(401).json({
         success: false,
-        message: "Unauthorized. No user found in request",
+        message: "Unauthorized. No user found.",
       });
     }
 
-    const userRole = (req.user.role || "").toLowerCase();
-    const allowedRoles = roles.map((r) => r.toLowerCase());
+    // Normalize roles
+    const userRole = String(req.user.role || "")
+      .trim()
+      .toLowerCase();
+
+    const allowedRoles = roles.map((role) =>
+      String(role).trim().toLowerCase()
+    );
+
+    console.log("ROLE CHECK:", userRole);
 
     if (!allowedRoles.includes(userRole)) {
       return res.status(403).json({
         success: false,
-        message: `Forbidden. Only ${allowedRoles.join(", ")} can perform this action`,
+        message: `Forbidden. Only ${allowedRoles.join(", ")} allowed.`,
       });
     }
 
@@ -106,3 +130,4 @@ export const authorizeRoles = (roles = []) => {
   };
 };
 
+export { generateToken, setTokenCookie };
