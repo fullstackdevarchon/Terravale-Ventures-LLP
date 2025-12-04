@@ -1,5 +1,5 @@
 // =========================================
-//  TERRAVALE BACKEND (UPDATED FOR ADMIN)
+//  TERRAVALE BACKEND (UPDATED FOR ADMIN + LABOUR)
 // =========================================
 
 import express from "express";
@@ -27,13 +27,14 @@ dotenv.config();
 const app = express();
 
 // =========================================
-// ✅ UPDATED CORS CONFIG (ADMIN + USER)
+// ✅ UPDATED CORS CONFIG (ADMIN + USER + LABOUR)
 // =========================================
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://terravale.onrender.com",        // customer frontend
-  "https://terravale-admin.onrender.com",  // admin frontend
-  process.env.FRONTEND_URL?.replace(/\/+$/, ""),
+  "https://terravale.onrender.com",              // customer frontend
+  "https://terravale-admin.onrender.com",        // admin frontend
+  "https://terravale-labour.onrender.com",       // labour frontend (NEW, FIXED)
+  process.env.FRONTEND_URL?.replace(/\/+$/, ""), // optional env override
 ].filter(Boolean);
 
 app.use(
@@ -127,11 +128,9 @@ io.on("connection", (socket) => {
     const { role, title, message } = data;
     const payload = JSON.stringify({ title, body: message });
 
-    // Real-time notification
     if (role === "admin") io.to("admin").emit("receiveNotification", data);
     else io.to(role).emit("receiveNotification", data);
 
-    // Push notifications via Web Push
     try {
       const { default: Subscription } = await import("./models/Subscription.js");
       const subs = await Subscription.find({ role });
