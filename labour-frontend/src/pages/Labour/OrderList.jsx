@@ -241,9 +241,9 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
           <button
             onClick={() => updateOrderStatus(order._id, "Shipped")}
             disabled={isUpdating || !canShip}
-            className={`flex items-center justify-center gap-2 px-8 py-4 border border-white/40 text-lg rounded-md shadow-md font-semibold transition ${isUpdating || !canShip
-              ? "bg-gray-400 text-white cursor-not-allowed"
-              : "bg-white/10 text-black hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white"
+            className={`px-3 py-1 text-sm font-medium rounded-md text-white inline-flex items-center gap-2 transition ${isUpdating || !canShip
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-white hover:bg-[#0000cc]"
               }`}
           >
             <FaShippingFast /> {isUpdating && canShip ? "Updating..." : "Mark Shipped"}
@@ -251,9 +251,9 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
           <button
             onClick={() => updateOrderStatus(order._id, "Delivered")}
             disabled={isUpdating || !canDeliver}
-            className={`flex items-center justify-center gap-2 px-8 py-4 border border-white/40 text-lg rounded-md shadow-md font-semibold transition ${isUpdating || !canDeliver
-              ? "bg-gray-400 text-white cursor-not-allowed"
-              : "bg-white/10 text-black hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white"
+            className={`px-3 py-1 text-sm font-medium rounded-md text-white inline-flex items-center gap-2 transition ${isUpdating || !canDeliver
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-white hover:bg-[#0000cc]"
               }`}
           >
             <FaCheckCircle /> {isUpdating && canDeliver ? "Updating..." : "Mark Delivered"}
@@ -498,16 +498,13 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
                   <span className="font-semibold">{order.buyer?.fullName || "N/A"}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-black/70">
-                  <FaEnvelope className="text-gray-600" />
                   <span>{order.buyer?.email || "N/A"}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-black/70">
-                  <FaPhone className="text-green-600" />
                   <span>{order.buyer?.phone || "N/A"}</span>
                 </div>
                 {order.buyer?.alternatePhone && (
                   <div className="flex items-center gap-2 text-sm text-black/70">
-                    <FaPhone className="text-green-600" />
                     <span>Alt: {order.buyer?.alternatePhone}</span>
                   </div>
                 )}
@@ -516,7 +513,6 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
               {/* Address */}
               <div className="mb-4 p-3 bg-white/30 rounded-lg border border-white/40">
                 <div className="flex items-start gap-2 text-sm text-black/80">
-                  <FaMapMarkerAlt className="text-red-600 mt-1 flex-shrink-0" />
                   <div>
                     <p className="font-medium">{order.address?.street || ""}</p>
                     {order.address?.street2 && <p className="font-medium">{order.address?.street2}</p>}
@@ -534,10 +530,10 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
               {/* Amount & Items */}
               <div className="flex justify-between items-center mb-6 text-sm font-medium">
                 <div className="flex items-center gap-1 text-black">
-                  <FaBoxOpen className="text-orange-600" /> {order.products?.length || 0} Items
+                  {order.products?.length || 0} Items
                 </div>
                 <div className="flex items-center gap-1 text-xl font-bold text-white">
-                  <FaRupeeSign className="text-yellow-600" /> {order.total}
+                  {order.total}
                 </div>
               </div>
 
@@ -549,7 +545,7 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
                   onClick={() => toggleExpand(order._id)}
                   className="w-full py-2 text-sm font-medium text-black/70 hover:text-black bg-black/5 hover:bg-black/10 rounded-lg transition flex items-center justify-center gap-2"
                 >
-                  <FaInfoCircle className="text-purple-600" /> {expanded === order._id ? 'Hide Details' : 'View Details'}
+                  {expanded === order._id ? 'Hide Details' : 'View Details'}
                 </button>
               </div>
 
@@ -582,7 +578,6 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
           ))
         ) : (
           <div className="col-span-full text-center py-12 bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20">
-            <FaClipboardList className="mx-auto h-12 w-12 text-gray-400" />
             <h3 className="mt-2 text-lg font-medium text-white">
               No orders found
             </h3>
