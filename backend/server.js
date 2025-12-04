@@ -33,7 +33,8 @@ const allowedOrigins = [
   "http://localhost:5173",
   "https://terravale.onrender.com",              // customer frontend
   "https://terravale-admin.onrender.com",        // admin frontend
-  "https://terravale-labour.onrender.com",       // labour frontend (NEW, FIXED)
+  "https://terravale-labour.onrender.com",
+  "https://terravale-main.onrender.com",       // labour frontend (NEW, FIXED)
   process.env.FRONTEND_URL?.replace(/\/+$/, ""), // optional env override
 ].filter(Boolean);
 
