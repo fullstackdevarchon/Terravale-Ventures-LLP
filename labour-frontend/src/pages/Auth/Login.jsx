@@ -266,7 +266,7 @@ const Login = () => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full rounded-xl py-3 bg-white text-white font-semibold shadow-md hover:bg-blue-700 transition-all"
+                    className="w-full flex items-center justify-center px-8 py-4 border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold"
                   >
                     {loading ? "Processing..." : step === 1 ? "Send OTP" : "Reset Password"}
                   </button>
@@ -323,7 +323,7 @@ const Login = () => {
                     <button
                       type="submit"
                       disabled={loading}
-                      className="w-full rounded-xl py-3 bg-white text-white font-semibold shadow-md hover:bg-blue-700 transition-all hover:scale-105"
+                      className="w-full flex items-center justify-center px-8 py-4 border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold"
                     >
                       {loading ? "Signing In..." : "Sign In"}
                     </button>

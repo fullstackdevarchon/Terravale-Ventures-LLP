@@ -29,9 +29,9 @@ const PageNotFound = () => {
         <div className="mt-8">
           <button
             onClick={() => navigate(isAuthenticated ? '/admin-dashboard' : '/login/admin')}
-            className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold"
           >
-            <ArrowLeftIcon className="w-5 h-5 mr-2" />
+            <ArrowLeftIcon className="w-5 h-5" />
             Back to {isAuthenticated ? 'Dashboard' : 'Login'}
           </button>
         </div>

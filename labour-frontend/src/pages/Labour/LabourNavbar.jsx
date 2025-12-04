@@ -33,9 +33,9 @@ const LabourNavbar = () => {
   };
 
   const navItems = [
-    { name: "Order List", to: "/labour-dashboard/order-list", icon: <FaClipboardList className="text-orange-400" /> },
-    { name: "My Orders", to: "/labour-dashboard/my-orders", icon: <FaCheckCircle className="text-green-400" /> },
-    { name: "Profile", to: "/labour-dashboard/profile", icon: <FaUser className="text-blue-400" /> },
+    { name: "Order List", to: "/labour-dashboard/order-list", icon: <FaClipboardList/> },
+    { name: "My Orders", to: "/labour-dashboard/my-orders", icon: <FaCheckCircle/> },
+    { name: "Profile", to: "/labour-dashboard/profile", icon: <FaUser/> },
   ];
 
   return (
@@ -87,10 +87,9 @@ const LabourNavbar = () => {
                 {/* Logout */}
                 <button
                   onClick={handleLogout}
-                  className="flex items-center px-4 py-2 bg-white/10 border border-white/40 rounded-md
-                    hover:bg-red-700 hover:scale-105 hover:text-black transition shadow-md font-semibold text-white"
+                  className="flex items-center justify-center gap-2 px-8 py-4 border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold"
                 >
-                  <FaSignOutAlt className="mr-2 text-red-400" />
+                  <FaSignOutAlt className="text-red-400" />
                   Logout
                 </button>
               </div>
@@ -130,9 +129,9 @@ const LabourNavbar = () => {
                   handleLogout();
                   setIsOpen(false);
                 }}
-                className="block w-full py-3 px-3 rounded-md border border-white/40 hover:bg-red-700 font-semibold flex items-center gap-2"
+                className="flex items-center justify-center gap-2 px-8 py-4 border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold w-full"
               >
-                <FaSignOutAlt className="text-yellow-300" /> Logout
+                <FaSignOutAlt className="text-red-400" /> Logout
               </button>
             </div>
           )}

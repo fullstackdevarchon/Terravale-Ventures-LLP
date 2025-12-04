@@ -148,7 +148,7 @@ const App = () => {
               <p className="mt-4 text-xl text-gray-600">Page Not Found</p>
               <button
                 onClick={() => (window.location.href = "/login")}
-                className="mt-8 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+                className="mt-8 flex items-center justify-center gap-2 px-8 py-4 border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold"
               >
                 Back to Login
               </button>

@@ -123,10 +123,10 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full flex justify-center items-center gap-2 py-2.5 px-4 text-sm font-semibold rounded-lg text-white transition-all duration-300 ${loading
-                  ? "bg-indigo-400 cursor-not-allowed"
-                  : "bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg transform hover:scale-[1.02]"
-                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+              className={`w-full flex justify-center items-center gap-2 px-8 py-4 border border-white/40 text-lg rounded-md shadow-md font-semibold transition ${loading
+                ? "bg-gray-400 text-white cursor-not-allowed"
+                : "bg-white/10 text-black hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white"
+                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500`}
             >
               {loading ? (
                 <>

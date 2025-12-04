@@ -241,9 +241,9 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
           <button
             onClick={() => updateOrderStatus(order._id, "Shipped")}
             disabled={isUpdating || !canShip}
-            className={`px-3 py-1 text-sm font-medium rounded-md text-white inline-flex items-center gap-2 transition ${isUpdating || !canShip
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-white hover:bg-[#0000cc]"
+            className={`flex items-center justify-center gap-2 px-8 py-4 border border-white/40 text-lg rounded-md shadow-md font-semibold transition ${isUpdating || !canShip
+              ? "bg-gray-400 text-white cursor-not-allowed"
+              : "bg-white/10 text-black hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white"
               }`}
           >
             <FaShippingFast /> {isUpdating && canShip ? "Updating..." : "Mark Shipped"}
@@ -251,9 +251,9 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
           <button
             onClick={() => updateOrderStatus(order._id, "Delivered")}
             disabled={isUpdating || !canDeliver}
-            className={`px-3 py-1 text-sm font-medium rounded-md text-white inline-flex items-center gap-2 transition ${isUpdating || !canDeliver
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-white hover:bg-[#0000cc]"
+            className={`flex items-center justify-center gap-2 px-8 py-4 border border-white/40 text-lg rounded-md shadow-md font-semibold transition ${isUpdating || !canDeliver
+              ? "bg-gray-400 text-white cursor-not-allowed"
+              : "bg-white/10 text-black hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white"
               }`}
           >
             <FaCheckCircle /> {isUpdating && canDeliver ? "Updating..." : "Mark Delivered"}
@@ -270,7 +270,7 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
           <button
             disabled
             title="You already have an active order"
-            className="px-3 py-1 text-sm font-medium rounded-md text-white bg-gray-400 cursor-not-allowed inline-flex items-center gap-2"
+            className="flex items-center justify-center gap-2 px-8 py-4 border border-white/40 text-lg rounded-md shadow-md font-semibold bg-gray-400 text-white cursor-not-allowed transition"
           >
             <FaClock /> Active order in progress
           </button>
@@ -281,9 +281,9 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
         <button
           onClick={() => handleAssignOrder(order._id)}
           disabled={updating[order._id]?.action === "assign"}
-          className={`px-3 py-1 text-sm font-medium rounded-md text-white inline-flex items-center gap-2 transition ${updating[order._id]?.action === "assign"
-            ? "bg-gray-400 cursor-not-allowed"
-            : "bg-white hover:bg-[#0000cc]"
+          className={`flex items-center justify-center gap-2 px-8 py-4 border border-white/40 text-lg rounded-md shadow-md font-semibold transition ${updating[order._id]?.action === "assign"
+            ? "bg-gray-400 text-white cursor-not-allowed"
+            : "bg-white/10 text-black hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white"
             }`}
         >
           <FaBoxOpen /> {updating[order._id]?.action === "assign" ? "Assigning..." : "Take Order"}
@@ -443,7 +443,7 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
               <button
                 key={tab.key}
                 onClick={() => setFilter(tab.key)}
-                className={`py-2 px-2 border-b-2 font-medium text-sm flex items-center gap-2 transition ${filter === tab.key
+                className={`py-2 px-4 border-b-2 font-medium text-sm flex items-center gap-2 transition ${filter === tab.key
                   ? "border-green-400 text-green-400"
                   : "border-transparent text-gray-300 hover:text-white hover:border-white/30"
                   }`}

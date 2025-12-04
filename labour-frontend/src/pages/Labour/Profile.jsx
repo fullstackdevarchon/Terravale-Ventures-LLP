@@ -353,7 +353,7 @@ const Profile = () => {
                         <button
                             type="submit"
                             disabled={saving}
-                            className="w-full bg-white hover:bg-[#0000cc] text-white font-bold py-4 rounded-xl shadow-lg transform transition hover:scale-[1.02] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed uppercase"
+                            className="w-full flex items-center justify-center gap-2 px-8 py-4 border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold uppercase disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {saving ? (
                                 <>Saving...</>
