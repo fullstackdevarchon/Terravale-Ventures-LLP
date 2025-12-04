@@ -243,7 +243,7 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
             disabled={isUpdating || !canShip}
             className={`px-3 py-1 text-sm font-medium rounded-md text-white inline-flex items-center gap-2 transition ${isUpdating || !canShip
               ? "bg-gray-400 cursor-not-allowed"
-              : "bg-white hover:bg-[#0000cc]"
+              : "bg-[#0000cc]"
               }`}
           >
             <FaShippingFast /> {isUpdating && canShip ? "Updating..." : "Mark Shipped"}
@@ -253,7 +253,7 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
             disabled={isUpdating || !canDeliver}
             className={`px-3 py-1 text-sm font-medium rounded-md text-white inline-flex items-center gap-2 transition ${isUpdating || !canDeliver
               ? "bg-gray-400 cursor-not-allowed"
-              : "bg-white hover:bg-[#0000cc]"
+              : "bg-[#0000cc]"
               }`}
           >
             <FaCheckCircle /> {isUpdating && canDeliver ? "Updating..." : "Mark Delivered"}
