@@ -192,11 +192,12 @@ const LabourOrders = () => {
     <PageContainer>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-10 text-center">
-          <h1 className="text-5xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl flex items-center justify-center gap-3">
-            <FaTruck className="text-green-500" /> Labour Orders
+        <div className="mb-6 md:mb-10 text-center px-4">
+          <h1 className="text-3xl md:text-5xl font-extrabold mb-3 md:mb-4 bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3">
+            <FaTruck className="text-green-500 text-3xl md:text-5xl" />
+            <span>Labour Orders</span>
           </h1>
-          <p className="text-white/80 font-medium text-lg">
+          <p className="text-white/80 font-medium text-sm md:text-lg">
             Monitor labour delivery workflow and performance
           </p>
         </div>

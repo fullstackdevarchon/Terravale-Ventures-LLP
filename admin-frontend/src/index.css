@@ -1,3 +1,72 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Science Gothic Font Configuration */
+@layer base {
+  :root {
+    --font-science-gothic: "Science Gothic", sans-serif;
+  }
+  
+  body {
+    font-family: var(--font-science-gothic);
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings:
+      "slnt" 0,
+      "wdth" 100,
+      "CTRS" 0;
+  }
+  
+  * {
+    font-family: var(--font-science-gothic);
+  }
+}
+
+/* Science Gothic Weight Classes */
+@layer utilities {
+  .font-science-thin {
+    font-family: var(--font-science-gothic);
+    font-weight: 100;
+  }
+  
+  .font-science-extralight {
+    font-family: var(--font-science-gothic);
+    font-weight: 200;
+  }
+  
+  .font-science-light {
+    font-family: var(--font-science-gothic);
+    font-weight: 300;
+  }
+  
+  .font-science-regular {
+    font-family: var(--font-science-gothic);
+    font-weight: 400;
+  }
+  
+  .font-science-medium {
+    font-family: var(--font-science-gothic);
+    font-weight: 500;
+  }
+  
+  .font-science-semibold {
+    font-family: var(--font-science-gothic);
+    font-weight: 600;
+  }
+  
+  .font-science-bold {
+    font-family: var(--font-science-gothic);
+    font-weight: 700;
+  }
+  
+  .font-science-extrabold {
+    font-family: var(--font-science-gothic);
+    font-weight: 800;
+  }
+  
+  .font-science-black {
+    font-family: var(--font-science-gothic);
+    font-weight: 900;
+  }
+}

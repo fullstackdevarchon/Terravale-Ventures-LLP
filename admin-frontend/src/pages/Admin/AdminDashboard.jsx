@@ -24,6 +24,7 @@ const AdminDashboard = () => {
     totalRevenue: 0,
     inventoryItems: 0,
     totalOrders: 0,
+    pendingOrders: 0,
     activeBuyers: 0,
     activeSellers: 0,
     totalActiveUsers: 0,
@@ -49,9 +50,13 @@ const AdminDashboard = () => {
 
         // ----------- ORDERS -----------
         const ordersRes = await api.get("/api/v1/orders/admin/all");
-        const deliveredOrders = ordersRes.data.orders?.filter(
-          o => o.currentStatus?.status === "Delivered"
-        ).length || 0;
+        const allOrders = ordersRes.data.orders || [];
+        const deliveredOrders = allOrders.filter(
+          o => o.status === "Delivered"
+        ).length;
+        const pendingOrders = allOrders.filter(
+          o => o.status === "Order Placed"
+        ).length;
 
         // ----------- USERS -----------
         const usersRes = await api.get("/api/users/");
@@ -68,6 +73,7 @@ const AdminDashboard = () => {
           totalRevenue,
           inventoryItems,
           totalOrders: deliveredOrders,
+          pendingOrders,
           activeBuyers: buyers.length,
           activeSellers: sellers.length,
           totalActiveUsers: buyers.length + sellers.length,
@@ -135,6 +141,15 @@ const AdminDashboard = () => {
       description: "Delivered orders count",
       color: "text-orange-900",
     },
+
+    {
+      title: "Pending Orders",
+      count: stats.pendingOrders,
+      icon: FaShoppingCart,
+      link: "/admin-dashboard/orders",
+      description: "Orders with 'Order Placed' status",
+      color: "text-yellow-900",
+    },
     {
       title: "Active Buyers",
       count: stats.activeBuyers,
@@ -155,13 +170,13 @@ const AdminDashboard = () => {
 
   return (
     <PageContainer>
-      <div className="p-8">
+      <div className="p-4 md:p-8">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-5xl font-extrabold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white">
+          <h1 className="text-3xl md:text-5xl font-extrabold mb-6 md:mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl">
             Admin Dashboard
           </h1>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
 
             {dashboardCards.map((card, index) => {
               const Icon = card.icon; // 👈 FIX HERE
@@ -170,19 +185,19 @@ const AdminDashboard = () => {
                 <Link
                   key={index}
                   to={card.link}
-                  className="group relative p-6 rounded-2xl shadow-md backdrop-blur-xl bg-white/10 border border-white/20
+                  className="group relative p-4 md:p-6 rounded-xl md:rounded-2xl shadow-lg backdrop-blur-xl bg-white/10 border border-white/20
                   transition duration-300 hover:shadow-[0_0_20px_rgba(0,255,255,0.6)] hover:scale-[1.03]"
                 >
                   <div className="relative flex items-start justify-between z-10">
-                    <div>
-                      <h2 className="text-lg font-bold text-white">{card.title}</h2>
-                      <p className="mt-2 text-3xl font-extrabold text-white">{card.count}</p>
-                      <p className="mt-2 text-sm text-white font-medium">{card.description}</p>
+                    <div className="flex-1 min-w-0">
+                      <h2 className="text-base md:text-lg font-bold text-white truncate">{card.title}</h2>
+                      <p className="mt-2 text-2xl md:text-3xl font-extrabold text-white">{card.count}</p>
+                      <p className="mt-1 md:mt-2 text-xs md:text-sm text-white font-medium line-clamp-2">{card.description}</p>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-white/20">
+                    <div className="p-2 md:p-3 rounded-lg md:rounded-xl bg-white/20 flex-shrink-0 ml-2">
                       <Icon
-                        className={`text-3xl ${card.color} transition-transform duration-300 group-hover:rotate-12`}
+                        className={`text-2xl md:text-3xl ${card.color} transition-transform duration-300 group-hover:rotate-12`}
                       />
                     </div>
                   </div>

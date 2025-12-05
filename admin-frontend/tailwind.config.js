@@ -5,6 +5,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['"Science Gothic"', 'sans-serif'],
+      },
       colors: {
         // Add your custom colors here
       },

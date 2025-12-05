@@ -104,8 +104,9 @@ const Inventory = () => {
     <PageContainer>
       <div className="p-4 md:p-10 max-w-7xl mx-auto">
         {/* Page Title */}
-        <h2 className="text-5xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl flex items-center justify-center gap-3">
-          <FaBoxOpen className="text-emerald-500 text-5xl" /> Approved Inventory & Stock Alerts
+        <h2 className="text-3xl md:text-5xl font-extrabold mb-6 md:mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3">
+          <FaBoxOpen className="text-emerald-500 text-3xl md:text-5xl" />
+          <span>Inventory & Stock</span>
         </h2>
 
         {/* Filters */}
@@ -139,29 +140,29 @@ const Inventory = () => {
         </div>
 
         {/* Inventory Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filteredInventory.length > 0 ? (
             filteredInventory.map((item) => (
               <div
                 key={item.id}
-                className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-lg p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-6 hover:shadow-2xl transition hover:scale-[1.01]"
+                className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-xl md:rounded-2xl shadow-lg p-3 md:p-6 flex flex-col gap-3 md:gap-4 hover:shadow-2xl transition hover:scale-[1.01]"
               >
                 <div className="flex items-center gap-3 group">
-                  <div className="bg-white/20 p-3 rounded-full">
-                    <FaBoxOpen className="text-emerald-500 text-xl md:text-2xl transition-transform duration-300 group-hover:rotate-12" />
+                  <div className="bg-white/20 p-2 md:p-3 rounded-full">
+                    <FaBoxOpen className="text-emerald-500 text-lg md:text-2xl transition-transform duration-300 group-hover:rotate-12" />
                   </div>
-                  <div className="flex flex-col">
-                    <span className="text-black font-bold text-base md:text-lg">
+                  <div className="flex flex-col flex-1 min-w-0">
+                    <span className="text-black font-bold text-sm md:text-lg truncate">
                       {item.product}
                     </span>
-                    <span className="text-black/70 text-sm md:text-base font-medium">
-                      ID: {item.id}
+                    <span className="text-black/70 text-xs md:text-base font-medium truncate">
+                      ID: {item.id.slice(0, 8)}...
                     </span>
                   </div>
                 </div>
-                <div className="flex flex-col items-start md:items-center gap-2 md:gap-0 md:flex-row md:gap-6">
-                  <span className="text-black font-bold">
-                    Stock: <span className="text-white">{item.stock}</span>
+                <div className="flex flex-row items-center justify-between gap-2">
+                  <span className="text-black font-semibold text-sm md:text-base">
+                    Stock: <span className="text-white font-bold">{item.stock}</span>
                   </span>
                   <StatusBadge status={item.status} />
                 </div>

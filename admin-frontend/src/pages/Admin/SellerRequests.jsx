@@ -152,13 +152,13 @@ const SellerRequests = () => {
   const getCategoryIcon = (cat) => {
     switch (cat?.toLowerCase()) {
       case "spices":
-        return <FaPepperHot className="text-red-500" />;
+        return <FaPepperHot className="text-red-400" />;
       case "fruits":
-        return <FaAppleAlt className="text-green-500" />;
+        return <FaAppleAlt className="text-green-400" />;
       case "vegetables":
-        return <FaLeaf className="text-emerald-600" />;
+        return <FaLeaf className="text-emerald-400" />;
       default:
-        return <FaBox className="text-gray-500" />;
+        return <FaBox className="text-gray-400" />;
     }
   };
 
@@ -231,7 +231,7 @@ const SellerRequests = () => {
                   <span
                     className={`font-bold ${approvedCount >= cat.limit
                       ? "text-red-600"
-                      : "text-green-600"
+                      : "text-green-400"
                       }`}
                   >
                     {approvedCount}
@@ -260,72 +260,72 @@ const SellerRequests = () => {
                 return (
                   <div
                     key={req._id}
-                    className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-xl hover:scale-[1.02] transition duration-300 flex flex-col overflow-hidden"
+                    className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-xl shadow-lg hover:scale-[1.02] transition duration-300 flex flex-col overflow-hidden"
                   >
                     {/* Full Width Image */}
-                    <div className="relative h-48 w-full bg-gray-200">
+                    <div className="relative h-40 w-full bg-gray-200">
                       <img
                         src={req.image?.url || "/placeholder.png"}
                         alt={req.name}
                         className="h-full w-full object-cover"
                       />
-                      <div className="absolute top-2 right-2 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-sm">
+                      <div className="absolute top-1 right-1 bg-white/80 backdrop-blur-sm p-1.5 rounded-full shadow-sm text-sm">
                         {getCategoryIcon(req.category?.name)}
                       </div>
                     </div>
 
                     {/* Content Wrapper */}
-                    <div className="p-5 flex flex-col flex-1">
+                    <div className="p-3 flex flex-col flex-1">
                       <div className="flex items-center justify-between mb-2">
-                        <h3 className="text-xl font-bold text-black">
+                        <h3 className="text-base font-bold text-black line-clamp-1 text-lg">
                           {req.name}
                         </h3>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-4 mb-4">
-                        <div className="flex flex-row gap-1">
-                          <span className="text-xm text-black font-bold flex items-center gap-1">
-                            Seller :
+                      <div className="grid grid-cols-2 gap-2 mb-3">
+                        <div className="bg-white/20 p-2 rounded-lg border border-white/10 flex items-center justify-between">
+                          <span className="text-xs text-black/70 font-medium">
+                            Seller:
                           </span>
-                          <span className="text-xm font-bold text-black">
+                          <span className="text-sm font-bold text-black truncate ml-1">
                             {req.seller?.fullName || "N/A"}
                           </span>
                         </div>
-                        <div className="flex flex-row gap-1">
-                          <span className="text-xm text-black font-bold flex items-center gap-1">
-                            Price :
+                        <div className="bg-white/20 p-2 rounded-lg border border-white/10 flex items-center justify-between">
+                          <span className="text-xs text-black/70 font-medium">
+                            Price:
                           </span>
-                          <span className="text-xm font-bold text-white">
+                          <span className="text-sm font-bold text-white">
                             ₹{req.price}
                           </span>
                         </div>
-                        <div className="flex flex-row gap-1">
-                          <span className="text-xm text-black font-bold flex items-center gap-1">
-                            Weight :
+                        <div className="bg-white/20 p-2 rounded-lg border border-white/10 flex items-center justify-between">
+                          <span className="text-xs text-black/70 font-medium">
+                            Weight:
                           </span>
-                          <span className="text-xm font-bold text-black">
+                          <span className="text-sm font-bold text-black">
                             {req.weight}
                           </span>
                         </div>
-                        <div className="flex flex-row gap-1">
-                          <span className="text-xm text-black font-bold flex items-center gap-1">
-                            Quantity :
+                        <div className="bg-white/20 p-2 rounded-lg border border-white/10 flex items-center justify-between">
+                          <span className="text-xs text-black/70 font-medium">
+                            Qty:
                           </span>
-                          <span className="text-xm font-bold text-black">
+                          <span className="text-sm font-bold text-black">
                             {req.quantity}
                           </span>
                         </div>
                       </div>
 
                       {category && (
-                        <div className="text-xs mt-2 text-black bg-white/20 p-2 rounded-lg mb-3 font-medium text-center border border-white/10">
-                          Category Limit: <span className="font-bold text-black">{category.limit}</span> | Approved: <span className={`font-bold ${approvedCount >= category.limit ? "text-red-600" : "text-black"}`}>{approvedCount}</span>
+                        <div className="text-xs mt-1 text-black bg-white/20 p-1.5 rounded-lg mb-2 font-medium text-center border border-white/10">
+                          Limit: <span className="font-bold text-black">{category.limit}</span> | Approved: <span className={`font-bold ${approvedCount >= category.limit ? "text-red-600" : "text-black"}`}>{approvedCount}</span>
                         </div>
                       )}
 
-                      <div className="flex justify-center mb-4">
+                      <div className="flex justify-center mb-3">
                         <span
-                          className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider ${req.status === "pending"
+                          className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${req.status === "pending"
                             ? "bg-yellow-100 text-yellow-800 border border-yellow-200"
                             : req.status === "approved"
                               ? "bg-green-100 text-green-800 border border-green-200"
@@ -338,10 +338,10 @@ const SellerRequests = () => {
 
                       {/* Approve/Reject Buttons */}
                       {req.status === "pending" && (
-                        <div className="mt-auto space-y-3">
+                        <div className="mt-auto space-y-2">
                           <button
                             onClick={() => updateStatus(req._id, "Approved")}
-                            className="backdrop-blur-xl bg-white/10 border border-white/20 text-white w-full hover:bg-blue-800 text-white py-2.5 rounded-xl font-bold flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-md transition transform active:scale-95"
+                            className="backdrop-blur-xl bg-white/10 border border-white/20 text-white w-full hover:bg-blue-800 text-white py-2 rounded-lg font-semibold flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-md transition transform active:scale-95 text-sm"
                             disabled={
                               category &&
                               getApprovedCount(category.name) >= category.limit
@@ -358,12 +358,12 @@ const SellerRequests = () => {
                                   [req._id]: true,
                                 }))
                               }
-                              className="backdrop-blur-xl bg-white/10 border border-white/20 text-white w-full bg-red-600 hover:bg-red-700 text-white py-2.5 rounded-xl font-bold flex justify-center items-center gap-2 shadow-md transition transform active:scale-95"
+                              className="backdrop-blur-xl bg-white/10 border border-white/20 text-white w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg font-semibold flex justify-center items-center gap-2 shadow-md transition transform active:scale-95 text-sm"
                             >
                               <FaTimes /> Reject
                             </button>
                           ) : (
-                            <div className="space-y-2 bg-white/30 p-3 rounded-xl backdrop-blur-sm">
+                            <div className="space-y-1.5 bg-white/30 p-2 rounded-lg backdrop-blur-sm">
                               <p className="text-xs font-bold text-black mb-1 text-center">Select Reason:</p>
                               {rejectionReasons.map((reason) => (
                                 <button

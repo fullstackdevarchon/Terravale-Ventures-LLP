@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { FaTrash, FaChevronDown, FaPepperHot, FaAppleAlt, FaLeaf, FaBox } from "react-icons/fa";
+import { FaTrash, FaChevronDown, FaPepperHot, FaAppleAlt, FaLeaf, FaBox, FaSearch } from "react-icons/fa";
 import axios from "axios";
 import toast from "react-hot-toast";
 import PageContainer from "../../components/PageContainer";
@@ -16,6 +16,7 @@ const ProductListAdmin = () => {
   const [category, setCategory] = useState("All");
   const [categories, setCategories] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const dropdownRef = useRef(null);
 
   // ✅ Show Preloader for 2 seconds
@@ -26,26 +27,7 @@ const ProductListAdmin = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // ✅ Fetch products (only approved)
-  const fetchProducts = async () => {
-    try {
-      setLoading(true);
-      const { data } = await axios.get(`${API_BASE}/api/v1/products/all`, {
-        withCredentials: true,
-      });
-      if (data.success) {
-        const approved = data.products.filter((p) => p.status === "approved");
-        setData(approved);
-        setFilter(approved);
-      }
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Error fetching products");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // ✅ Fetch enabled categories
+  // ✅ Fetch enabled categories first
   const fetchCategories = async () => {
     try {
       const { data } = await axios.get(`${API_BASE}/api/v1/categories/all`, {
@@ -54,15 +36,49 @@ const ProductListAdmin = () => {
       if (data.success) {
         const enabled = data.categories.filter((c) => c.enabled);
         setCategories(enabled);
+        return enabled; // Return enabled categories for use in filtering products
       }
+      return [];
     } catch (error) {
       toast.error(error.response?.data?.message || "Error fetching categories");
+      return [];
     }
   };
 
+  // ✅ Fetch products (only approved with enabled categories)
+  const fetchProducts = async (enabledCategories) => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(`${API_BASE}/api/v1/products/all`, {
+        withCredentials: true,
+      });
+      if (data.success) {
+        // Filter for approved products only
+        const approved = data.products.filter((p) => p.status === "approved");
+
+        // Filter to only show products with enabled categories
+        const enabledCategoryIds = enabledCategories.map(cat => cat._id);
+        const productsWithEnabledCategories = approved.filter(product =>
+          enabledCategoryIds.includes(product.category?._id)
+        );
+
+        setData(productsWithEnabledCategories);
+        setFilter(productsWithEnabledCategories);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Error fetching products");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ✅ Fetch data on mount
   useEffect(() => {
-    fetchProducts();
-    fetchCategories();
+    const fetchData = async () => {
+      const enabledCats = await fetchCategories();
+      await fetchProducts(enabledCats);
+    };
+    fetchData();
   }, []);
 
   // ✅ Close dropdown on outside click
@@ -76,15 +92,32 @@ const ProductListAdmin = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // ✅ Filter products by category
+  // ✅ Filter products by category and search query
   const filterProduct = (catId, catName) => {
     setCategory(catName);
     setDropdownOpen(false);
-    if (catName === "All") {
-      setFilter(data);
-    } else {
-      setFilter(data.filter((item) => item.category?._id === catId));
+
+    // Filter products to only show those with enabled categories
+    const enabledCategoryIds = categories.map(cat => cat._id);
+    const productsWithEnabledCategories = data.filter(item =>
+      enabledCategoryIds.includes(item.category?._id)
+    );
+
+    let filtered = productsWithEnabledCategories;
+
+    // Apply category filter
+    if (catName !== "All") {
+      filtered = filtered.filter((item) => item.category?._id === catId);
     }
+
+    // Apply search filter
+    if (searchQuery.trim()) {
+      filtered = filtered.filter((item) =>
+        item.name?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    setFilter(filtered);
   };
 
   // ✅ Delete product
@@ -137,12 +170,54 @@ const ProductListAdmin = () => {
     </div>
   );
 
+  // ✅ Handle search input change
+  const handleSearch = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+
+    // Filter products by search query and current category
+    const enabledCategoryIds = categories.map(cat => cat._id);
+    let filtered = data.filter(item =>
+      enabledCategoryIds.includes(item.category?._id)
+    );
+
+    // Apply category filter
+    if (category !== "All") {
+      const selectedCategory = categories.find(cat => cat.name === category);
+      if (selectedCategory) {
+        filtered = filtered.filter((item) => item.category?._id === selectedCategory._id);
+      }
+    }
+
+    // Apply search filter
+    if (query.trim()) {
+      filtered = filtered.filter((item) =>
+        item.name?.toLowerCase().includes(query.toLowerCase())
+      );
+    }
+
+    setFilter(filtered);
+  };
+
   // ✅ Product Display Section
   const ShowProducts = () => (
     <>
-      {/* Category Filter */}
-      <div className="flex justify-center mb-8" ref={dropdownRef}>
-        <div className="relative w-64">
+      {/* Search and Filter Section */}
+      <div className="flex flex-col md:flex-row justify-center items-center gap-4 mb-8">
+        {/* Search Bar */}
+        <div className="relative w-full md:w-96">
+          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black z-10" />
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={searchQuery}
+            onChange={handleSearch}
+            className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/40 backdrop-blur-md border border-white/30 text-black placeholder-black/50 shadow-lg focus:ring-2 focus:ring-white focus:outline-none font-medium"
+          />
+        </div>
+
+        {/* Category Filter */}
+        <div className="relative w-full md:w-64" ref={dropdownRef}>
           <button
             onClick={() => setDropdownOpen((prev) => !prev)}
             className="w-full bg-white/40 backdrop-blur-md border border-white/30 rounded-lg shadow-lg pl-4 pr-10 py-3 text-lg text-black font-bold hover:bg-white/50 flex justify-between items-center transition"
@@ -213,17 +288,15 @@ const ProductListAdmin = () => {
               </div>
 
               <div className="mb-3 flex justify-between items-center">
-                <p className="text-black text-lg font-bold flex items-center gap-2">
-                  Stock: <span className="font-bold text-white">{product.quantity || 0}</span>
+                <p className="text-black text-sm font-semibold flex items-center gap-1">
+                  Stock: <span className="font-bold text-white text-sm">{product.quantity || 0}</span>
                 </p>
-                <div className="flex items-center gap-2">
-                  <div className="text-lg bg-white/30 p-1.5 rounded-full border border-white/20">
+                <div className="flex items-center gap-1">
+                  <div className="text-sm bg-white/30 p-1 rounded-full border border-white/20">
                     {getCategoryIcon(product.category?.name)}
                   </div>
-                  <p className="text-xs text-black/60 font-semibold">
-                    <span className="font-bold text-black text-lg">
-                      {product.category?.name || "N/A"}
-                    </span>
+                  <p className="text-xs text-black font-semibold">
+                    {product.category?.name || "N/A"}
                   </p>
                 </div>
               </div>

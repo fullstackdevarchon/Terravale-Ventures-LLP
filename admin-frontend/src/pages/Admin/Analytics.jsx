@@ -160,21 +160,26 @@ const Analytics = () => {
                     <Tooltip contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', color: 'black', borderRadius: '8px' }} />
                     <Bar
                       dataKey="sold"
-                      fill="#00C49F"
                       radius={[6, 6, 0, 0]}
-                    />
+                    >
+                      {topProducts.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Bar>
                   </BarChart>
                 </ResponsiveContainer>
 
                 {/* Product List */}
                 <ul className="mt-6 space-y-3">
-                  {topProducts.map((p) => (
+                  {topProducts.map((p, index) => (
                     <li
                       key={p.id}
                       className="flex justify-between items-center bg-white/40 backdrop-blur-md rounded-lg px-4 py-2 text-sm font-medium hover:bg-white/60 transition border border-white/20"
                     >
-                      <span className="truncate w-2/3 text-black">{p.title}</span>
-                      <span className="text-white font-bold">
+                      <span className="truncate w-2/3 text-black">
+                        {p.title}
+                      </span>
+                      <span className="font-bold text-black">
                         {p.sold} sold
                       </span>
                     </li>
