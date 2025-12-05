@@ -158,23 +158,24 @@ const Profile = () => {
     // if (loading) return <Preloader />;
 
     return (
-        <div className="max-w-4xl mx-auto p-6">
-            <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl overflow-hidden">
+        <div className="max-w-4xl mx-auto p-4">
+            <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl overflow-hidden">
 
                 {/* Header */}
-                <div className="bg-gradient-to-r from-blue-600 to-blue-400 p-6 text-white text-center">
-                    <h1 className="text-5xl font-extrabold mb-6 flex items-center justify-center gap-4 bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl">
-                        <FaUser className="text-black" /> <span>LABOUR PROFILE</span>
+                <div className="bg-gradient-to-r from-blue-600 to-blue-400 p-4 text-white text-center">
+                    <h1 className="text-3xl font-extrabold mb-3 flex flex-col items-center gap-2 bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl">
+                        <FaUser className="text-black text-3xl" />
+                        <span>LABOUR PROFILE</span>
                     </h1>
-                    <p className="opacity-90 mt-2 uppercase">Manage your personal information</p>
+                    <p className="opacity-90 text-sm uppercase">Manage your personal information</p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="p-8 space-y-8">
+                <form onSubmit={handleSubmit} className="p-4 space-y-6">
 
                     {/* Profile Picture Section */}
                     <div className="flex flex-col items-center justify-center space-y-4">
                         <div className="relative group">
-                            <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-lg bg-gray-200">
+                            <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-black shadow-lg bg-gray-200">
                                 {user.profilePicture ? (
                                     <img
                                         src={user.profilePicture}
@@ -187,7 +188,7 @@ const Profile = () => {
                                     </div>
                                 )}
                             </div>
-                            <label className="absolute bottom-0 right-0 bg-white text-white p-2 rounded-full cursor-pointer hover:bg-[#0000cc] transition shadow-md">
+                            <label className="absolute bottom-0 right-0 bg-blue-800 text-white p-2 rounded-full cursor-pointer hover:bg-[#0000cc] transition shadow-md">
                                 <FaCamera size={16} />
                                 <input
                                     type="file"
@@ -201,7 +202,7 @@ const Profile = () => {
                     </div>
 
                     {/* Personal Info */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                         <div className="space-y-2">
                             <label className="text-black text-sm font-medium flex items-center gap-2 uppercase">
                                 <FaUser className="text-green-400" /> Full Name
@@ -267,7 +268,7 @@ const Profile = () => {
                             <FaMapMarkerAlt className="text-green-400" /> Address Details
                         </h3>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                             <div className="space-y-2">
                                 <label className="text-black text-xs uppercase tracking-wider">Street</label>
                                 <input

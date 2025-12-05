@@ -8,6 +8,12 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
+        sans: [
+          'Science Gothic',
+          'system-ui',
+          '-apple-system',
+          'sans-serif',
+        ],
         inter: ["Inter", "sans-serif"],
         poppins: ["Poppins", "sans-serif"],
         lexend: ["Lexend Exa", "sans-serif"],

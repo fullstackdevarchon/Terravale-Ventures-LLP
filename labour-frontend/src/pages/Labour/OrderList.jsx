@@ -397,25 +397,27 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
   }
 
   return (
-    <div className="p-8 max-w-7xl mx-auto backdrop-blur-xl bg-white/10 border border-white/20 text-white rounded-3xl shadow-2xl my-8">
+    <div className="p-4 max-w-7xl mx-auto backdrop-blur-xl bg-white/10 border border-white/20 text-white rounded-2xl shadow-2xl my-4">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-5xl font-extrabold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl flex justify-center items-center gap-3">
+      <div className="mb-6">
+        <h1 className="text-3xl font-extrabold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl flex flex-col items-center gap-2">
           {mode === 'take' ? (
             <>
-              <FaBoxOpen className="text-green-400" /> Take Orders
+              <FaBoxOpen className="text-green-400 text-3xl" />
+              <span>Take Orders</span>
             </>
           ) : (
             <>
-              <FaClipboardList className="text-green-300" /> Order Management
+              <FaClipboardList className="text-green-300 text-3xl" />
+              <span>Order Management</span>
             </>
           )}
         </h1>
-        <p className="text-gray-300 mt-2 text-center">
+        <p className="text-gray-300 text-sm text-center">
           {mode === 'take' ? 'Browse available orders and take one to work on' : 'Manage and track your assigned orders'}
         </p>
         {showFinishedSummary && mode === "mine" && (
-          <div className="mt-3">
+          <div className="mt-3 text-center">
             <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
               <FaCheckCircle className="mr-1" /> Finished: {finishedCount}
             </span>
@@ -469,7 +471,7 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
       </div>
 
       {/* Orders List */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         {filteredOrders.length > 0 ? (
           filteredOrders.map((order) => (
             <div key={order._id} className="bg-white/40 backdrop-blur-xl border border-white/40 shadow-xl rounded-2xl p-6 text-black transition hover:shadow-2xl hover:-translate-y-1">

@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    font-family: 'Science Gothic', system-ui, -apple-system, sans-serif;
+    font-variation-settings: 'wght' 400, 'slnt' 0, 'wdth' 100, 'CTRS' 0;
+}

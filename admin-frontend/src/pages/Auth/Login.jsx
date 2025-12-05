@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../App";
 import toast from "react-hot-toast";
-import { FaUserShield, FaLock } from "react-icons/fa";
+import { FaUserShield, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { GoogleLogin } from "@react-oauth/google";
 import Cookies from "js-cookie";
 import API_BASE from "../../config";
@@ -15,6 +15,7 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   // Forgot Password Modal States
   const [showForgot, setShowForgot] = useState(false);
@@ -217,14 +218,22 @@ const Login = () => {
                 <input
                   id="password"
                   name="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   required
-                  className="w-full px-4 py-3 text-black placeholder-black/50 bg-white/40 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent transition"
+                  className="w-full px-4 py-3 pr-20 text-black placeholder-black/50 bg-white/40 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent transition"
                   placeholder="Enter your password"
                   value={formData.password}
                   onChange={handleChange}
                 />
-                <FaLock className="absolute right-3 top-3.5 text-black/50" />
+                <FaLock className="absolute left-auto right-12 top-3.5 text-black/50" />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-3.5 text-black/50 hover:text-black transition"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
               </div>
             </div>
           </div>
@@ -270,7 +279,7 @@ const Login = () => {
           <GoogleLogin
             onSuccess={handleGoogleSuccess}
             onError={handleGoogleError}
-            theme="filled_blue"
+            theme="filled_black"
             shape="pill"
             width="100%"
           />

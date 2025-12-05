@@ -12,7 +12,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="w-full bg-white/5 backdrop-blur-xl border-t border-white/20 mt-20 py-12 shadow-inner">
+    <footer className="w-full bg-white/5 backdrop-blur-xl border-t border-white/20 mt-20 py-12 pb-20 shadow-inner">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 text-center">
 
         {/* Brand Name */}
@@ -74,7 +74,7 @@ const Footer = () => {
         <div className="w-full h-px bg-white/20 mt-10"></div>
 
         {/* Copyright */}
-        <p className="text-black text-sm mt-6 tracking-wide">
+        <p className="text-black text-sm mt-6 mb-4 tracking-wide">
           © {new Date().getFullYear()} Terravale Ventures LLP. All rights reserved.
         </p>
       </div>

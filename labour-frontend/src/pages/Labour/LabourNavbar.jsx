@@ -87,7 +87,7 @@ const LabourNavbar = () => {
                 {/* Logout */}
                 <button
                   onClick={handleLogout}
-                  className="flex items-center justify-center gap-2 px-8 py-4 border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold"
+                  className="flex items-center justify-center gap-2 px-6 py-2 border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-110 hover:text-white transition shadow-md font-semibold"
                 >
                   <FaSignOutAlt className="text-red-400" />
                   Logout
@@ -129,7 +129,7 @@ const LabourNavbar = () => {
                   handleLogout();
                   setIsOpen(false);
                 }}
-                className="flex items-center justify-center gap-2 px-8 py-4 border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold w-full"
+                className="flex items-center justify-center gap-2 px-4 py-2 border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold w-full h-6"
               >
                 <FaSignOutAlt className="text-red-400" /> Logout
               </button>

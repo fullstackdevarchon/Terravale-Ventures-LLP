@@ -183,172 +183,151 @@ const Login = () => {
 
   return (
     <PageContainer1>
-      <main className="min-h-screen flex items-center justify-center py-8">
-        <div className="relative w-full max-w-4xl px-6">
-          <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-
-            {/* Left Panel */}
-            <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 p-8 shadow-xl text-white">
-              <h2 className="text-4xl font-extrabold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl">
-                Welcome Back, Labour!
-              </h2>
-              <p className="mb-6 text-gray-200 text-center">
-                Access your dashboard, manage tasks, and view your work history.
+      <main className="min-h-screen flex items-center justify-center py-6 md:py-12 px-4">
+        <div className="w-full max-w-md">
+          {/* Centered Login Card */}
+          <div className="bg-white/5 backdrop-blur-md rounded-xl md:rounded-2xl border border-white/10 p-6 md:p-8 shadow-xl">
+            {/* Header */}
+            <div className="mb-6 md:mb-8 text-center">
+              <h1 className="text-2xl md:text-4xl font-extrabold  md:mb-1 bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl">
+                Welcome Back
+              </h1>
+              <h1 className="text-2xl md:text-4xl font-extrabold mb-2 md:mb-4 bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl">
+                Labour Login
+              </h1>
+              <p className="text-sm md:text-base text-gray-200">
+                {isForgot ? "Reset your password using OTP" : "Sign in to continue"}
               </p>
-
-              <ul className="space-y-4 text-gray-200">
-                <li className="flex items-center gap-3">
-                  ✅ Secure Access
-                </li>
-                <li className="flex items-center gap-3">
-                  ✅ Google One-tap Login
-                </li>
-                <li className="flex items-center gap-3">
-                  ✅ Easy Task Management
-                </li>
-              </ul>
             </div>
 
-            {/* Right Panel */}
-            <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 p-8 shadow-xl">
-              <div className="mb-6 text-center">
-                <h1 className="text-4xl font-extrabold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl">
-                  {isForgot ? "Forgot Password" : "Labour Login"}
-                </h1>
-                <p className="text-gray-200">
-                  {isForgot ? "Reset your password using OTP" : "Sign in to continue"}
-                </p>
-              </div>
+            {/* Forgot Password Form */}
+            {isForgot ? (
+              <form onSubmit={step === 1 ? handleSendOTP : handleResetPassword} className="space-y-4">
+                <div>
+                  <label className="text-gray-200 block mb-1 text-sm md:text-base">Email</label>
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full rounded-lg md:rounded-xl p-2.5 md:p-3 bg-white/10 text-white border border-white/20 focus:outline-none focus:border-green-400 text-sm md:text-base"
+                    placeholder="Enter your email"
+                  />
+                </div>
 
-              {/* Forgot Password Form */}
-              {isForgot ? (
-                <form onSubmit={step === 1 ? handleSendOTP : handleResetPassword} className="space-y-4">
+                {step === 2 && (
+                  <>
+                    <div>
+                      <label className="text-gray-200 block mb-1 text-sm md:text-base">OTP</label>
+                      <input
+                        type="text"
+                        required
+                        value={otp}
+                        onChange={(e) => setOtp(e.target.value)}
+                        className="w-full rounded-lg md:rounded-xl p-2.5 md:p-3 bg-white/10 text-white border border-white/20 focus:outline-none focus:border-green-400 text-sm md:text-base"
+                        placeholder="Enter OTP"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-gray-200 block mb-1 text-sm md:text-base">New Password</label>
+                      <input
+                        type="password"
+                        required
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        className="w-full rounded-lg md:rounded-xl p-2.5 md:p-3 bg-white/10 text-white border border-white/20 focus:outline-none focus:border-green-400 text-sm md:text-base"
+                        placeholder="Enter new password"
+                      />
+                    </div>
+                  </>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full flex items-center justify-center px-6 md:px-8 py-3 md:py-4 border border-white/40 text-black text-base md:text-lg rounded-lg md:rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold"
+                >
+                  {loading ? "Processing..." : step === 1 ? "Send OTP" : "Reset Password"}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsForgot(false);
+                    setStep(1);
+                  }}
+                  className="text-xs md:text-sm text-green-300 hover:text-green-400 underline block mx-auto mt-4"
+                >
+                  Back to Login
+                </button>
+              </form>
+            ) : (
+              /* Login Form */
+              <>
+                <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <label className="text-gray-200 block mb-1">Email</label>
+                    <label className="text-gray-200 block mb-1 text-sm md:text-base">Email</label>
                     <input
                       type="email"
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full rounded-xl p-3 bg-white/10 text-white border border-white/20 focus:outline-none focus:border-green-400"
+                      className="w-full rounded-lg md:rounded-xl p-2.5 md:p-3 bg-white/10 text-white border border-white/20 focus:outline-none focus:border-green-400 text-sm md:text-base"
                       placeholder="Enter your email"
                     />
                   </div>
 
-                  {step === 2 && (
-                    <>
-                      <div>
-                        <label className="text-gray-200 block mb-1">OTP</label>
-                        <input
-                          type="text"
-                          required
-                          value={otp}
-                          onChange={(e) => setOtp(e.target.value)}
-                          className="w-full rounded-xl p-3 bg-white/10 text-white border border-white/20 focus:outline-none focus:border-green-400"
-                          placeholder="Enter OTP"
-                        />
-                      </div>
+                  <div>
+                    <label className="text-gray-200 block mb-1 text-sm md:text-base">Password</label>
+                    <input
+                      type="password"
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="w-full rounded-lg md:rounded-xl p-2.5 md:p-3 bg-white/10 text-white border border-white/20 focus:outline-none focus:border-green-400 text-sm md:text-base"
+                      placeholder="Enter your password"
+                    />
+                  </div>
 
-                      <div>
-                        <label className="text-gray-200 block mb-1">New Password</label>
-                        <input
-                          type="password"
-                          required
-                          value={newPassword}
-                          onChange={(e) => setNewPassword(e.target.value)}
-                          className="w-full rounded-xl p-3 bg-white/10 text-white border border-white/20 focus:outline-none focus:border-green-400"
-                          placeholder="Enter new password"
-                        />
-                      </div>
-                    </>
-                  )}
+                  <div className="text-right">
+                    <button
+                      type="button"
+                      onClick={() => setIsForgot(true)}
+                      className="text-xs md:text-sm text-green-300 hover:text-green-400"
+                    >
+                      Forgot Password?
+                    </button>
+                  </div>
 
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full flex items-center justify-center px-8 py-4 border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold"
+                    className="w-full flex items-center justify-center px-6 md:px-8 py-3 md:py-4 border border-white/40 text-black text-base md:text-lg rounded-lg md:rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold"
                   >
-                    {loading ? "Processing..." : step === 1 ? "Send OTP" : "Reset Password"}
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsForgot(false);
-                      setStep(1);
-                    }}
-                    className="text-sm text-green-300 hover:text-green-400 underline block mx-auto mt-4"
-                  >
-                    Back to Login
+                    {loading ? "Signing In..." : "Sign In"}
                   </button>
                 </form>
-              ) : (
-                /* Login Form */
-                <>
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                      <label className="text-gray-200 block mb-1">Email</label>
-                      <input
-                        type="email"
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full rounded-xl p-3 bg-white/10 text-white border border-white/20 focus:outline-none focus:border-green-400"
-                        placeholder="Enter your email"
-                      />
-                    </div>
 
-                    <div>
-                      <label className="text-gray-200 block mb-1">Password</label>
-                      <input
-                        type="password"
-                        required
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="w-full rounded-xl p-3 bg-white/10 text-white border border-white/20 focus:outline-none focus:border-green-400"
-                        placeholder="Enter your password"
-                      />
-                    </div>
+                {/* Divider */}
+                <div className="my-4 md:my-6 flex items-center gap-3">
+                  <div className="flex-1 h-px bg-white/20" />
+                  <div className="text-gray-300 text-xs md:text-sm">OR</div>
+                  <div className="flex-1 h-px bg-white/20" />
+                </div>
 
-                    <div className="text-right">
-                      <button
-                        type="button"
-                        onClick={() => setIsForgot(true)}
-                        className="text-sm text-green-300 hover:text-green-400"
-                      >
-                        Forgot Password?
-                      </button>
-                    </div>
-
-                    <button
-                      type="submit"
-                      disabled={loading}
-                      className="w-full flex items-center justify-center px-8 py-4 border border-white/40 text-black text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-white transition shadow-md font-semibold"
-                    >
-                      {loading ? "Signing In..." : "Sign In"}
-                    </button>
-                  </form>
-
-                  {/* Divider */}
-                  <div className="my-6 flex items-center gap-3">
-                    <div className="flex-1 h-px bg-white/20" />
-                    <div className="text-gray-300 text-sm">OR</div>
-                    <div className="flex-1 h-px bg-white/20" />
-                  </div>
-
-                  {/* Google Login */}
-                  <div className="flex justify-center">
-                    <GoogleLogin
-                      onSuccess={handleGoogleSuccess}
-                      onError={handleGoogleError}
-                      theme="filled_blue"
-                      shape="pill"
-                      width="250"
-                    />
-                  </div>
-                </>
-              )}
-            </div>
+                {/* Google Login */}
+                <div className="flex justify-center">
+                  <GoogleLogin
+                    onSuccess={handleGoogleSuccess}
+                    onError={handleGoogleError}
+                    theme="filled_blue"
+                    shape="pill"
+                    width="250"
+                  />
+                </div>
+              </>
+            )}
           </div>
         </div>
       </main>

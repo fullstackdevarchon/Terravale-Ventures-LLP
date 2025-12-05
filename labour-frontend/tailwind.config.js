@@ -5,7 +5,16 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: [
+          'Science Gothic',
+          'system-ui',
+          '-apple-system',
+          'sans-serif',
+        ],
+      },
+    },
   },
   plugins: [],
 }
