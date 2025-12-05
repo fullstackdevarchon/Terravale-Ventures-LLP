@@ -79,7 +79,7 @@ const Login = () => {
 
       // Redirect based on role
       navigate(
-        data.user.role === "seller" ? "/seller/dashboard" : "/buyer-dashboard",
+        data.user.role === "seller" ? "/seller" : "/buyer-dashboard",
         { replace: true }
       );
 
@@ -148,7 +148,7 @@ const Login = () => {
         alert("Login successful!");
 
         navigate(
-          user.role === "seller" ? "/seller/dashboard" : "/buyer-dashboard",
+          user.role === "seller" ? "/seller" : "/buyer-dashboard",
           { replace: true }
         );
 

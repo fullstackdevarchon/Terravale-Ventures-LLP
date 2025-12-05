@@ -31,6 +31,8 @@ const app = express();
 // =========================================
 const allowedOrigins = [
   "http://localhost:5173",
+  "http://localhost:5175",
+  "http://localhost:5174",
   "https://terravale.onrender.com",              // customer frontend
   "https://terravale-admin.onrender.com",        // admin frontend
   "https://terravale-labour.onrender.com",

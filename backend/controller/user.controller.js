@@ -100,7 +100,8 @@ export const loginUser = async (req, res) => {
         fullName: user.fullName,
         email: user.email,
         role: user.role,
-      }
+      },
+      token // ✅ Return token in response body
     });
   } catch (error) {
     return res.status(500).json({ message: "Server error", error: error.message });
@@ -142,7 +143,8 @@ export const adminLogin = async (req, res) => {
         fullName: user.fullName,
         email: user.email,
         role: user.role,
-      }
+      },
+      token // ✅ Return token in response body
     });
   } catch (error) {
     console.error("❌ adminLogin error:", error);
