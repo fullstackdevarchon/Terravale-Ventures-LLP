@@ -134,32 +134,47 @@ const ProductList = () => {
   );
 
   return (
-    <section className="container mx-auto py-16 px-4 mt-20 min-h-screen">
+    <section className="container mx-auto py-4 sm:py-6 md:py-8 px-4 sm:px-6 md:px-8 mt-16">
 
       {/* Header Section */}
-      <div className="relative flex flex-col md:flex-row items-center justify-center mb-10 gap-4">
-        {/* Filter Button - Absolute Left or Flex Start */}
-        <div className="w-full md:w-auto md:absolute md:left-0 flex justify-start z-10">
+      <div className="flex flex-col gap-4 mb-8">
+        {/* Centered Heading */}
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl">
+          Latest Products
+        </h2>
+
+        {/* Filter and Sort Controls */}
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center justify-between">
+          {/* Filter Button */}
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="group flex items-center gap-3 px-6 py-3 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer"
+            className="group flex items-center justify-center gap-2 px-4 sm:px-6 py-3 border border-white/40 text-white text-base sm:text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer"
           >
             {showFilters ? <FaTimes /> : <FaFilter />}
             {showFilters ? "Close Filters" : "Filter Products"}
           </button>
-        </div>
 
-        {/* Centered Heading */}
-        <h2 className="text-5xl font-extrabold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl">
-          Latest Products
-        </h2>
+          {/* Mobile Sort Dropdown */}
+          <div className="flex items-center gap-2 sm:min-w-[250px]">
+            <FaSortAmountDown className="text-white text-lg" />
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="flex-1 p-3 rounded-md border border-white/30 bg-black/50 text-white text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-green-500 transition-shadow cursor-pointer"
+            >
+              <option value="newest">Newest First</option>
+              <option value="price_low_high">Price: Low to High</option>
+              <option value="price_high_low">Price: High to Low</option>
+            </select>
+          </div>
+        </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-8 relative items-start">
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-8 relative items-start">
 
         {/* Sidebar Filters */}
         {showFilters && (
-          <aside className="lg:w-1/4 w-full bg-white/10 backdrop-blur-xl p-6 rounded-2xl shadow-lg border border-white/20 text-white animate-fade-in-left">
+          <aside className="lg:w-1/4 w-full bg-white/10 backdrop-blur-xl p-4 sm:p-6 rounded-2xl shadow-lg border border-white/20 text-white animate-fade-in-left">
 
             <div className="flex justify-between items-center mb-6 border-b border-white/20 pb-4">
               <h3 className="text-xl font-bold flex items-center gap-2">
@@ -257,38 +272,38 @@ const ProductList = () => {
           {loading ? (
             <Loading />
           ) : filter.length > 0 ? (
-            <div className={`grid gap-8 ${showFilters ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'}`}>
+            <div className={`grid gap-4 sm:gap-6 md:gap-8 ${showFilters ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'}`}>
               {filter.map((product) => (
                 <div
                   key={product._id}
-                  className="rounded-2xl shadow-xl bg-white/20 backdrop-blur-xl 
-                  hover:shadow-3xl hover:-translate-y-2 transition-all border border-white/40 
-                  overflow-hidden relative group flex flex-col"
+                  className="rounded-xl sm:rounded-2xl shadow-xl bg-white/20 backdrop-blur-xl 
+                  hover:shadow-3xl hover:-translate-y-1 sm:hover:-translate-y-2 transition-all border border-white/40 
+                  overflow-hidden relative group flex flex-col min-h-[380px] sm:min-h-[420px]"
                 >
                   {/* Hover Buttons */}
-                  <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 
-                  group-hover:opacity-100 transition-opacity duration-300 z-20">
+                  <div className="absolute top-2 right-2 sm:top-3 sm:right-3 flex flex-col gap-2 opacity-100 sm:opacity-0 
+                  sm:group-hover:opacity-100 transition-opacity duration-300 z-20">
                     <Link
                       to={`/product/${product._id}`}
-                      className="p-3 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer"
+                      className="p-2 sm:p-3 bg-white text-orange-500 border border-orange-500 hover:bg-orange-500 hover:text-white rounded-full shadow-lg transform hover:scale-110 hover:rotate-6 transition-all duration-300"
                     >
-                      <FaCreditCard />
+                      <FaCreditCard className="text-sm sm:text-base" />
                     </Link>
 
                     <button
                       onClick={() => addProduct(product)}
-                      className="p-3 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer"
+                      className="p-2 sm:p-3 bg-white text-emerald-500 border border-emerald-500 hover:bg-emerald-500 hover:text-white rounded-full shadow-lg transform hover:scale-110 hover:-rotate-6 transition-all duration-300"
                     >
-                      <FaShoppingCart />
+                      <FaShoppingCart className="text-sm sm:text-base" />
                     </button>
                   </div>
 
                   {/* Product Image */}
-                  <div className="w-full h-56 bg-gray-200/20 overflow-hidden relative">
+                  <div className="w-full h-48 sm:h-56 bg-gray-200/20 overflow-hidden relative">
                     <img
                       src={product.image?.url}
                       alt={product.name}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:text-blue-500 transition-transform duration-500"
                     />
                     {product.quantity <= 0 && (
                       <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
@@ -298,8 +313,8 @@ const ProductList = () => {
                   </div>
 
                   {/* Product Info */}
-                  <div className="p-5 text-white flex-1 flex flex-col">
-                    <h2 className="text-lg font-bold mb-2 line-clamp-1 text-black group-hover:text-blue-600 transition-colors">
+                  <div className="p-3 sm:p-5 text-white flex-1 flex flex-col">
+                    <h2 className="text-base sm:text-lg font-bold mb-2 line-clamp-1 text-black group-hover:text-blue-600 transition-colors">
                       {product.name}
                     </h2>
                     <p className="text-sm text-black mb-4 line-clamp-2 flex-1">
@@ -308,7 +323,7 @@ const ProductList = () => {
 
                     <div className="flex justify-between items-center border-t border-white/30 pt-3 mt-auto">
                       <div>
-                        <p className="text-xs text-black font-bold text-xl">Price</p>
+                        <p className="text-xs text-black font-bold sm:text-base">Price</p>
                         <p className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                           ₹ {product.price}
                           <span className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">

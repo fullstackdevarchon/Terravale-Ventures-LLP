@@ -96,7 +96,7 @@ const AboutPage = () => {
           {/* ------------------------------------------------ */}
           <section className="max-w-4xl mx-auto mb-20 bg-white/10 backdrop-blur-xl border border-white/20 p-10 rounded-3xl shadow-xl animate-fadeIn">
             <h2 className="text-5xl font-extrabold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl text-center mb-6 flex items-center justify-center gap-3">
-              <FaUsers className="text-green-300" /> Nutriest People Around Us
+              Nutriest People Around Us
             </h2>
             <p className="text-black text-lg leading-relaxed text-center">
               Our farmers are the backbone of Terravale.

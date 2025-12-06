@@ -92,14 +92,14 @@ const Navbar = () => {
               className="h-14 w-14 rounded-full border border-white shadow"
             />
             <div>
-              <h1 className="text-white font-bold text-2xl drop-shadow-md tracking-wide">
+              <h1 className="text-transparent bg-gradient-to-r from-green-300 to-white bg-clip-text font-bold text-xl drop-shadow-xl tracking-wide">
                 Terravale Ventures LLP
               </h1>
             </div>
           </NavLink>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex gap-10 text-white font-medium text-lg">
+          <div className="hidden md:flex gap-4 text-white text-xl">
             {navLinks.map((link) => (
               <NavLink
                 key={link.path}
@@ -125,7 +125,7 @@ const Navbar = () => {
               <button
                 onClick={() => setIsDesktopLoginOpen(!isDesktopLoginOpen)}
                 className="
-                    flex items-center px-4 py-2 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer
+                    flex items-center px-2 py-2 border border-white/40 text-white text-xl rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer
                   "
               >
                 <FiLogIn className="mr-2 text-white group-hover:text-yellow-400" /> Login
@@ -152,7 +152,7 @@ const Navbar = () => {
                           font-bold text-[15px]
                         "
                     >
-                      <FiUser className="text-white group-hover:text-green-700" /> {role.toUpperCase()}
+                      <FiUser className="text-black group-hover:text-green-100" /> {role.toUpperCase()}
                     </button>
                   ))}
                 </div>

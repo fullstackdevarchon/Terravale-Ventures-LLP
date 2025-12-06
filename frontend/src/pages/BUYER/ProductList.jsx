@@ -143,7 +143,11 @@ const ProductList = () => {
     <PageContainer>
       <div className="container mx-auto py-8 px-4 mt-16 min-h-screen">
 
-        {/* Header Section */}
+          {/* Centered Heading */}
+          <h2 className="text-5xl font-extrabold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl">
+            Marketplace
+          </h2>
+    
         <div className="relative flex flex-col md:flex-row items-center justify-center mb-10 gap-4">
           {/* Filter Button - Absolute Left or Flex Start */}
           <div className="w-full md:w-auto md:absolute md:left-0 flex justify-start z-10">
@@ -162,10 +166,7 @@ const ProductList = () => {
             </button>
           </div>
 
-          {/* Centered Heading */}
-          <h2 className="text-5xl font-extrabold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl">
-            Marketplace
-          </h2>
+        
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8 relative items-start">

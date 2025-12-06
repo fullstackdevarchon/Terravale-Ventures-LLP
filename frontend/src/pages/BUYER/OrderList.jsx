@@ -61,14 +61,16 @@ const Stepper = ({ currentStep, cancelled }) => (
 
           {/* CONNECTOR LINE (BETWEEN CIRCLES) */}
           {index < STEPS.length - 1 && (
-            <div className="absolute top-5 left-1/2 w-full">
+            <div className="absolute top-6 left-1/2 w-full">
               <div
                 className={`
-                  h-1 
+                  h-2 rounded-full
                   ${cancelled
-                    ? "bg-red-300"
+                    ? "bg-red-400"
                     : isCompleted
-                      ? "bg-white"
+                      ? stepNumber === 1 ? "bg-blue-500"
+                        : stepNumber === 2 ? "bg-blue-500"
+                          : "bg-blue-500"
                       : "bg-gray-300"}
                 `}
               ></div>
@@ -78,13 +80,16 @@ const Stepper = ({ currentStep, cancelled }) => (
           {/* STEP CIRCLE */}
           <div
             className={`
-              w-10 h-10 rounded-full flex items-center justify-center 
-              text-sm font-bold shadow-md z-10
+              w-12 h-12 rounded-full flex items-center justify-center 
+              text-base font-bold shadow-xl z-10 border-4 border-white
               ${cancelled
                 ? "bg-red-500 text-white"
                 : isCompleted || isActive
-                  ? "bg-white text-white"
-                  : "bg-gray-300 text-gray-700"
+                  ? stepNumber === 1 ? "bg-blue-500 text-white"
+                    : stepNumber === 2 ? "bg-blue-500 text-white"
+                      : stepNumber === 3 ? "bg-blue-500 text-white"
+                        : "bg-blue-500 text-white"
+                  : "bg-blue-500 text-blue-500"
               }
             `}
           >
@@ -92,7 +97,14 @@ const Stepper = ({ currentStep, cancelled }) => (
           </div>
 
           {/* STEP LABEL */}
-          <span className="mt-2 text-xs text-gray-200">{step}</span>
+          <span className={`mt-3 text-sm font-semibold ${cancelled ? "text-red-400"
+              : isCompleted || isActive
+                ? stepNumber === 1 ? "text-white"
+                  : stepNumber === 2 ? "text-white"
+                    : stepNumber === 3 ? "text-white"
+                      : "text-white"
+                : "text-gray-400"
+            }`}>{step}</span>
         </div>
       );
     })}
@@ -179,7 +191,7 @@ const OrderCard = ({ order, onCancel, isExpanded, toggleExpand }) => {
             onClick={toggleExpand}
             className="
               px-4 py-2 text-sm border rounded-lg
-              bg-white text-white border-white
+              backdrop-blur-xl bg-white/10 text-white border-black
               hover:bg-blue-800 transition flex items-center shadow-md hover:scale-105
             "
           >
@@ -195,7 +207,7 @@ const OrderCard = ({ order, onCancel, isExpanded, toggleExpand }) => {
               onClick={() => onCancel(order._id)}
               className="
                 px-3 py-2 text-sm border rounded-lg
-                text-red-500 bg-red-200 border-red-900
+                text-red-500 bg-red-200 border-red-200
                 hover:bg-red-500/30 hover:text-red-100 transition shadow-sm
               "
             >
@@ -297,7 +309,7 @@ const OrderList = () => {
 
   if (loading)
     return (
-      <div className="min-h-screen flex items-center justify-center text-white text-lg font-medium">
+      <div className="min-h-screen flex items-center justify-center text-blue-600 text-lg font-medium">
         Loading your orders...
       </div>
     );
@@ -320,7 +332,7 @@ const OrderList = () => {
                   onClick={() => setFilter(f)}
                   className={`px-4 py-2 rounded-full text-sm shadow transition-all
                     ${active
-                      ? "bg-white text-white shadow-blue-300 scale-105"
+                      ? "bg-white text-blue-600 shadow-blue-900 scale-105"
                       : "bg-white border border-gray-300 text-black hover:bg-gray-100"
                     }`}
                 >
