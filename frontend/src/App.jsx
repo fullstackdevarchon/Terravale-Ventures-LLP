@@ -94,7 +94,7 @@ function AuthRedirect() {
   const { isAuthenticated, userRole } = useAuth();
 
   // force rebuild
-console.log("rebuild:", Date.now());
+  console.log("rebuild:", Date.now());
 
   if (isAuthenticated) {
     return (
@@ -176,7 +176,7 @@ function App() {
         <Route path="*" element={<PageNotFound />} />
       </Routes>
 
-      <Toaster position="top-right" reverseOrder={false} />
+      <Toaster position="bottom-center" reverseOrder={false} />
     </>
   );
 }
