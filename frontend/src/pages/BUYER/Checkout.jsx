@@ -338,8 +338,8 @@ const Checkout = () => {
                   type="button"
                   onClick={() => handleAddressTypeChange("HOME")}
                   className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl border transition-all duration-300 ${selectedType === "HOME"
-                    ? "bg-white text-white border-white font-bold shadow-lg scale-105"
-                    : "bg-white/10 text-black border-white/20 hover:bg-white/20"
+                    ? "backdrop-blur-xl bg-white/10 text-white border-white font-bold shadow-lg scale-105"
+                    : "backdrop-blur-xl bg-white/10 text-black border-white/20 hover:bg-white/20"
                     }`}
                 >
                   <FaHome /> HOME
@@ -348,8 +348,8 @@ const Checkout = () => {
                   type="button"
                   onClick={() => handleAddressTypeChange("SECONDARY")}
                   className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl border transition-all duration-300 ${selectedType === "SECONDARY"
-                    ? "bg-white text-white border-white font-bold shadow-lg scale-105"
-                    : "bg-white/10 text-black border-white/20 hover:bg-white/20"
+                    ? "backdrop-blur-xl bg-white/10 text-white border-white font-bold shadow-lg scale-105"
+                    : "backdrop-blur-xl bg-white/10 text-black border-white/20 hover:bg-white/20"
                     }`}
                 >
                   <FaBuilding /> {savedAddresses.secondary?.type || "OFFICE/APT"}

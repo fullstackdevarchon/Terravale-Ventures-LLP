@@ -63,7 +63,7 @@ const SellerNavbar = () => {
               />
 
               <div>
-                <h1 className="text-white font-extrabold text-3xl tracking-wide">
+                <h1 className="text-white font-extrabold text-2xl tracking-wide">
                   Seller Dashboard
                 </h1>
               </div>

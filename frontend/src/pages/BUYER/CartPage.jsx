@@ -105,70 +105,96 @@ const CartPage = () => {
             </Link>
           </div>
         ) : (
-          <div className="grid md:grid-cols-3 gap-10 pb-10">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start pb-10">
             {/* Cart Items */}
-            <div className="md:col-span-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-2xl">
-              <h2 className="text-3xl font-bold text-black mb-6 flex items-center gap-2">
+            <div className="lg:col-span-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-2xl">
+              <h2 className="text-2xl sm:text-3xl font-bold text-black mb-4 sm:mb-6 flex items-center gap-2">
                 Shopping Cart
               </h2>
 
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 {cartItems.map((item) => (
                   <div
                     key={item.id}
-                    className="flex flex-col sm:flex-row items-center gap-6 pb-6 border-b border-gray-200 last:border-0"
+                    className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 pb-4 sm:pb-6 border-b border-white/10 last:border-0"
                   >
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-32 h-32 object-cover bg-white rounded-xl border border-gray-200 p-1 shadow-md hover:scale-105 transition-transform"
-                    />
+                    {/* Image + Title Row (Mobile) / Just Image (Desktop) */}
+                    <div className="flex items-start gap-3 sm:gap-0">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 object-cover rounded-lg sm:rounded-xl border border-white/20 shadow flex-shrink-0"
+                      />
 
-                    <div className="flex-1 text-center sm:text-left">
-                      <h3 className="text-xl font-bold text-black flex items-center justify-center sm:justify-start gap-2">
-                        <FaTag className="text-purple-900 " />
+                      {/* Mobile Only: Title and Price next to image */}
+                      <div className="flex-1 sm:hidden">
+                        <h3 className="text-base font-semibold text-black drop-shadow line-clamp-2 flex items-center gap-2">
+                          <FaTag className="text-purple-900 text-sm" />
+                          {item.name}
+                        </h3>
+                        <p className="text-black text-sm mt-1">
+                          ₹{item.price.toFixed(2)} each
+                        </p>
+                        {item.weight && (
+                          <p className="text-xs text-black mt-1">
+                            Weight: {item.weight}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Desktop: Product Details (Title, Price, Description, Controls) */}
+                    <div className="hidden sm:flex sm:flex-1 sm:flex-col">
+                      <h3 className="text-xl font-semibold text-black drop-shadow flex items-center gap-2">
+                        <FaTag className="text-purple-900" />
                         {item.name}
                       </h3>
+                      <p className="text-black text-sm">
+                        ₹{item.price.toFixed(2)} each
+                      </p>
 
-                      {/* Product Description */}
+                      {/* Description */}
                       {item.description && (
-                        <p className="text-sm text-black mt-1 flex items-center justify-center sm:justify-start gap-1">
-                          {item.description.substring(0, 60)}...
+                        <p className="text-black text-sm mt-2 line-clamp-2 max-w-md">
+                          {item.description}
                         </p>
                       )}
 
                       {item.weight && (
-                        <p className="text-sm text-black mt-1 flex items-center justify-center sm:justify-start gap-1">
+                        <p className="text-sm text-black mt-1">
+                          <FaWeightHanging className="inline mr-1" />
                           Weight: {item.weight}
                         </p>
                       )}
 
-                      <p className="text-black font-bold text-lg mt-1 flex items-center justify-center sm:justify-start gap-1">
-                        ₹{item.price.toFixed(2)} each
-                      </p>
-
-                      <div className="flex items-center justify-center sm:justify-start mt-4">
+                      {/* QTY CONTROLS - Desktop */}
+                      <div className="flex items-center mt-4">
                         <button
                           onClick={() => handleDecrease(item)}
                           className="
-                            px-3 py-1 text-black 
-                            bg-gray-200 border border-gray-300 
-                            rounded-l-md hover:bg-gray-300 transition shadow-sm
+                            px-3 py-1 
+                            text-black 
+                            bg-white/20 border border-white/30 
+                            rounded-l-md 
+                            hover:bg-white/30 
+                            transition
                           "
                         >
                           <FaMinus />
                         </button>
 
-                        <span className="px-4 py-1 bg-white text-black border-t border-b border-gray-300 font-bold">
+                        <span className="px-4 py-1 bg-white/10 text-black border border-white/20 font-bold">
                           {item.qty}
                         </span>
 
                         <button
                           onClick={() => dispatch(addCart(item))}
                           className="
-                            px-3 py-1 text-black 
-                            bg-gray-200 border border-gray-300 
-                            rounded-r-md hover:bg-gray-300 transition shadow-sm
+                            px-3 py-1 
+                            text-black 
+                            bg-white/20 border border-white/30 
+                            rounded-r-md 
+                            hover:bg-white/30 transition
                           "
                         >
                           <FaPlus />
@@ -176,17 +202,76 @@ const CartPage = () => {
                       </div>
                     </div>
 
-                    <div className="flex flex-col items-center sm:items-end space-y-2">
-                      <div className="text-xl font-bold text-black flex items-center gap-1">
+                    {/* Desktop: Price + Delete (separate column on right) */}
+                    <div className="hidden sm:flex sm:flex-col sm:items-end sm:space-y-2 flex-shrink-0">
+                      <div className="text-xl font-bold text-white">
                         ₹{(item.price * item.qty).toFixed(2)}
                       </div>
-
                       <button
                         onClick={() => dispatch(delCart(item))}
-                        className="text-red-700 hover:text-red-900 text-lg transition hover:rotate-12"
+                        className="text-red-500 hover:text-red-700 text-lg transition hover:rotate-12"
                         title="Remove Item"
                       >
                         <FaTrash />
+                      </button>
+                    </div>
+
+                    {/* Mobile Only: Description + Controls (full width below image/title) */}
+                    <div className="sm:hidden w-full space-y-3">
+                      {/* Description */}
+                      {item.description && (
+                        <p className="text-black text-sm leading-relaxed">
+                          {item.description}
+                        </p>
+                      )}
+
+                      {/* QTY CONTROLS & PRICE - Mobile */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <button
+                            onClick={() => handleDecrease(item)}
+                            className="
+                              px-3 py-1.5 
+                              text-black 
+                              bg-white/20 border border-white/30 
+                              rounded-l-md 
+                              hover:bg-white/30 
+                              transition
+                            "
+                          >
+                            <FaMinus className="text-sm" />
+                          </button>
+
+                          <span className="px-4 py-1.5 bg-white/10 text-black border border-white/20 font-medium">
+                            {item.qty}
+                          </span>
+
+                          <button
+                            onClick={() => dispatch(addCart(item))}
+                            className="
+                              px-3 py-1.5 
+                              text-black 
+                              bg-white/20 border border-white/30 
+                              rounded-r-md 
+                              hover:bg-white/30 transition
+                            "
+                          >
+                            <FaPlus className="text-sm" />
+                          </button>
+                        </div>
+
+                        {/* PRICE - Mobile */}
+                        <div className="text-lg font-bold text-white">
+                          ₹{(item.price * item.qty).toFixed(2)}
+                        </div>
+                      </div>
+
+                      {/* Delete Button - Mobile */}
+                      <button
+                        onClick={() => dispatch(delCart(item))}
+                        className="w-full py-2 text-red-500 hover:text-red-700 border border-red-300 rounded-md hover:bg-red-50/10 transition flex items-center justify-center gap-2"
+                      >
+                        <FaTrash /> Remove Item
                       </button>
                     </div>
                   </div>
@@ -195,12 +280,12 @@ const CartPage = () => {
             </div>
 
             {/* Order Summary */}
-            <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-2xl h-max">
-              <h2 className="text-3xl font-bold text-black mb-6 flex items-center gap-2">
+            <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-2xl h-fit lg:sticky lg:top-24">
+              <h2 className="text-2xl sm:text-3xl font-bold text-black mb-4 sm:mb-6 flex items-center gap-2">
                 Order Summary
               </h2>
 
-              <ul className="space-y-4 text-black text-lg">
+              <ul className="space-y-3 sm:space-y-4 text-black text-base sm:text-lg">
                 <li className="flex justify-between items-center">
                   <span className="flex items-center gap-2">
                     Subtotal
@@ -215,7 +300,7 @@ const CartPage = () => {
                   <span className="font-semibold">₹{shipping.toFixed(2)}</span>
                 </li>
 
-                <li className="flex justify-between border-t border-gray-300 pt-4 text-2xl font-bold text-black">
+                <li className="flex justify-between border-t border-white/20 pt-3 sm:pt-4 text-xl sm:text-2xl font-bold text-black">
                   <span className="flex items-center gap-2">
                     <FaMoneyCheckAlt className="text-white" /> Total
                   </span>
@@ -227,7 +312,7 @@ const CartPage = () => {
               <button
                 onClick={loading ? null : handleCheckout}
                 disabled={loading}
-                className="mt-6 block w-full text-center border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer py-3 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="mt-4 sm:mt-6 block w-full text-center py-2.5 sm:py-3 border border-white/40 text-white text-base sm:text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <span className="flex items-center gap-3">
