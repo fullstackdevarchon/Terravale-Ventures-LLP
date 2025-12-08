@@ -27,27 +27,93 @@ dotenv.config();
 const app = express();
 
 // =========================================
-// ✅ UPDATED CORS CONFIG (ADMIN + USER + LABOUR)
+// 🔒 SECURE CORS CONFIGURATION
 // =========================================
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:5175",
-  "http://localhost:5174",
-  "https://terravale.onrender.com",              // customer frontend
-  "https://terravale-admin.onrender.com",        // admin frontend
-  "https://terravale-labour.onrender.com",
-  "https://terravale-main.onrender.com",       // labour frontend (NEW, FIXED)
-  process.env.FRONTEND_URL?.replace(/\/+$/, ""), // optional env override
-].filter(Boolean);
 
-app.use(
-  cors({
-    origin: allowedOrigins,
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+/**
+ * SECURITY BEST PRACTICES:
+ * 1. ✅ Whitelist-based origin validation (NO wildcards)
+ * 2. ✅ Strict origin checking with credentials
+ * 3. ✅ No Access-Control-Allow-Origin: * when credentials: true
+ * 4. ✅ Explicit method and header whitelisting
+ * 5. ✅ Environment-based configuration for flexibility
+ */
+
+// Define allowed origins (whitelist approach)
+const allowedOrigins = [
+  // Local development origins
+  "http://localhost:5173",           // Main frontend dev
+  "http://localhost:5174",           // Customer frontend dev
+  "http://localhost:5175",           // Admin frontend dev
+
+  // Production origins
+  "https://terravale-main.onrender.com",    // Main customer frontend
+  "https://terravale-admin.onrender.com",   // Admin dashboard
+  "https://terravale-labour.onrender.com",  // Labour portal
+
+  // Optional: Environment-based override (for custom domains)
+  process.env.FRONTEND_URL?.replace(/\/+$/, ""),
+  process.env.ADMIN_URL?.replace(/\/+$/, ""),
+  process.env.LABOUR_URL?.replace(/\/+$/, ""),
+].filter(Boolean); // Remove undefined/null values
+
+/**
+ * CORS Origin Validator
+ * Validates incoming requests against the whitelist
+ * @param {string} origin - The origin of the incoming request
+ * @param {function} callback - Callback function (error, allow)
+ */
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (mobile apps, Postman, server-to-server)
+    // ⚠️ SECURITY NOTE: Remove this in production if you don't need it
+    if (!origin) {
+      // For development: allow no-origin requests
+      // For production: uncomment the line below to block
+      // return callback(new Error('Origin not allowed by CORS'), false);
+      return callback(null, true);
+    }
+
+    // Check if origin is in whitelist
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true); // Origin is allowed
+    } else {
+      // Log unauthorized access attempts for security monitoring
+      console.warn(`🚨 CORS BLOCKED: Unauthorized origin attempted access: ${origin}`);
+      callback(new Error(`CORS policy: Origin ${origin} is not allowed`), false);
+    }
+  },
+
+  // Enable credentials (cookies, authorization headers)
+  credentials: true,
+
+  // Allowed HTTP methods
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+
+  // Allowed headers
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization",
+    "X-Requested-With",
+    "Accept",
+    "Origin",
+  ],
+
+  // Expose custom headers to the client
+  exposedHeaders: ["Set-Cookie"],
+
+  // Cache preflight requests for 24 hours (reduce OPTIONS requests)
+  maxAge: 86400,
+
+  // Allow preflight to succeed
+  optionsSuccessStatus: 200,
+};
+
+// Apply CORS middleware
+app.use(cors(corsOptions));
+
+// Additional security: Handle preflight requests explicitly
+app.options("*", cors(corsOptions));
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
