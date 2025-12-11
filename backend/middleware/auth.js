@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import Labour from "../models/Labour.js";
+import Admin from "../models/Admin.js"; // ✅ Added Admin model
 
 // ================================
 // Generate Token (Helper Function)
@@ -53,12 +54,17 @@ export const isAuthenticated = async (req, res, next) => {
 
     let principal = null;
 
+    // Check Admin Model
+    if (decoded.role === "admin") {
+      principal = await Admin.findById(decoded.id).select("-password");
+    }
+
     // Labour Model
-    if (decoded.role === "labour") {
+    if (!principal && decoded.role === "labour") {
       principal = await Labour.findById(decoded.id).select("-password");
     }
 
-    // User/Admin (same model)
+    // User/Buyer/Seller (same model)
     if (!principal) {
       principal =
         (await User.findById(decoded.id).select("-pass")) ||

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
-import API_BASE from "../config";
+import { adminLogin } from "../api/adminApi"; // ✅ Use new admin API
 
 const Login = () => {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
-    password: "", // ✅ correct field name
+    password: "",
   });
 
   const handleChange = (e) => {
@@ -26,25 +26,9 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_BASE}/api/users/admin/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include", // ✅ allow cookies (if backend sets them)
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password, // ✅ fixed to match backend
-        }),
-      });
+      const data = await adminLogin(formData.email, formData.password);
 
-      const data = await response.json();
-
-      if (response.ok) {
-        // ✅ Save token & role for persistence
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("role", data.user.role);
-
+      if (data.success) {
         setAuth({
           isAuthenticated: true,
           user: data.user,
@@ -58,7 +42,7 @@ const Login = () => {
       }
     } catch (error) {
       console.error("Login error:", error);
-      toast.error("Failed to connect to server");
+      toast.error(error.message || "Failed to connect to server");
     } finally {
       setLoading(false);
     }

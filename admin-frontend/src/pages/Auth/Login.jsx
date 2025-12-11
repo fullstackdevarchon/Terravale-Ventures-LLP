@@ -86,13 +86,13 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_BASE}/api/users/admin/login`, {
+      const response = await fetch(`${API_BASE}/api/admin/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({
           email: formData.email,
-          pass: formData.password,
+          password: formData.password,
         }),
       });
 

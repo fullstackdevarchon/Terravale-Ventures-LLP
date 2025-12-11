@@ -14,7 +14,7 @@ import webpush from "web-push";
 import userRoutes from "./routes/userRoutes.js";
 import productRoutes from "./routes/product.routes.js";
 import categoryRoutes from "./routes/category.routes.js";
-import adminRoutes from "./routes/admin.routes.js";
+import adminRoutes from "./routes/adminRoutes.js"; // ✅ Updated to new admin routes
 import orderRoutes from "./routes/orderRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
