@@ -370,7 +370,7 @@ const OrderList = () => {
             </p>
             <Link
               to="/"
-              className="inline-block mt-6 px-5 py-2.5 bg-white text-white rounded-lg shadow-md hover:bg-blue-800"
+              className="inline-block mt-6 px-5 py-2.5 bg-black text-white rounded-lg shadow-md hover:bg-blue-800"
             >
               Continue Shopping
             </Link>

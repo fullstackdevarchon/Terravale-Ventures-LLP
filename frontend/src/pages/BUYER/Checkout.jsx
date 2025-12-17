@@ -8,8 +8,19 @@ import Confetti from "react-confetti";
 import { delCart } from "../../redux/action";
 import PageContainer from "../../components/PageContainer";
 import Footer from "./Footer";
-import { FaHome, FaBuilding } from "react-icons/fa";
+import { FaHome, FaBuilding, FaCreditCard, FaMoneyBillWave } from "react-icons/fa";
 import API_BASE from "../../config";
+
+// Load Razorpay script
+const loadRazorpayScript = () => {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+};
 
 const Checkout = () => {
   const cart = useSelector((state) => state.handleCart);
@@ -30,21 +41,18 @@ const Checkout = () => {
     zip: "",
   });
 
-  // Store fetched addresses to switch between them
   const [savedAddresses, setSavedAddresses] = useState({
     home: null,
     secondary: null,
   });
   const [selectedType, setSelectedType] = useState("HOME");
-
+  const [paymentMethod, setPaymentMethod] = useState("COD"); // COD or ONLINE
   const [loading, setLoading] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
-
-  // ⭐ FIXED: Confetti state added
   const [showConfetti, setShowConfetti] = useState(true);
 
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-  const shipping = cart.length > 0 ? 30 : 0;
+  const shipping = cart.length > 0 ? 1 : 0; // ₹1 shipping fee
   const total = subtotal + shipping;
 
   const token = localStorage.getItem("token");
@@ -59,8 +67,6 @@ const Checkout = () => {
 
       if (data.success && data.user) {
         const user = data.user;
-
-        // Prepare address objects
         const homeAddr = user.address || {};
         const secAddr = user.secondaryAddress || {};
 
@@ -85,7 +91,6 @@ const Checkout = () => {
             zip: secAddr.pincode || "",
             type: secAddr.type || "OFFICE"
           },
-          // User contact info is common
           contact: {
             fullName: user.fullName || "",
             email: user.email || "",
@@ -94,7 +99,6 @@ const Checkout = () => {
           }
         });
 
-        // Default to HOME
         setAddress({
           fullName: user.fullName || "",
           email: user.email || "",
@@ -118,14 +122,12 @@ const Checkout = () => {
     fetchProfile();
   }, []);
 
-  // Handle Address Type Switch
   const handleAddressTypeChange = (type) => {
     if (!savedAddresses.home) return;
 
     const targetAddr = type === "HOME" ? savedAddresses.home : savedAddresses.secondary;
     const contact = savedAddresses.contact;
 
-    // If switching to secondary but it's empty, warn user
     if (type !== "HOME" && (!targetAddr.street || !targetAddr.city)) {
       toast("Secondary address is empty in your profile", { icon: "⚠️" });
     }
@@ -146,24 +148,121 @@ const Checkout = () => {
     });
   };
 
-  // PLACE ORDER
-  const handlePlaceOrder = async (e) => {
-    e.preventDefault();
+  // HANDLE RAZORPAY PAYMENT
+  const handleOnlinePayment = async () => {
+    const res = await loadRazorpayScript();
 
-    if (!token) {
-      toast.error("PLEASE LOGIN AS BUYER TO PLACE ORDER");
-      return navigate("/login");
+    if (!res) {
+      toast.error("Razorpay SDK failed to load. Please check your internet connection.");
+      return;
     }
 
-    setLoading(true);
+    try {
+      // Create Razorpay order
+      const { data } = await axios.post(
+        `${API_BASE}/api/payment/create-order`,
+        {
+          amount: total,
+          currency: "INR",
+          receipt: `receipt_${Date.now()}`,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
+      if (!data.success) {
+        toast.error("Failed to create payment order");
+        return;
+      }
+
+      const { order, key_id } = data;
+
+      // Razorpay options
+      const options = {
+        key: key_id,
+        amount: order.amount,
+        currency: order.currency,
+        name: "Terravale Ventures LLP",
+        description: "Order Payment",
+        order_id: order.id,
+        handler: async function (response) {
+          try {
+            // Verify payment
+            const objectIdRegex = /^[a-fA-F0-9]{24}$/;
+            const normalizedProducts = cart.map((item) => {
+              let pid = item?._id || item?.product?._id || item?.productId || item?.id;
+              if (typeof pid === "number") pid = String(pid);
+              if (pid && typeof pid === "object" && pid._id) pid = pid._id;
+
+              return {
+                product: pid,
+                qty: Number(item.qty),
+                price: Number(item.price),
+              };
+            });
+
+            const verifyData = await axios.post(
+              `${API_BASE}/api/payment/verify`,
+              {
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                orderData: {
+                  products: normalizedProducts,
+                  address,
+                },
+              },
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            );
+
+            if (verifyData.data.success) {
+              setOrderSuccess(true);
+              setShowConfetti(true);
+              toast.success("PAYMENT SUCCESSFUL! ORDER PLACED!");
+
+              cart.forEach((item) => dispatch(delCart(item)));
+
+              setTimeout(() => setShowConfetti(false), 3000);
+              setTimeout(() => {
+                navigate("/buyer-dashboard/orders");
+              }, 3000);
+            } else {
+              toast.error("Payment verification failed");
+            }
+          } catch (error) {
+            console.error("Payment verification error:", error);
+            toast.error("Payment verification failed");
+          }
+        },
+        prefill: {
+          name: address.fullName,
+          email: address.email,
+          contact: address.phone,
+        },
+        theme: {
+          color: "#22c55e",
+        },
+      };
+
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();
+    } catch (error) {
+      console.error("Payment error:", error);
+      toast.error("Failed to initiate payment");
+    }
+  };
+
+  // HANDLE COD ORDER
+  const handleCODOrder = async () => {
     try {
       const objectIdRegex = /^[a-fA-F0-9]{24}$/;
       const invalidItems = [];
 
       const normalizedProducts = cart.map((item) => {
-        let pid =
-          item?._id || item?.product?._id || item?.productId || item?.id;
+        let pid = item?._id || item?.product?._id || item?.productId || item?.id;
         if (typeof pid === "number") pid = String(pid);
         if (pid && typeof pid === "object" && pid._id) pid = pid._id;
 
@@ -180,7 +279,6 @@ const Checkout = () => {
 
       if (invalidItems.length > 0) {
         toast.error(`INVALID PRODUCT IDs: ${invalidItems.join(", ")}`);
-        setLoading(false);
         return;
       }
 
@@ -205,20 +303,38 @@ const Checkout = () => {
       if (data.success) {
         setOrderSuccess(true);
         setShowConfetti(true);
-
         toast.success("ORDER PLACED SUCCESSFULLY!");
 
         cart.forEach((item) => dispatch(delCart(item)));
 
-        // Stop Confetti after 3s
         setTimeout(() => setShowConfetti(false), 3000);
-
-        // Redirect after 3s
         setTimeout(() => {
           navigate("/buyer-dashboard/orders");
         }, 3000);
       } else {
         toast.error(data.message || "FAILED TO PLACE ORDER");
+      }
+    } catch (err) {
+      toast.error("ORDER FAILED. TRY AGAIN.");
+    }
+  };
+
+  // PLACE ORDER
+  const handlePlaceOrder = async (e) => {
+    e.preventDefault();
+
+    if (!token) {
+      toast.error("PLEASE LOGIN AS BUYER TO PLACE ORDER");
+      return navigate("/login");
+    }
+
+    setLoading(true);
+
+    try {
+      if (paymentMethod === "ONLINE") {
+        await handleOnlinePayment();
+      } else {
+        await handleCODOrder();
       }
     } catch (err) {
       toast.error("ORDER FAILED. TRY AGAIN.");
@@ -231,8 +347,6 @@ const Checkout = () => {
   if (orderSuccess) {
     return (
       <PageContainer>
-
-        {/* CONFETTI */}
         {showConfetti && (
           <Confetti
             width={window.innerWidth}
@@ -245,15 +359,12 @@ const Checkout = () => {
         )}
 
         <div className="flex flex-col items-center justify-center h-screen text-center">
-
-          {/* TRUCK ANIMATION */}
           <div className="relative w-64 h-32 mb-10 overflow-hidden">
             <div className="absolute text-8xl animate-truckRightToLeft">
               🚚
             </div>
           </div>
 
-          {/* TEXT */}
           <h1 className="text-4xl font-extrabold text-green-600 drop-shadow-xl mb-2 animate-fadeIn">
             ORDER PLACED!
           </h1>
@@ -267,23 +378,20 @@ const Checkout = () => {
           </p>
         </div>
 
-        {/* ANIMATIONS */}
         <style>{`
-        /* TRUCK RIGHT → LEFT */
         @keyframes truckRightToLeft {
-          0% { transform: translateX(250px); }    /* Enter from RIGHT */
-          40% { transform: translateX(30px); }    /* Stop center */
-          55% { transform: translateX(30px) rotate(-2deg); }  /* Shake loading */
+          0% { transform: translateX(250px); }
+          40% { transform: translateX(30px); }
+          55% { transform: translateX(30px) rotate(-2deg); }
           65% { transform: translateX(30px) rotate(2deg); }
           75% { transform: translateX(30px) rotate(0deg); }
-          100% { transform: translateX(-350px); } /* Exit LEFT */
+          100% { transform: translateX(-350px); }
         }
 
         .animate-truckRightToLeft {
           animation: truckRightToLeft 3.2s ease-in-out forwards;
         }
 
-        /* Fade In */
         @keyframes fadeIn {
           0% { opacity: 0; transform: translateY(10px); }
           100% { opacity: 1; transform: translateY(0); }
@@ -297,10 +405,6 @@ const Checkout = () => {
       </PageContainer>
     );
   }
-
-
-
-
 
   // MAIN CHECKOUT PAGE
   return (
@@ -329,7 +433,6 @@ const Checkout = () => {
           >
             {/* ADDRESS FORM */}
             <div className="lg:col-span-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl space-y-4 text-black">
-
               <h4 className="text-2xl font-bold mb-4">BILLING ADDRESS</h4>
 
               {/* ADDRESS SELECTOR BUTTONS */}
@@ -515,13 +618,52 @@ const Checkout = () => {
                 </li>
               </ul>
 
+              {/* PAYMENT METHOD SELECTION */}
+              <div className="mt-6 space-y-3">
+                <h3 className="text-lg font-bold">PAYMENT METHOD</h3>
+
+                <button
+                  type="button"
+                  onClick={() => setPaymentMethod("COD")}
+                  className={`w-full flex items-center justify-center gap-3 py-3 rounded-xl border transition-all duration-300 ${paymentMethod === "COD"
+                    ? "bg-green-500 text-white border-green-600 font-bold shadow-lg scale-105"
+                    : "bg-white/10 text-black border-white/20 hover:bg-white/20"
+                    }`}
+                >
+                  <FaMoneyBillWave className="text-xl" />
+                  CASH ON DELIVERY
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setPaymentMethod("ONLINE")}
+                  className={`w-full flex items-center justify-center gap-3 py-3 rounded-xl border transition-all duration-300 ${paymentMethod === "ONLINE"
+                    ? "bg-blue-500 text-white border-blue-600 font-bold shadow-lg scale-105"
+                    : "bg-white/10 text-black border-white/20 hover:bg-white/20"
+                    }`}
+                >
+                  <FaCreditCard className="text-xl" />
+                  ONLINE PAYMENT
+                </button>
+              </div>
+
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full mt-6 py-3 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer"
+                className="w-full mt-6 py-3 border border-white/40 text-white text-lg rounded-md bg-white/10 hover:bg-[rgba(27,60,43,0.6)] hover:scale-105 hover:text-black transition shadow-md font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? "PLACING ORDER..." : "PLACE ORDER (COD)"}
+                {loading
+                  ? "PROCESSING..."
+                  : paymentMethod === "ONLINE"
+                    ? "PAY NOW"
+                    : "PLACE ORDER (COD)"}
               </button>
+
+              {paymentMethod === "ONLINE" && (
+                <p className="text-xs text-center text-gray-600 mt-3">
+                  🔒 Secured by Razorpay
+                </p>
+              )}
             </div>
           </form>
         )}

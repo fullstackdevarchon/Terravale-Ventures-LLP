@@ -22,7 +22,8 @@ const COLORS = ["#c7d22aff", "#0af0c6ff", "#eda60cff", "#FF8042", "#9410e6ff"];
 const Analytics = () => {
   const [categoryData, setCategoryData] = useState([]);
   const [topProducts, setTopProducts] = useState([]);
-  const [loading, setLoading] = useState(true); // ✅ Added loading state
+  const [loading, setLoading] = useState(true);
+  const [dateRange, setDateRange] = useState("30"); // Default: Last 30 days
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -33,34 +34,72 @@ const Analytics = () => {
         );
 
         if (data.success && data.orders) {
-          // ✅ Filter only delivered orders
-          const deliveredOrders = data.orders.filter(
-            (o) => o.status === "Delivered"
-          );
+          // ✅ Calculate date threshold (last X days)
+          const daysAgo = parseInt(dateRange);
+          const dateThreshold = new Date();
+          dateThreshold.setDate(dateThreshold.getDate() - daysAgo);
+
+          // ✅ Filter delivered orders from last X days
+          const deliveredOrders = data.orders.filter((order) => {
+            const isDelivered = order.status === "Delivered";
+            const orderDate = new Date(order.createdAt || order.updatedAt);
+            const isWithinRange = orderDate >= dateThreshold;
+            return isDelivered && isWithinRange;
+          });
 
           const categoryMap = {};
           const productMap = {};
 
           deliveredOrders.forEach((order) => {
+            // ✅ Safety check: ensure products array exists
+            if (!order.products || !Array.isArray(order.products)) return;
+
             order.products.forEach((item) => {
-              const p = item.product;
-              if (!p) return;
+              // ✅ Priority: snapshot (v2.0) > old fields (v1.0) > populated product > fallback
+              let productName, productCategory, productId;
+
+              // Try snapshot first (v2.0 schema)
+              if (item.snapshot) {
+                productName = item.snapshot.name;
+                productCategory = item.snapshot.categoryName || "Uncategorized";
+                productId = item.productId || item.product;
+              }
+              // Fallback to old schema (v1.0)
+              else if (item.productName) {
+                productName = item.productName;
+                productCategory = item.productCategory || "Uncategorized";
+                productId = item.product?._id || item.product;
+              }
+              // Fallback to populated product (very old orders)
+              else if (item.product) {
+                productName = item.product.name || "Unknown Product";
+                productCategory = item.product.category?.name || item.product.category || "Uncategorized";
+                productId = item.product._id || item.product;
+              }
+              // Last resort
+              else {
+                productName = "Unknown Product";
+                productCategory = "Uncategorized";
+                productId = `unknown_${Date.now()}`;
+              }
+
+              const quantity = item.qty || 0;
 
               // Group sales by category
-              if (p.category) {
-                if (!categoryMap[p.category]) categoryMap[p.category] = 0;
-                categoryMap[p.category] += item.qty;
+              if (productCategory) {
+                if (!categoryMap[productCategory]) categoryMap[productCategory] = 0;
+                categoryMap[productCategory] += quantity;
               }
 
               // Group sales by product
-              if (!productMap[p._id]) {
-                productMap[p._id] = {
-                  id: p._id,
-                  title: p.name || "Unknown Product",
+              if (!productMap[productId]) {
+                productMap[productId] = {
+                  id: productId,
+                  title: productName,
                   sold: 0,
                 };
               }
-              productMap[p._id].sold += item.qty;
+              productMap[productId].sold += quantity;
             });
           });
 
@@ -80,25 +119,62 @@ const Analytics = () => {
       } catch (err) {
         console.error("❌ Analytics fetch error:", err);
       } finally {
-        setLoading(false); // ✅ Stop loading after fetch
+        setLoading(false);
       }
     };
 
     fetchOrders();
-  }, []);
-
-  // // ✅ Show preloader while fetching
-  // if (loading) {
-  //   return <Preloader />;
-  // }
+  }, [dateRange]); // Re-fetch when date range changes
 
   return (
     <PageContainer>
       <div className="max-w-7xl w-full mx-auto">
         {/* Header */}
-        <h2 className="text-5xl font-extrabold mb-10 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl">
-          Analytics Dashboard
-        </h2>
+        <div className="mb-10">
+          <h2 className="text-5xl font-extrabold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-white drop-shadow-xl">
+            Analytics Dashboard
+          </h2>
+
+          {/* Date Range Filter */}
+          <div className="flex justify-center gap-3">
+            <button
+              onClick={() => setDateRange("7")}
+              className={`px-4 py-2 rounded-lg font-medium transition ${dateRange === "7"
+                ? "bg-green-500 text-white"
+                : "bg-white/20 text-white hover:bg-white/30"
+                }`}
+            >
+              Last 7 Days
+            </button>
+            <button
+              onClick={() => setDateRange("30")}
+              className={`px-4 py-2 rounded-lg font-medium transition ${dateRange === "30"
+                ? "bg-green-500 text-white"
+                : "bg-white/20 text-white hover:bg-white/30"
+                }`}
+            >
+              Last 30 Days
+            </button>
+            <button
+              onClick={() => setDateRange("90")}
+              className={`px-4 py-2 rounded-lg font-medium transition ${dateRange === "90"
+                ? "bg-green-500 text-white"
+                : "bg-white/20 text-white hover:bg-white/30"
+                }`}
+            >
+              Last 90 Days
+            </button>
+            <button
+              onClick={() => setDateRange("365")}
+              className={`px-4 py-2 rounded-lg font-medium transition ${dateRange === "365"
+                ? "bg-green-500 text-white"
+                : "bg-white/20 text-white hover:bg-white/30"
+                }`}
+            >
+              Last Year
+            </button>
+          </div>
+        </div>
 
         {/* Charts Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -137,7 +213,7 @@ const Analytics = () => {
               </ResponsiveContainer>
             ) : (
               <p className="text-center text-black/70 mt-10 font-medium">
-                No delivered order data found.
+                No delivered order data found for the selected period.
               </p>
             )}
           </div>
@@ -188,7 +264,7 @@ const Analytics = () => {
               </>
             ) : (
               <p className="text-center text-black/70 mt-10 font-medium">
-                No sales data available.
+                No sales data available for the selected period.
               </p>
             )}
           </div>

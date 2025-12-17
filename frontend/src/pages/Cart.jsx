@@ -40,7 +40,7 @@ const Cart = () => {
   // CART DISPLAY
   const ShowCart = () => {
     let subtotal = 0;
-    let shipping = 30;
+    let shipping = 1; // ₹1 shipping fee
     let totalQty = 0;
 
     state.forEach((item) => {

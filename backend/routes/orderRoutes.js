@@ -6,6 +6,7 @@ import {
   getAllOrders,
   getOrderById,
   assignOrder, // ✅ import assign controller
+  deleteOrder, // ✅ import delete controller
 } from "../controllers/orderController.js";
 
 import { isAuthenticated, authorizeRoles } from "../middleware/auth.js";
@@ -47,6 +48,14 @@ router.get(
   isAuthenticated,
   authorizeRoles(["admin"]),
   getOrderById
+);
+
+// 🗑️ Delete Order (Admin Only)
+router.delete(
+  "/:id",
+  isAuthenticated,
+  authorizeRoles(["admin"]),
+  deleteOrder
 );
 
 // ---------------- Labour Routes ---------------- //

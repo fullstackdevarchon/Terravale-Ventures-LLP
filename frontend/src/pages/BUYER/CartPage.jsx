@@ -33,7 +33,7 @@ const CartPage = () => {
     (sum, item) => sum + item.price * item.qty,
     0
   );
-  const shipping = cartItems.length > 0 ? 30 : 0;
+  const shipping = cartItems.length > 0 ? 1 : 0; // ₹1 shipping fee
   const total = subtotal + shipping;
 
   // Handle checkout popup

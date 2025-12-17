@@ -16,6 +16,8 @@ import {
   FaShippingFast,
   FaClock,
   FaEnvelope,
+  FaMoneyBillWave,
+  FaCreditCard,
 } from "react-icons/fa";
 import Preloader from "../../components/Preloader"; // Assuming Preloader is available and correct
 import API_BASE from "../../config";
@@ -529,13 +531,30 @@ const OrderList = ({ mode = "all", hideDeliveredDefault = false, showFinishedSum
                 </div>
               </div>
 
+              {/* Payment Method */}
+              <div className="mb-4 p-3 bg-white/30 rounded-lg border border-white/40">
+                <div className="flex items-center gap-2 text-sm">
+                  {order.paymentMethod === "Cash on Delivery" ? (
+                    <>
+                      <FaMoneyBillWave className="text-green-600 text-base" />
+                      <span className="font-semibold text-black">Cash on Delivery</span>
+                    </>
+                  ) : (
+                    <>
+                      <FaCreditCard className="text-blue-600 text-base" />
+                      <span className="font-semibold text-black">Online Payment</span>
+                    </>
+                  )}
+                </div>
+              </div>
+
               {/* Amount & Items */}
               <div className="flex justify-between items-center mb-6 text-sm font-medium">
                 <div className="flex items-center gap-1 text-black">
                   {order.products?.length || 0} Items
                 </div>
                 <div className="flex items-center gap-1 text-xl font-bold text-white">
-                  {order.total}
+                  ₹{order.total}
                 </div>
               </div>
 

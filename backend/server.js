@@ -22,6 +22,7 @@ import labourRoutes from "./routes/labourRoutes.js";
 import forgotRoutes from "./routes/forgotRoutes.js";
 import pushRoutes from "./routes/notificationRoutes.js";
 import googleRoutes from "./routes/google.routes.js";
+import paymentRoutes from "./routes/paymentRoutes.js"; // ✅ Added payment routes
 
 dotenv.config();
 const app = express();
@@ -133,6 +134,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/forgot", forgotRoutes);
 app.use("/api/notifications", pushRoutes);
 app.use("/api/auth/google", googleRoutes);
+app.use("/api/payment", paymentRoutes); // ✅ Added payment routes
 
 app.get("/", (req, res) => {
   res.send("🚀 Terravale Backend API is running successfully!");

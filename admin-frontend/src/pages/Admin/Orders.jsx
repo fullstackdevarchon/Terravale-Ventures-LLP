@@ -11,6 +11,7 @@ import {
   FaMapMarkerAlt,
   FaPhone,
   FaCalendar,
+  FaTrash,
 } from "react-icons/fa";
 import PageContainer from "../../components/PageContainer";
 import Preloader from "../../components/Preloader";
@@ -40,6 +41,30 @@ const Orders = () => {
 
     fetchOrders();
   }, []);
+
+  // 🗑️ Delete Order Handler
+  const handleDeleteOrder = async (orderId) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this order? This action cannot be undone."
+    );
+
+    if (!confirmed) return;
+
+    try {
+      await axios.delete(
+        `${API_BASE}/api/v1/orders/${orderId}`,
+        { withCredentials: true }
+      );
+
+      // Remove order from state
+      setOrders((prevOrders) => prevOrders.filter((o) => o._id !== orderId));
+
+      alert("Order deleted successfully!");
+    } catch (err) {
+      console.error("❌ Error deleting order:", err);
+      alert(err.response?.data?.message || "Failed to delete order");
+    }
+  };
 
   // 🔍 Filtered Orders
   const filteredOrders = orders.filter((order) => {
@@ -128,8 +153,17 @@ const Orders = () => {
             {filteredOrders.map((order) => (
               <div
                 key={order._id}
-                className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
+                className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden relative group"
               >
+                {/* 🗑️ Delete Button (appears on hover) */}
+                <button
+                  onClick={() => handleDeleteOrder(order._id)}
+                  className="absolute top-3 right-3 z-10 w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-red-600 hover:scale-110 shadow-lg"
+                  title="Delete Order"
+                >
+                  <FaTrash className="text-sm" />
+                </button>
+
                 {/* Order Header */}
                 <div className="bg-gradient-to-r from-white/20 to-white/10 p-2 border-b border-white/20">
                   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">

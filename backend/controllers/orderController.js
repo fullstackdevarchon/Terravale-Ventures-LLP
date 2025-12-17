@@ -51,7 +51,11 @@ export const createOrder = async (req, res) => {
         });
       }
 
-      const product = await Product.findById(productId);
+      // ✅ Fetch product with populated category and seller
+      const product = await Product.findById(productId)
+        .populate("category", "name")
+        .populate("seller", "fullName");
+
       if (!product) {
         return res
           .status(404)
@@ -64,6 +68,7 @@ export const createOrder = async (req, res) => {
         });
       }
 
+      // Update product inventory
       product.quantity -= item.qty;
       product.sold += item.qty;
       product.buyers.push({
@@ -74,13 +79,43 @@ export const createOrder = async (req, res) => {
       await product.save();
 
       const qty = Number(item.qty);
-      const price = Number(item.price);
+      const priceAtPurchase = Number(item.price || product.price);
 
-      processedProducts.push({ product: product._id, qty, price });
-      subtotal += qty * price;
+      // ✅ Create complete product snapshot
+      const productSnapshot = {
+        productId: product._id,
+        snapshot: {
+          name: product.name,
+          description: product.description || "",
+          weight: product.weight || "",
+          category: product.category?._id || null,
+          categoryName: product.category?.name || "Uncategorized",
+          seller: product.seller?._id || null,
+          sellerName: product.seller?.fullName || "Unknown Seller",
+          image: {
+            public_id: product.image?.public_id || "",
+            url: product.image?.url || "",
+          },
+          status: product.status || "approved",
+          metadata: {
+            originalPrice: product.price,
+            stockAtPurchase: product.quantity + item.qty, // Stock before this purchase
+          },
+        },
+        qty,
+        priceAtPurchase,
+        // Backward compatibility
+        product: product._id,
+        productName: product.name,
+        productCategory: product.category?.name || "Uncategorized",
+        price: priceAtPurchase,
+      };
+
+      processedProducts.push(productSnapshot);
+      subtotal += qty * priceAtPurchase;
     }
 
-    const shipping = 30;
+    const shipping = 1; // ₹1 shipping fee
     const total = subtotal + shipping;
 
     const order = await Order.create({
@@ -90,6 +125,7 @@ export const createOrder = async (req, res) => {
       total,
       paymentMethod: "Cash on Delivery",
       status: "Order Placed",
+      snapshotVersion: "2.0",
     });
 
     order.statusHistory.push({ status: "Order Placed" });
@@ -143,6 +179,12 @@ export const cancelOrder = async (req, res) => {
         .json({ success: false, message: "Delivered orders cannot be cancelled" });
     }
 
+    if (order.status === "Cancelled") {
+      return res
+        .status(400)
+        .json({ success: false, message: "Order is already cancelled" });
+    }
+
     // Restore product quantities
     for (let item of order.products) {
       const product = await Product.findById(item.product);
@@ -150,6 +192,50 @@ export const cancelOrder = async (req, res) => {
         product.quantity += item.qty;
         product.sold = Math.max(0, product.sold - item.qty);
         await product.save();
+      }
+    }
+
+    // ✅ Process refund for online payments
+    let refundDetails = null;
+    if (order.paymentMethod === "Online Payment" && order.paymentDetails?.razorpay_payment_id) {
+      try {
+        // Import Razorpay at the top of the file if not already imported
+        const Razorpay = (await import("razorpay")).default;
+        const razorpay = new Razorpay({
+          key_id: process.env.RAZORPAY_KEY_ID,
+          key_secret: process.env.RAZORPAY_KEY_SECRET,
+        });
+
+        // Create refund
+        const refund = await razorpay.payments.refund(
+          order.paymentDetails.razorpay_payment_id,
+          {
+            amount: Math.round(order.total * 100), // Amount in paise
+            speed: "normal", // normal or optimum
+            notes: {
+              order_id: order._id.toString(),
+              reason: "Order cancelled by customer",
+            },
+          }
+        );
+
+        refundDetails = {
+          refund_id: refund.id,
+          amount: refund.amount / 100, // Convert back to rupees
+          status: refund.status,
+          created_at: refund.created_at,
+        };
+
+        console.log("✅ Refund processed:", refundDetails);
+      } catch (refundError) {
+        console.error("❌ Refund Error:", refundError);
+        // Don't fail the cancellation if refund fails
+        // Admin can process manual refund
+        refundDetails = {
+          error: true,
+          message: "Automatic refund failed. Manual refund required.",
+          error_details: refundError.message,
+        };
       }
     }
 
@@ -164,12 +250,22 @@ export const cancelOrder = async (req, res) => {
     });
     order.cancelledAt = new Date();
 
+    // Store refund details if applicable
+    if (refundDetails) {
+      order.refundDetails = refundDetails;
+    }
+
     await order.save();
 
     return res.json({
       success: true,
-      message: "Order cancelled successfully",
+      message: order.paymentMethod === "Online Payment"
+        ? refundDetails?.error
+          ? "Order cancelled. Refund will be processed manually."
+          : "Order cancelled successfully. Refund initiated."
+        : "Order cancelled successfully",
       order,
+      refund: refundDetails,
     });
   } catch (err) {
     console.error("❌ Cancel Order Error:", err);
@@ -277,5 +373,36 @@ export const updateOrderStatus = async (req, res) => {
   } catch (err) {
     console.error("❌ Update status error:", err);
     res.status(500).json({ message: "Failed to update status" });
+  }
+};
+
+// 🗑️ Delete Order (Admin Only)
+export const deleteOrder = async (req, res) => {
+  try {
+    const orderId = req.params.id;
+
+    const order = await Order.findById(orderId);
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found"
+      });
+    }
+
+    // Delete the order
+    await Order.findByIdAndDelete(orderId);
+
+    res.json({
+      success: true,
+      message: "Order deleted successfully"
+    });
+  } catch (err) {
+    console.error("❌ Delete order error:", err);
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete order",
+      error: err.message
+    });
   }
 };

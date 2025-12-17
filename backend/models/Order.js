@@ -9,21 +9,57 @@ const orderSchema = new mongoose.Schema(
     },
     products: [
       {
-        product: {
+        // ✅ Reference to original product (may be null if deleted)
+        productId: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Product",
-          required: true,
+          required: false, // Optional for backward compatibility
         },
+
+        // ✅ Complete product snapshot at time of purchase
+        snapshot: {
+          name: { type: String, required: false }, // Optional for v1.0 orders
+          description: { type: String, default: "" },
+          weight: { type: String, default: "" },
+          category: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Category",
+          },
+          categoryName: { type: String, default: "Uncategorized" }, // Denormalized for quick access
+          seller: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+          },
+          sellerName: { type: String, default: "" }, // Denormalized
+          image: {
+            public_id: { type: String },
+            url: { type: String },
+          },
+          status: { type: String, default: "approved" },
+          // Store any additional metadata
+          metadata: { type: mongoose.Schema.Types.Mixed },
+        },
+
+        // ✅ Purchase details
         qty: {
           type: Number,
           required: true,
           min: [1, "Quantity must be at least 1"],
         },
-        price: {
+        priceAtPurchase: {
           type: Number,
-          required: true,
+          required: false, // Optional for backward compatibility
           min: [0, "Price cannot be negative"],
         },
+
+        // ✅ Backward compatibility (deprecated, use snapshot instead)
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+        },
+        productName: { type: String },
+        productCategory: { type: String },
+        price: { type: Number },
       },
     ],
     address: {
@@ -70,8 +106,32 @@ const orderSchema = new mongoose.Schema(
     },
     cancelledAt: { type: Date },
     isAssigned: { type: Boolean, default: false },
+    paymentDetails: {
+      razorpay_order_id: { type: String },
+      razorpay_payment_id: { type: String },
+      razorpay_signature: { type: String },
+    },
+    refundDetails: {
+      refund_id: { type: String },
+      amount: { type: Number },
+      status: { type: String },
+      created_at: { type: Number },
+      error: { type: Boolean },
+      message: { type: String },
+      error_details: { type: String },
+    },
+    // ✅ Snapshot metadata
+    snapshotVersion: {
+      type: String,
+      default: "2.0", // Version of snapshot schema
+    },
   },
   { timestamps: true }
 );
+
+// ✅ Index for faster queries
+orderSchema.index({ buyer: 1, createdAt: -1 });
+orderSchema.index({ status: 1 });
+orderSchema.index({ "products.productId": 1 });
 
 export default mongoose.model("Order", orderSchema);
